@@ -89,13 +89,13 @@ export class ToolbarComponent implements OnInit, OnDestroy
             {
                 id   : 'en',
                 title: 'English',
-                flag : 'us'
+                flag : 'au'
             },
-            {
+            /*{
                 id : 'it',
                 title: 'Italian',
                 flag: 'it' 
-            },
+            },*/
             /*{
                 id   : 'tr',
                 title: 'Turkish',

@@ -64,13 +64,8 @@ export class RegisterComponent implements OnInit, OnDestroy
             {
                 id   : 'en',
                 title: 'English',
-                flag : 'us'
-            },
-            {
-                id : 'it',
-                title: 'Italian',
-                flag: 'it' 
-            },
+                flag : 'au'
+            }
         ];
 
         // Set the private defaults

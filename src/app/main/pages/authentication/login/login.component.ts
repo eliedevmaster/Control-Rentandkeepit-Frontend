@@ -71,13 +71,8 @@ export class LoginComponent implements OnInit
             {
                 id   : 'en',
                 title: 'English',
-                flag : 'us'
-            },
-            {
-                id : 'it',
-                title: 'Italian',
-                flag: 'it' 
-            },
+                flag : 'au'
+            }
         ];
 
     }
