@@ -8,6 +8,7 @@ export interface State {
   // if authenticated, token should not be empty
   user: User | null;
   token: string | null;
+  userList: any | null;
   //permissions: Array<Permission> | null; 
   errorMessage: string | null; 
 }
@@ -16,7 +17,7 @@ export const initialState: State = {
   isAuthenticated: false,
   user: JSON.parse(localStorage.getItem('user')),
   token: localStorage.getItem('token'),
-  //permissions: JSON.parse(localStorage.getItem('my_permissions')),
+  userList: null,
   errorMessage: '',
 };
 
@@ -30,6 +31,7 @@ export function reducer(state = initialState, action: AuthActions): State {
         user: {
           id: action.payload.id,
           name: action.payload.name,
+          uuid: action.payload.uuid,
           email: action.payload.email,
           role: action.payload.role,
           active: action.payload.active,
@@ -55,6 +57,7 @@ export function reducer(state = initialState, action: AuthActions): State {
           id: action.payload.id,
           name: action.payload.name,
           email: action.payload.email,
+          uuid: action.payload.uuid,
           role: action.payload.role,
           active: 0,
           role_relation_id: action.payload.role_relation_id,
@@ -82,6 +85,13 @@ export function reducer(state = initialState, action: AuthActions): State {
       return {
         ...state,
         errorMessage : action.payload.errorMessage
+      }
+    }
+
+    case AuthActionTypes.GET_USER_LIST_COMPLETE: {
+      return {
+        ...state,
+        userList : action.payload.userList,
       }
     }
 

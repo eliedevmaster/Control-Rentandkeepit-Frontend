@@ -7,6 +7,7 @@ import * as auth from './auth.reducers';
 import * as company from './company.reducers';
 import * as collaborator from './collaborator.reducers';
 import * as instructor from './instructor.reducers';
+import * as customer from './customer.reducers';
 
 export interface RouterStateUrl
 {
@@ -22,6 +23,7 @@ export interface State
     companyReducer: company.State;
     collaboratorReducer: collaborator.State;
     instructorReducer: instructor.State;
+    customerReducer: customer.State;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -29,7 +31,8 @@ export const reducers: ActionReducerMap<State> = {
     authReducer: auth.reducer,
     companyReducer: company.reducer,
     collaboratorReducer: collaborator.reducer,
-    instructorReducer: instructor.reducer
+    instructorReducer: instructor.reducer,
+    customerReducer: customer.reducer,
 };
 
 export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
@@ -56,6 +59,12 @@ export const getInstructorState = createFeatureSelector<instructor.State>('instr
 export const selectInstructorState = createSelector(
     getInstructorState,
     instructor.selectInstructor
+);
+
+export const getCustomerState = createFeatureSelector<customer.State>('customerReducer');
+export const selectCustomerState = createSelector(
+    getCustomerState,
+    customer.selectCustomer
 );
 
 @Injectable()

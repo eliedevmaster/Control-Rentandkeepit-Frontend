@@ -9,48 +9,19 @@ export const navigation: FuseNavigation[] = [
         icon    : 'web',
         children: [
             {
-                id       : 'e-commerce',
-                title    : 'E-Commerce',
-                type     : 'collapsable',
-                icon     : 'shopping_cart',
-                children : [
-                    {
-                        id        : 'products',
-                        title     : 'Products',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/products',
-                        exactMatch: true
-                    },
-                    {
-                        id        : 'productDetail',
-                        title     : 'Product Detail',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/products/1/printed-dress',
-                        // exactMatch: true
-                    },
-                    {
-                        id        : 'orders',
-                        title     : 'Orders',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/orders',
-                        exactMatch: true
-                    },
-                    {
-                        id        : 'orderDetail',
-                        title     : 'Order Detail',
-                        type      : 'item',
-                        url       : '/apps/e-commerce/orders/1',
-                        exactMatch: true
-                    }
-                ]
-            },
-
-            {
                 id   : 'customer-list',
                 title: 'Coustomers',
                 type : 'item',
-                icon : 'web_asset',
-                url  : '/ui/company-list-service',
+                icon : 'people',
+                url  : '/ui/customers/customer-list',
+            },
+
+            {
+                id   : 'application-list',
+                title: 'Applications',
+                type : 'item',
+                icon : 'shopping_cart',
+                url  : '/ui/customers/application-list',
             },
 
             

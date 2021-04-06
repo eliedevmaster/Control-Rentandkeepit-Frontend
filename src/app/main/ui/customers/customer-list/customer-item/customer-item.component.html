@@ -1,0 +1,97 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <mat-checkbox [(ngModel)]="checkboxes[customer.id]" (ngModelChange)="onSelectedChange(customer.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p class="text-truncate font-weight-600">{{customer.email}}</p>
+        </mat-cell>
+    </ng-container>
+    
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="lastactive">
+        <mat-header-cell *matHeaderCellDef>Last Active</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p *ngIf="customer.date_last_active != ''" class="text-truncate font-weight-600">
+                {{customer.date_last_active}}
+            </p>
+            <p *ngIf="customer.date_last_active == ''" class="text-truncate font-weight-600">
+                -
+            </p>
+        </mat-cell>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="dateregistered">
+        <mat-header-cell *matHeaderCellDef>Date Registered</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p *ngIf="customer.date_registered != ''" class="text-truncate font-weight-600">
+                {{customer.date_registered}}
+            </p>
+            <p *ngIf="customer.date_registered == ''" class="text-truncate font-weight-600">
+                -
+            </p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="country">
+        <mat-header-cell *matHeaderCellDef>Country</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p *ngIf="customer.country != ''" class="text-truncate font-weight-600">
+                {{customer.country}}
+            </p>
+            <p *ngIf="customer.country == ''" class="text-truncate font-weight-600">
+                -
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="postcode">
+        <mat-header-cell *matHeaderCellDef>Postal Code</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p *ngIf="customer.postcode != ''" class="text-truncate font-weight-600">
+                {{customer.postcode}}
+            </p>
+            <p *ngIf="customer.postcode == ''" class="text-truncate font-weight-600">
+                -
+            </p>
+        </mat-cell>
+    </ng-container>
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(customer.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(customer.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let customer; columns: displayedColumns;"
+             class="contact"
+             (click)="editCustomer(customer)"
+             [ngClass]="{'accent-50':checkboxes[customer.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

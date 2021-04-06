@@ -50,4 +50,9 @@ export class AuthService {
     //console.log("token = " + localStorage.getItem('token'));
     return this.http.post(url, {}, {headers: this.authHeaders()});
   }
+
+  getUserList() : Observable<any> {
+    const url = `${env.backendBaseUrl}/api/users`;
+    return this.http.get(url, {headers: this.authHeaders()});
+  }
 }

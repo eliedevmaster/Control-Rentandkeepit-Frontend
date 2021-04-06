@@ -1,4 +1,3 @@
-import { importExpr } from '@angular/compiler/src/output/output_ast';
 import { Action } from '@ngrx/store';
 import { Permission } from 'app/models/companymanagement/permission';
 
@@ -15,6 +14,10 @@ export enum AuthActionTypes {
   RESET_PASSWORD_COMPLETE = '[Auth] RESET_PASSWORD_COMPLETE',
   RESET_PASSWORD_ERROR = '[Auth] RESET_PASSWORD_ERROR',
 
+  GET_USER_LIST = '[Auth] GET_USER_LIST',
+  GET_USER_LIST_COMPLETE = '[Auth] GET_USER_LIST_COMPLETE',
+  GET_USER_LSIT_ERROR = '[Auth] GET_USER_LSIT_ERROR',
+
   SET_ACTIVE = '[Auth] SET_ACTIVE',
 
   LOGOUT = '[Auth] LOGOUT'
@@ -27,7 +30,7 @@ export class Login implements Action {
 
 export class LoginComplete implements Action {
   readonly type = AuthActionTypes.LOGIN_COMPLETE;
-  constructor(public payload: { token: string, id: number, name: string, email: string, role: string, active: number, role_relation_id: number, permissions: Array<Permission> }) {}
+  constructor(public payload: { token: string, id: number, name: string, email: string, uuid: string, role: string, active: number, role_relation_id: number, permissions: Array<Permission> }) {}
 }
 
 export class LoginError implements Action {
@@ -48,7 +51,7 @@ export class SignupError implements Action {
 
 export class SignupComplete implements Action {
   readonly type = AuthActionTypes.SIGNUP_COMPLETE;
-  constructor (public payload: { token: string, id: number, name: string, email: string, role:string, role_relation_id: number, permissions: Array<Permission> }) {};
+  constructor (public payload: { token: string, id: number, name: string, email: string, uuid: string, role:string, role_relation_id: number, permissions: Array<Permission> }) {};
 }
 
 export class ResetPassword implements Action {
@@ -70,6 +73,21 @@ export class Logout implements Action {
   readonly type = AuthActionTypes.LOGOUT;
 }
 
+export class GetUserList implements Action {
+  readonly type = AuthActionTypes.GET_USER_LIST;
+}
+
+export class GetUserListComplete implements Action {
+  readonly type = AuthActionTypes.GET_USER_LIST_COMPLETE;
+  constructor (public payload: {userList: any}) {}
+}
+
+export class GetUserListError implements Action {
+  readonly type = AuthActionTypes.GET_USER_LSIT_ERROR;
+  constructor (public payload: {errorMessage: string}) {}
+}
+
+
 export class SetActive implements Action {
   readonly type = AuthActionTypes.SET_ACTIVE;
   constructor (public payload: {role_relation_id : number}) {}
@@ -86,4 +104,7 @@ export type AuthActions
  | ResetPasswordComplete
  | ResetPasswordError
  | Logout
+ | GetUserList
+ | GetUserListComplete
+ | GetUserListError
  | SetActive;

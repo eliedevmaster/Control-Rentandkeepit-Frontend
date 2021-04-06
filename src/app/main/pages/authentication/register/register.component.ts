@@ -133,7 +133,7 @@ export class RegisterComponent implements OnInit, OnDestroy
 
         this.getAuthstate().subscribe(state => {
             if(state.isAuthenticated) {
-                this._store.dispatch(new Go({path: ['/apps'], query: null, extras: null}));
+                this._store.dispatch(new Go({path: ['/ui/customers/customer-list'], query: null, extras: null}));
             }
         });
     }
