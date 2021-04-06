@@ -1,0 +1,131 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="weekdayForm">
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">today</mat-icon>
+                    <input name="name" formControlName="name" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="center start">
+                
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'monday'"  appearance="outline"
+                        [checked]="checkedToggleValue(1)"
+                        (change)="onToggle($event, 1)"
+                    >
+                        Monday
+                    </mat-slide-toggle>
+                </div>
+
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'tuesday'" appearance="outline"
+                        [checked]="checkedToggleValue(2)"
+                        (change)="onToggle($event, 2)"
+                    >
+                        Tuesday
+                    </mat-slide-toggle>
+                </div>
+
+                
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="center start">
+                
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'wednesday'"  appearance="outline"
+                        [checked]="checkedToggleValue(3)"
+                        (change)="onToggle($event, 3)"
+                    >
+                    Wednesday
+                    </mat-slide-toggle>
+                </div>
+
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'thursday'"  appearance="outline"
+                        [checked]="checkedToggleValue(4)"
+                        (change)="onToggle($event, 4)"
+                    >
+                        Thursday
+                    </mat-slide-toggle>
+                </div>
+
+                
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center start">
+                
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'friday'"  appearance="outline"
+                        [checked]="checkedToggleValue(5)"
+                        (change)="onToggle($event, 5)"
+                    >
+                        Friday
+                    </mat-slide-toggle>
+                </div>
+
+                <div fxFlex="40" class="m-16 p-5">
+                    <mat-slide-toggle
+                        [attr.formControlName]="'saturday'"  appearance="outline"
+                        [checked]="checkedToggleValue(6)"
+                        (change)="onToggle($event, 6)"
+                    >
+                        Saturday
+                    </mat-slide-toggle>
+                </div>
+
+                
+            </div>
+        </form>
+    </div>
+    
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSave()"
+                [disabled]="weekdayForm.invalid"
+                aria-label="SAVE">
+            Save
+        </button>
+        
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['cancel', weekdayForm])"
+                aria-label="Cancel"
+                matTooltip="Cancel">
+            Cancel
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSave()"
+                [disabled]="weekdayForm.invalid"
+                aria-label="SAVE">
+            ADD
+        </button>
+
+    </div>
+</div>

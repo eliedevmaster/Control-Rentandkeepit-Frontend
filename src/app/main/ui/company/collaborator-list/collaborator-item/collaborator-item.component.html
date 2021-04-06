@@ -1,0 +1,106 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let collaborator">
+            <mat-checkbox [(ngModel)]="checkboxes[collaborator.id]" (ngModelChange)="onSelectedChange(collaborator.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let collaborator">
+            <img class="avatar" [alt]="collaborator.first_name"
+                 [src]="'assets/images/avatars/Katina.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let collaborator">
+            <p class="text-truncate font-weight-600">{{collaborator.first_name}} {{collaborator.last_Name}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Email</mat-header-cell>
+        <mat-cell *matCellDef="let collaborator" fxHide fxShow.gt-sm>
+            <p class="email text-truncate">
+                {{collaborator.user.email}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md>Phone</mat-header-cell>
+        <mat-cell *matCellDef="let collaborator" fxHide fxShow.gt-md>
+            <p class="phone text-truncate">
+                {{collaborator.phone}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Job Title Column -->
+    <ng-container matColumnDef="fax">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Fax</mat-header-cell>
+        <mat-cell *matCellDef="let collaborator" fxHide fxShow.gt-lg>
+            <p class="job-title text-truncate">
+                {{collaborator.fax}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="company">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg>Company</mat-header-cell>
+        <mat-cell *matCellDef="let collaborator" fxHide fxShow.gt-lg>
+            <p class="company text-truncate">
+                {{collaborator.company.display_name}}
+            </p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let collaborator">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(collaborator.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(collaborator.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <!--<button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteCollaborator(collaborator)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>-->
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let collaborator; columns: displayedColumns;"
+             class="contact"
+             (click)="editCollaborator(collaborator)"
+             [ngClass]="{'accent-50':checkboxes[collaborator.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

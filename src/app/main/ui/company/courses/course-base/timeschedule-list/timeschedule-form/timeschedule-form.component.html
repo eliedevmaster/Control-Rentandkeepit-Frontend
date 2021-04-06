@@ -1,0 +1,72 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="timescheduleForm">
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">today</mat-icon>
+                    <input name="name" formControlName="name" matInput required>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="100">
+                    <mat-label>Start time</mat-label>
+                    <input matInput type="time" formControlName="startTime">
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" class="pl-sm-8 no-errors-spacer" fxFlex="100">
+                    <mat-label>End time</mat-label>
+                    <input matInput type="time" formControlName="endTime">
+                </mat-form-field>
+            </div>
+
+        </form>
+    </div>
+    
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSave()"
+                [disabled]="timescheduleForm.invalid"
+                aria-label="SAVE">
+            Save
+        </button>
+        
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['cancel',timescheduleForm])"
+                aria-label="Cancel"
+                matTooltip="Cancel">
+            Cancel
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSave()"
+                [disabled]="timescheduleForm.invalid"
+                aria-label="SAVE">
+            ADD
+        </button>
+
+    </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <img [src]="'assets/images/avatars/joyce.jpg'" class="avatar contact-avatar huge m-0"
+                 [alt]="instructor.first_name"/>
+            <div class="contact-name mt-8">{{instructor.first_name}} {{instructor.last_name}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="instructorForm">
+            <div fxLayout="row" *ngFor="let permission of permissionListForUserViaRole" fxLayoutAlign="center start">
+                <div fxFlex="20"></div>
+                <div fxFlex="80">
+                    <mat-slide-toggle
+                        [attr.formControlName]="permission.name"  appearance="outline"
+                        [checked]="true" >
+                        {{ permission.description }}
+                    </mat-slide-toggle>
+                </div>
+                <br><br>
+            </div>
+            <hr>
+            <div fxLayout="row" *ngFor="let permission of permissionList" fxLayoutAlign="center start">
+                <div fxFlex="20"></div>
+                <div fxFlex="80">
+                    <mat-slide-toggle
+                        [attr.formControlName]="permission.name"  appearance="outline"
+                        [checked]="checkPermissionExistence(permission.name)" 
+                        (change)="onToggle($event, permission)">
+                        {{ permission.description }}
+                    </mat-slide-toggle>
+                </div>
+                <br><br>
+            </div>
+        </form>
+    </div>
+    
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="save-button"
+                (click)="onSave()"
+                [disabled]="instructorForm.invalid"
+                aria-label="SAVE">
+            Save
+        </button>
+        
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['cancel', instructorForm])"
+                aria-label="Cancel"
+                matTooltip="Cancel">
+            Cancel
+        </button>
+
+        <button *ngIf="action !== 'edit'"
+                mat-button
+                class="save-button"
+                (click)="matDialogRef.close(instructorForm)"
+                [disabled]="instructorForm.invalid"
+                aria-label="SAVE">
+            ADD
+        </button>
+
+    </div>
+</div>

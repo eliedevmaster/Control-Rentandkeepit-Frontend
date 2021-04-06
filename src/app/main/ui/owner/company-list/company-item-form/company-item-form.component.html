@@ -1,0 +1,143 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{dialogTitle}}</span>
+            <button mat-icon-button (click)="matDialogRef.close()" aria-label="Close dialog">
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row class="toolbar-bottom py-16" fxLayout="column" fxLayoutAlign="center center">
+            <img [src]="'assets/images/avatars/joyce.jpg'" class="avatar contact-avatar huge m-0"
+                 [alt]="company.display_name"/>
+            <div class="contact-name mt-8">{{company.display_name}}</div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+
+        <form [formGroup]="companyForm">
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-select-country appearance="outline" label="Country"
+                            class="country"
+                            formControlName="country"
+                            readonly
+                >
+                </mat-select-country>
+            </div>
+            
+                        
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>CompanyType</mat-label>
+                    <mat-icon matSuffix class="secondary-text">domain</mat-icon>
+                    <input name="companyType" formControlName="companyType" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Display Name</mat-label>
+                    <mat-icon matSuffix class="secondary-text">laptop_windows</mat-icon>
+                    <input name="displayName" formControlName="displayName" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Contact Email</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="email" formControlName="email" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fiscal Code</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="fiscalCode" formControlName="fiscalCode" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Vat Code</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input formControlName="vatCode" matInput>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Phone Number</mat-label>
+                    <mat-icon matSuffix class="secondary-text">call</mat-icon>
+                    <input name="phone" formControlName="phone" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Fax</mat-label>
+                    <mat-icon matSuffix class="secondary-text">sim_card</mat-icon>
+                    <input name="fax" formControlName="fax" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Currency</mat-label>
+                    <mat-icon matSuffix class="secondary-text">monetization_on</mat-icon>
+                    <input name="currency" formControlName="currency" matInput readonly>
+                </mat-form-field>
+            </div>
+
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="startDatePicker" name="startDate" formControlName="startDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="startDatePicker" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #startDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="endDatePicker" name="endDate" formControlName="endDate" readonly>
+                    <mat-datepicker-toggle matSuffix [for]="endDatePicker" disabled></mat-datepicker-toggle>
+                    <mat-datepicker #endDatePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Membership</mat-label>
+                    <mat-icon matSuffix class="secondary-text">monetization_on</mat-icon>
+                    <input name="membership" formControlName="membership" matInput readonly>
+                </mat-form-field>
+            </div>
+           
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Personal Code</mat-label>
+                    <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                    <input name="personalCode" formControlName="personalCode" matInput readonly>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
+
+        <button *ngIf="action === 'edit'"
+                mat-button
+                class="mr-8"
+                (click)="matDialogRef.close(['delete',companyForm])"
+                aria-label="Delete"
+                matTooltip="Delete">
+            COLSE
+        </button>
+    </div>
+</div>

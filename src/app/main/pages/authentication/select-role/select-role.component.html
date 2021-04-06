@@ -1,0 +1,107 @@
+<div id="forgot-password" fxLayout="column">
+
+    <div id="forgot-password-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="forgot-password-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <button mat-button fxHide fxShow.gt-xs
+                    class="language-button"
+                    [matMenuTriggerFor]="languageMenu">
+                <div fxLayout="row" fxLayoutAlign="right center">
+                    <img class="flag mr-8" [src]="'assets/icons/flags/'+selectedLanguage.flag+'.png'">
+                    <span class="iso text-uppercase">{{selectedLanguage.id}}</span>
+                </div>
+            </button>
+
+            <mat-menu #languageMenu="matMenu" [overlapTrigger]="false">
+
+                <button mat-menu-item *ngFor="let lang of languages" (click)="setLanguage(lang)">
+                    <span fxLayout="row" fxLayoutAlign="start center" >
+                        <img class="flag mr-16" [src]="'assets/icons/flags/'+lang.flag+'.png'">
+                        <span class="iso">{{lang.title}}</span>
+                    </span>
+                </button>
+
+            </mat-menu>
+
+
+            <div class="logo">
+                <img src="assets/images/logos/rent.svg">
+            </div>
+
+            <!--<div class="title" [translate]="'AUTH.FORGOTPASSWORD.Title'">RECOVER YOUR PASSWORD</div>-->
+
+            <div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'100'}">
+
+                <div class="course"  fxFlex="100" fxFlex.gt-xs="50"
+                     fxFlex.gt-sm="100" [ngClass]="'web'" [@animate]="{value:'*',params:{y:'200%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto" 
+                        (click)="onClick(2)" >
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                             [ngClass]="'bg'">
+                            <div class="category" fxFlex fxLayoutAlign="center start" [translate]="'AUTH.ROLE.Company'">
+                                Company
+                            </div>
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1" [translate]="'AUTH.ROLE.CompanyText'">I want to work as a company</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                
+                <div class="course"  fxFlex="100" fxFlex.gt-xs="50"
+                     fxFlex.gt-sm="100" [ngClass]="'web'" [@animate]="{value:'*',params:{y:'200%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto" (click)="onClick(3)">
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                             [ngClass]="'bg'">
+                            <div class="category" fxFlex fxLayoutAlign="center start" [translate]="'AUTH.ROLE.Employee'">
+                                Employee
+                            </div>
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1" [translate]="'AUTH.ROLE.EmployeeText'">I want to work as an Employee</div>
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                <div class="course"  fxFlex="100" fxFlex.gt-xs="50"
+                     fxFlex.gt-sm="100" [ngClass]="'web'" [@animate]="{value:'*',params:{y:'200%'}}">
+
+                    <div class="course-content" fxLayout="column" fxFlex="1 1 auto" (click)="onClick(4)">
+
+                        <div class="header" fxLayout="row" fxLayoutAlign="center center"
+                             [ngClass]="'bg'">
+                            <div class="category" fxFlex fxLayoutAlign="center start" [translate]="'AUTH.ROLE.Instructor'">
+                                Instructor
+                            </div>
+                        </div>
+
+                        <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+                            <div class="h1" [translate]="'AUTH.ROLE.InstructorText'">I want to work as an Instructor</div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="login" fxLayout="row" fxLayoutAlign="center center">
+                <a class="link" [routerLink]="'/pages/auth/login'" [translate]="'AUTH.FORGOTPASSWORD.BackLogin'">Go back to login</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

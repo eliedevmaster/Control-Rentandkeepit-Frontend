@@ -1,0 +1,96 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <mat-checkbox [(ngModel)]="checkboxes[company.id]" (ngModelChange)="onSelectedChange(company.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <img class="avatar" [alt]="company.display_name"
+                 [src]="'assets/images/avatars/joyce.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="companyname">
+        <mat-header-cell *matHeaderCellDef>Company Name</mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <p class="text-truncate font-weight-600">{{company.display_name}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Contact Email</mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <p class="text-truncate font-weight-600">{{company.user.email}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="phone">
+        <mat-header-cell *matHeaderCellDef>Phone Number</mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <p class="text-truncate font-weight-600">{{company.phone}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="personalcode">
+        <mat-header-cell *matHeaderCellDef>Personal Code</mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <p class="text-truncate font-weight-600">{{company.personal_code}}</p>
+        </mat-cell>
+    </ng-container>
+
+       <!-- Company Column -->
+    <ng-container matColumnDef="country">
+        <mat-header-cell *matHeaderCellDef>Country</mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <p class="text-truncate font-weight-600">{{company.country.name}}</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let company">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(company.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(company.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <!--<button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deletecompany(company)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                </mat-menu>-->
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let company; columns: displayedColumns;"
+             class="contact"
+             (click)="editCompany(company)"
+             [ngClass]="{'accent-50':checkboxes[company.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

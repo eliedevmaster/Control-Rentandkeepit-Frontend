@@ -1,0 +1,126 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let weekday">
+            <mat-checkbox [(ngModel)]="checkboxes[weekday.id]" (ngModelChange)="onSelectedChange(weekday.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let weekday">
+            <img class="avatar" [alt]="weekday.first_name"
+                 [src]="'assets/images/avatars/joyce.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let weekday">
+            <p class="text-truncate font-weight-600">{{weekday.name}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Email Column -->
+    <!--<ng-container matColumnDef="su">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Sunday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p class="status text-truncate h6 p-4" [ngClass]="'green-500'">Open</p>
+        </mat-cell>
+    </ng-container>-->
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="mo">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Monday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 1) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 1) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="tu">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Tuesday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 2) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 2) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="we">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Wednesday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 3) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 3) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="th">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Thursday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 4) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 4) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="fr">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Friday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 5) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 5) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Email Column -->
+    <ng-container matColumnDef="sa">
+        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm>Saturday</mat-header-cell>
+        <mat-cell *matCellDef="let weekday" fxHide fxShow.gt-sm>
+            <p *ngIf="checkedToggleValue(weekday, 6) == true" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Open&nbsp;</p>
+            <p *ngIf="checkedToggleValue(weekday, 6) == false" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Close&nbsp;</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let weekday">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(weekday.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(weekday.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteWeekday(weekday)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                    <button mat-menu-item aria-label="remove" (click)="duplicateWeekday(weekday)">
+                        <mat-icon>control_point_duplicate</mat-icon>
+                        <span>Duplicate</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let weekday; columns: displayedColumns;"
+             class="contact"
+             (click)="editWeekday(weekday)"
+             [ngClass]="{'accent-50':checkboxes[weekday.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

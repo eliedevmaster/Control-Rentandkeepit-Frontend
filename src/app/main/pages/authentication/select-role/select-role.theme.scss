@@ -1,0 +1,21 @@
+@mixin select-role-theme($theme) {
+        $background: map-get($theme, background);
+        $is-dark: map-get($theme, is-dark);
+    
+        select-role {
+    
+            #forgot-password {
+    
+                #forgot-password-form-wrapper {
+    
+                    #forgot-password-form {
+                        @if ($is-dark) {
+                            background: mat-color($fuse-navy, 600);
+                        } @else {
+                            background: map-get($background, card);
+                        }
+                    }
+                }
+            }
+        }
+    }

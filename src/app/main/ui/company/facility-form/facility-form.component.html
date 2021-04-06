@@ -1,0 +1,204 @@
+<div id="forms" class="page-layout simple fullwidth" fxLayout="column">
+
+    <div id="contacts" class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+
+        <!-- HEADER -->
+        <div class="header accent p-16 p-sm-24" fxLayout="column" fxLayoutAlign="start"
+            fxLayout.gt-xs="row" fxLayoutAlign.gt-xs="space-between center">
+
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <button mat-icon-button class="sidebar-toggle mr-12" fxHide.gt-sm
+                        (click)="toggleSidebar('contacts-main-sidebar')">
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="logo" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="logo-icon mr-16"
+                            [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">fitness_center
+                    </mat-icon>
+                    <span class="logo-text h1" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                        {{ shareData.name }}
+                    </span>
+                </div>
+
+            </div>
+            <!-- / APP TITLE -->
+
+            <!-- SEARCH -->
+            <div class="ml-sm-32" fxLayout="row" fxLayoutAlign="center center" fxFlex>
+
+                <div class="search-wrapper mt-16 mt-sm-0">
+
+                    <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon>search</mat-icon>
+                        <input [formControl]="searchInput" placeholder="Search">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="back" fxLayout="row" fxLayoutAlign="end center" (click)="backPath()">
+                <mat-icon class="logo-icon mr-10 mt-2"
+                    [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">arrow_back
+                </mat-icon>
+                <span class="logo-text h2" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+                    Back
+                </span>
+            </div>
+
+            <!-- / SEARCH -->
+
+         </div>
+    <!-- / HEADER -->
+    </div>
+   
+    <!-- CONTENT -->
+    <div class="content" style="padding:24px;"> 
+
+        <!--<button mat-fab class="accent" id="add-contact-button" (click)="newSpace()" aria-label="add contact"
+                [@animate]="{value:'*', params:{delay:'300ms',scale:'.2'}}">
+            <mat-icon>playlist_add</mat-icon>
+        </button>-->
+
+        <div class="mb-24" fxLayout="column" fxLayoutAlign="start" fxLayout.gt-md="row">
+
+            <!-- REACTIVE FORM EXAMPLE -->
+
+            <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start"
+                  fxFlex="1 0 auto" name="form" [formGroup]="facilityForm" fxFlex="50">
+
+                <div class="h2 mb-24" *ngIf="parentType == 'facility'">(Facility) {{ shareData.name }}&nbsp;&nbsp; Information</div>
+                <div class="h2 mb-24" *ngIf="parentType == 'space'">(Space) {{ shareData.name }}&nbsp;&nbsp; Information</div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="100" class="pr-4">
+                        <mat-label>Type</mat-label>
+                        <input matInput formControlName="type" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Type is required!</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="100" class="pl-4">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Name is required!</mat-error>
+                    </mat-form-field>
+
+                </div>
+                
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="100">
+                        <mat-label>Description</mat-label>
+                        <textarea matInput formControlName="description" >
+                            1600 Amphitheatre Pkwy
+                        </textarea>
+                        <mat-error>Description is required!</mat-error>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row wrap" fxLayoutAlign="end center" fxFlex="1 0 auto">
+                    <button mat-raised-button color="accent" class="submit-button" style="float: right;" 
+                            aria-label="SAVE" (click)="onRegisterOrUpdate()">
+                        <span >Save</span>
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- / REACTIVE FORM EXAMPLE -->
+
+            <div class="mat-card form-errors-model p-24 mat-elevation-z4" fxLayout="column" fxFlex="50">
+                <div class="h2 mb-24">Figure Form Model</div>
+                    <div class="row">
+                        <div class="col-md-2 tools nopadding">
+                            <div class="panel-group" id="accordion" aria-multiselectable="true">
+                                <div class="panel panel-default">
+                                    <div id="shapes" data-parent="#accordion" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="row nopadding">
+                                                
+                                                <button (click)="selectShape('Rectangle')" type="button" class="btn btn-outline-primary col-md-3 shape"><img
+                                                    src="assets/icons/draw/rectangle.png" width="24" height="24"></button>
+                                                <button (click)="selectShape('Square')" type="button" class="btn btn-outline-primary col-md-3 shape"><img
+                                                    src="assets/icons/draw/square.png" width="24" height="24"></button>                                                
+                                                <button (click)="selectShape('Circle')" type="button" class="btn btn-outline-primary col-md-3 shape"><img
+                                                    src="assets/icons/draw/circle.png" width="24" height="24"></button>
+                                                <button (click)="selectShape('Ellipse')" type="button" class="btn btn-outline-primary col-md-3 shape"><img
+                                                    src="assets/icons/draw/ellipse.png" width="24" height="24"></button>
+                                                
+                                                <button mat-raised-button color="accent" class="submit-button" style="float: right; margin-left: 10px;" aria-label="CLEAR" (click)="saveFigure()">
+                                                    <span >Save</span>
+                                                </button>
+                                                
+                                                <!--<button mat-raised-button color="accent" class="submit-button" style="float: right;" aria-label="CLEAR" (click)="clearShapes()">
+                                                    <span >All Clear</span>
+                                                </button>-->
+
+                                                <button mat-raised-button color="accent" class="submit-button" style="float: right; margin-right: 10px;" aria-label="CLEAR" (click)="deleteShape()">
+                                                    <span >Erase</span>
+                                                </button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-10 toolbar">
+                            <svg class="draw-panel" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                                    (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)" (mousemove)="onMouseMove($event)">
+                            <!-- <div *ngFor="let shape of shapes" >
+                                    <div *ngTemplateOutlet="shapeTemplate; context:{component: shape }"></div> 
+                                </div> -->
+                                <!--<ng-container *ngFor="let shape of getShapes()">
+                                    <ng-container [ngTemplateOutlet]="myTemplate" [ngTemplateOutletContext]="{ component: shape }" ></ng-container>
+                                    <ng-template #myTemplate let-component="component" >
+                                        <g dynamic [component]="component"></g>
+                                    </ng-template>
+                                </ng-container>-->
+
+
+                                <ng-container [ngTemplateOutlet]="myTemplate" [ngTemplateOutletContext]="{ component: shape }" *ngFor="let shape of getShapes()"></ng-container>
+                                    <ng-template #myTemplate let-component="component" >
+                                        <g dynamic [component]="component"></g>
+                                    </ng-template>
+                                <!--<g dynamic *ngFor="let shape of getShapes()" [component]="shape"></g>-->
+                            </svg>
+                        </div>
+                    </div>
+            </div>
+
+        </div>
+        
+        <!-- CENTER -->
+        <div class="center p-24 pb-56 pr-sm-92" fusePerfectScrollbar>
+
+            <div class="h2 mb-24">Spaces</div>
+            <!-- CONTENT -->
+            <div class="content">
+                <app-space-item></app-space-item>
+            </div>
+            <!-- / CONTENT -->
+ 
+        </div>
+        <!-- / CENTER -->
+
+    </div>
+    <!-- / CONTENT-->
+
+</div>
+
+<!-- ADD CONTACT BUTTON -->
+
+<!-- / ADD CONTACT BUTTON -->
+

@@ -1,0 +1,85 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <mat-checkbox [(ngModel)]="checkboxes[timeschedule.id]" (ngModelChange)="onSelectedChange(timeschedule.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <img class="avatar" [alt]="timeschedule.first_name"
+                 [src]="'assets/images/avatars/joyce.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <p class="text-truncate font-weight-600">{{timeschedule.name}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef>Start time</mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <p class="text-truncate font-weight-600">{{timeschedule.start_time}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef>End time</mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <p class="text-truncate font-weight-600">{{timeschedule.end_time}}</p>
+        </mat-cell>
+    </ng-container>
+   
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let timeschedule">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(timeschedule.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(timeschedule.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteTimeschedule(timeschedule)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                    <button mat-menu-item aria-label="remove" (click)="duplicateTimeschedule(timeschedule)">
+                        <mat-icon>control_point_duplicate</mat-icon>
+                        <span>Duplicate</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let timeschedule; columns: displayedColumns;"
+             class="contact"
+             (click)="editTimeschedule(timeschedule)"
+             [ngClass]="{'accent-50':checkboxes[timeschedule.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

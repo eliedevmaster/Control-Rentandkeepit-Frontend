@@ -1,0 +1,101 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <mat-checkbox [(ngModel)]="checkboxes[basecourse.id]" (ngModelChange)="onSelectedChange(basecourse.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <img class="avatar" [alt]="basecourse.first_name"
+                 [src]="'assets/images/avatars/joyce.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="type">
+        <mat-header-cell *matHeaderCellDef>Type</mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <p class="text-truncate font-weight-600">{{basecourse.type}}</p>
+        </mat-cell>
+    </ng-container>
+   
+     <!-- Name Column -->
+     <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <p class="text-truncate font-weight-600">{{basecourse.name}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <p class="text-truncate font-weight-600">{{basecourse.price}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="minNumber">
+        <mat-header-cell *matHeaderCellDef>Min student number</mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <p class="text-truncate font-weight-600">{{basecourse.min_number}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="maxNumber">
+        <mat-header-cell *matHeaderCellDef>Max student number</mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <p class="text-truncate font-weight-600">{{basecourse.min_number}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let basecourse">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(basecourse.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(basecourse.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteBasecourse(basecourse)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+                    <button mat-menu-item aria-label="remove" (click)="duplicateBasecourse(basecourse)">
+                        <mat-icon>control_point_duplicate</mat-icon>
+                        <span>Duplicate</span>
+                    </button>
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let basecourse; columns: displayedColumns;"
+             class="contact"
+             (click)="editBasecourse(basecourse)"
+             [ngClass]="{'accent-50':checkboxes[basecourse.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+
