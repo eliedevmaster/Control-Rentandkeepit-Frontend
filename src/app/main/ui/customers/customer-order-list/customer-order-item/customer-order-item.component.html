@@ -1,0 +1,71 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <mat-checkbox [(ngModel)]="checkboxes[order.id]" (ngModelChange)="onSelectedChange(order.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef>Start date</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">
+                {{order.date_created_gmt}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="numItemSold">
+        <mat-header-cell *matHeaderCellDef>Number of total Items</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">{{order.num_items_sold}}</p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="totalSales">
+        <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">${{order.total_sales}}</p>
+        </mat-cell>
+    </ng-container>
+    <!-- Name Column -->
+    <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">{{order.status}}</p>
+        </mat-cell>
+    </ng-container>
+    
+
+    
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(order.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(order.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let order; columns: displayedColumns;"
+             class="contact"
+             (click)="editOrder(order)"
+             [ngClass]="{'accent-50':checkboxes[order.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

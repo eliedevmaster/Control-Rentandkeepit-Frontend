@@ -18,4 +18,10 @@ export class CustomerService {
     return this.http.get(url, {headers: this.authService.authHeaders()});
   }
 
+  getOrderListForCustomer(param: number) : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/customers/orders/` + param;
+    return this.http.get(url, {headers: this.authService.authHeaders()});
+  }
+
 }

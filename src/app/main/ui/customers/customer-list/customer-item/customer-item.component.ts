@@ -12,7 +12,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
-import { GetCustomerList } from 'app/store';
+import { Go, GetOrderListForCustomer } from 'app/store/actions';
 
 
 import { CustomerListService } from 'app/main/ui/customers/customer-list/customer-list.service';
@@ -152,39 +152,9 @@ export class CustomerItemComponent implements OnInit {
      *
      * @param customer
      */
-    editCustomer(customer): void
+    editCustomer(customer): void 
     {
-        /*this.dialogRef = this._matDialog.open(CustomerFormComponent, {
-            panelClass: 'contact-form-dialog',
-            data      : {
-                customer: customer,
-                action : 'edit'
-            }
-        });
-        this.dialogRef.afterClosed()
-            .subscribe(response => {
-                if ( !response )
-                {
-                    return;
-                }
-                const actionType: string = response[0];
-                const formData: boolean = response[1];
-                switch ( actionType )
-                {
-                    
-                    case 'save':
-                        console.log("edit....");
-                        //this._customerListService.updateContact(formData.getRawValue());
-                        break;
-                    
-                    case 'cancel':
-                        console.log("cancel....");
-                        //this.deleteCustomer(Customer);
-                        break;
-                }
-            });
-
-            */
+        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list/' + customer.id], query: null, extras: null}));
     }
 
     /**

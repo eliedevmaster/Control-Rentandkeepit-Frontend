@@ -17,6 +17,7 @@ export class User {
       this.name = data.name ? data.name : '';
       this.email = data.email;
       this.role = data.role;
+      
       if(data.permissions != null) {
         this.permissions = [];
         data.permissions.forEach(element => {

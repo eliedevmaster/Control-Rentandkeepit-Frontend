@@ -15,7 +15,7 @@ export class Customer {
     date_registered? : string;
 
     constructor (data : any){
-        this.id = data.id;
+        this.id = data.customer_id;
         this.username = data.username ? data.username : '';
         this.first_name = data.first_name ? data.first_name : '';
         this.last_name = data.last_name ? data.last_name : '';

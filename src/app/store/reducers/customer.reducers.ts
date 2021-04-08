@@ -3,11 +3,13 @@ import { Customer } from '../../models/customer'
 
 export interface State {
   customerList: any | null;
+  orderListForCustomer: any | null;
   errorMessage: string | null; 
 }
 
 export const initialState: State = {
     customerList: null,
+    orderListForCustomer : null,
     errorMessage: '',
   };
   
@@ -20,6 +22,13 @@ export const initialState: State = {
                 customerList: action.payload.customerList,
             };
         }
+
+        case CustomerActionTypes.GET_ORDER_LIST_FOR_CUSTOMER_COMPLETE: {
+          return {
+              ...state,
+              orderListForCustomer : action.payload.orderList,
+          };
+      }
         
         default: {
             return state;
