@@ -38,7 +38,7 @@ orderListLength: number = 0;
 orderList: any[];
 user: User;
 dataSource: MatTableDataSource<any> | null;
-displayedColumns = ['checkbox', 'startDate', 'numItemSold', 'totalSales', 'status', 'action'];
+displayedColumns = ['checkbox', 'startDate', 'numItemSold', 'totalSales', 'termLength', 'status', 'action'];
 selectedOrderList: any[];
 checkboxes: {};
 dialogRef: any;
@@ -142,6 +142,23 @@ ngOnDestroy(): void
     this._unsubscribeAll.complete();
 }
 
+showDate(date: string): string 
+{
+  let displayDate: string = new Date(date).toISOString().substring(0, 10);
+  return displayDate;
+}
+
+getTermLenght(order: any) : string 
+{
+  let order_item_metas: any = order.order_items[0].order_item_metas;
+  
+  let order_item_meta: any = order_item_metas.find(x => x.meta_key == 'pa_rental-period');
+
+  let termLength : string = order_item_meta ? order_item_meta.meta_value : '12-months';  
+
+  return termLength;
+
+}
 // -----------------------------------------------------------------------------------------------------
 // @ Public methods
 // -----------------------------------------------------------------------------------------------------

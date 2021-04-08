@@ -16,14 +16,6 @@ export const navigation: FuseNavigation[] = [
                 url  : '/ui/customers/customer-list',
             },
 
-            {
-                id   : 'application-list',
-                title: 'Applications',
-                type : 'item',
-                icon : 'shopping_cart',
-                url  : '/ui/customers/application-list',
-            },
-
             
         ]
     },

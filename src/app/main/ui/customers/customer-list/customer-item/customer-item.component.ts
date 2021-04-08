@@ -39,7 +39,7 @@ export class CustomerItemComponent implements OnInit {
     customerList: Array<Customer>;
     user: User;
     dataSource: MatTableDataSource<Customer> | null;
-    displayedColumns = ['checkbox', 'email', 'lastactive', 'dateregistered', 'country', 'postcode', 'action'];
+    displayedColumns = ['checkbox', 'name', 'lastactive', 'dateregistered', 'country', 'postcode', 'action'];
     selectedCustomerList: Customer[];
     checkboxes: {};
     dialogRef: any;
@@ -74,7 +74,7 @@ export class CustomerItemComponent implements OnInit {
      */
     ngOnInit(): void
     {
-
+        localStorage.removeItem('customer');
     } 
     ngAfterViewChecked(): void 
     {
@@ -152,11 +152,19 @@ export class CustomerItemComponent implements OnInit {
      *
      * @param customer
      */
-    editCustomer(customer): void 
+    editOrder(customer): void 
     {
-        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list/' + customer.id], query: null, extras: null}));
+        let customerName = customer.first_name + ' ' + customer.last_name
+        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list/' + customer.id + '/' + customerName], query: null, extras: null}));
     }
 
+    editCustomer(customer) : void 
+    {
+        localStorage.setItem('customer', JSON.stringify(customer));
+        let customerName = customer.first_name + ' ' + customer.last_name
+        this._store.dispatch(new Go({path: ['/ui/customers/customer-form/' + customer.id + '/' + customerName], query: null, extras: null}));
+
+    }
     /**
      * Delete Contact
      */

@@ -23,7 +23,7 @@ import { CustomerOrderItemComponent } from './customer-order-item/customer-order
 
 const routes: Routes = [
   {
-      path     : 'customers/customer-order-list/:customerId',
+      path     : 'customers/customer-order-list/:customerId/:customerName',
       component: CustomerOrderListComponent,
       resolve  : {
           instructors: CustomerOrderListService

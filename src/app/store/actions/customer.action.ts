@@ -9,6 +9,10 @@ export enum CustomerActionTypes {
     GET_ORDER_LIST_FOR_CUSTOMER = '[Customer] GET_ORDER_LIST_FOR_CUSTOMER',
     GET_ORDER_LIST_FOR_CUSTOMER_COMPLETE = '[Customer] GET_ORDER_LIST_FOR_CUSTOMER_COMPLETE',
     GET_ORDER_LIST_FOR_CUSTOMER_ERROR = '[Customer] GET_ORDER_LIST_FOR_CUSTOMER_ERROR',
+
+    UPDATE_CUSTOMER = '[Customer] UPDATE_CUSTOMER',
+    UPDATE_CUSTOMER_COMLETE = '[Customer] UPDATE_CUSTOMER_COMLETE',
+    UPDATE_CUSTOMER_ERROR = '[Customer] UPDATE_CUSTOMER_ERROR',
   
 }
 
@@ -41,10 +45,28 @@ export class GetOrderListForCustomerError implements Action {
     constructor (public payload: {errorMessage: string}) {}
 }
 
+export class UpdateCustomer implements Action {
+    readonly type = CustomerActionTypes.UPDATE_CUSTOMER;
+    constructor (public payload: {customer: any}) {}
+}
+
+export class UpdateCustomerComplete implements Action {
+    readonly type = CustomerActionTypes.UPDATE_CUSTOMER_COMLETE;
+}
+
+export class UpdateCustomerError implements Action {
+    readonly type = CustomerActionTypes.UPDATE_CUSTOMER_ERROR;
+    constructor (public payload: {errorMessage: any}) {}
+}
+
+
 export type CustomerActions
  =  GetCustomerList
  | GetCustomerListComplete
  | GetCustomerListError
  | GetOrderListForCustomer
  | GetOrderListForCustomerComplete
- | GetOrderListForCustomerError;
+ | GetOrderListForCustomerError
+ | UpdateCustomer
+ | UpdateCustomerComplete
+ | UpdateCustomerError;

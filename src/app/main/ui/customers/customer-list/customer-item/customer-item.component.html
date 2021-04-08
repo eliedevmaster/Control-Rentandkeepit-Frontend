@@ -12,10 +12,10 @@
 
 
     <!-- Name Column -->
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
         <mat-cell *matCellDef="let customer">
-            <p class="text-truncate font-weight-600">{{customer.email}}</p>
+            <p class="text-truncate font-weight-600">{{customer.first_name}} {{customer.last_name}}</p>
         </mat-cell>
     </ng-container>
     
@@ -80,6 +80,19 @@
                     <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(customer.id)">star</mat-icon>-->
                     <mat-icon class="secondary-text">star_border</mat-icon>
                 </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="editCustomer(customer)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Profile</span>
+                    </button>
+                </mat-menu>
+
             </div>
 
         </mat-cell>
@@ -88,7 +101,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let customer; columns: displayedColumns;"
              class="contact"
-             (click)="editCustomer(customer)"
+             (click)="editOrder(customer)"
              [ngClass]="{'accent-50':checkboxes[customer.id]}"
              [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>

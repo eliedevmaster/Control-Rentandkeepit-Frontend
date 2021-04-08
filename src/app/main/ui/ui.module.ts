@@ -18,10 +18,15 @@ import { CourseFormModule } from 'app/main/ui/company/courses/course-form/course
 import { WeekdayListModule } from 'app/main/ui/company/courses/course-base/weekday-list/weekday-list.module';
 import { TimescheduleListModule } from 'app/main/ui/company/courses/course-base/timeschedule-list/timeschedule-list.module';
 import { BasecourseListModule } from 'app/main/ui/company/courses/course-base/basecourse-list/basecourse-list.module';
+
+////////////////////////////////////////////////////////////////////////////////
 import { CustomerListModule } from 'app/main/ui/customers/customer-list/customer-list.module';
 import { CustomerOrderListModule } from 'app/main/ui/customers/customer-order-list/customer-order-list.module';
+import { CustomerFormModule } from 'app/main/ui/customers/customer-form/customer-form.module';
 
-//import { SpaceFormModule } from 'app/main/ui/company/space-form/space-form.module';
+/////////////////////////////////////////////////////////////////////////////////
+
+
 
 import { MembershipModule } from 'app/main/ui/company/membership/membership.module';
 import { CreditCardFormModule } from 'app/main/ui/company/credit-card-form/credit-card-form.module';
@@ -46,7 +51,7 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CompanyListModule,
         FacilityListModule,
         FacilityFormModule,
-       //SpaceFormModule,
+       
         SeasonListModule,
         CourseListModule,
         CourseFormModule,
@@ -61,10 +66,16 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         MembershipModule,
         CreditCardFormModule,
         ResetPasswordModule,
-        
+       
+       
+        /************************* */
+
         CustomerListModule,
         CustomerOrderListModule,
-        
+        CustomerFormModule,
+
+        /************************* */
+
         UIAngularMaterialModule,
         UICardsModule,
         UIFormsModule,
@@ -74,7 +85,6 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         UIPageLayoutsModule,
         UIColorsModule,
 
-        //DrawSpaceModule
     ],
     declarations: []
 })

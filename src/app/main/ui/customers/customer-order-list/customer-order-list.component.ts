@@ -31,7 +31,8 @@ export class CustomerOrderListComponent implements OnInit {
   hasSelectedOrders: boolean;
   searchInput: FormControl;
   user: User;
-  customerId;
+  customerId: number;
+  customerName: string;
   
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -58,6 +59,7 @@ export class CustomerOrderListComponent implements OnInit {
       this._unsubscribeAll = new Subject();
       this.mapUserStateToModel();
       this.customerId = this._activatedRoute.snapshot.params.customerId;
+      this.customerName = this._activatedRoute.snapshot.params.customerName;
       this._store.dispatch(new GetOrderListForCustomer({customerId : this.customerId}));
   }
 
