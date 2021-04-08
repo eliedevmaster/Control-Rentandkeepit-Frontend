@@ -39,7 +39,8 @@
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p class="text-truncate font-weight-600">{{order.status}}</p>
+            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Processing&nbsp;</p>
+            <p *ngIf="order.status == 'wc-complete'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Complete&nbsp;</p>
         </mat-cell>
     </ng-container>
     
