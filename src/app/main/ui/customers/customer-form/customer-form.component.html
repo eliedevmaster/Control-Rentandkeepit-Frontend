@@ -51,7 +51,6 @@
                      Profile Form
                 </div>
 
-
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
@@ -109,13 +108,31 @@
 
                 </div>
 
-                <div fxLayout="row" fxLayoutAlign="end center" fxFlex="1 0 auto">
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field  fxFlex="30" class="pl-4">
+                        <div class="myfilebrowser">
+                            <!-- Readonly Input to show File names -->
+                            <input matInput  readonly name="memberContactNo" />          
+                        <!-- Fetch selected filed on change -->
+                            <input type="file" #UploadFileInput id="fileUpload" (change)="fileChangeEvent($event)" name="fileUpload"
+                            multiple="multiple" accept="*" hidden/>
+                        </div>
+                        <button mat-raised-button color="warn" class="submit-button" aria-label="REGISTER SEASON" 
+                        (click)="UploadFileInput.click()">
+                            <span>Select File</span>
+                        </button>
+                        <span style="margin-left: 30px;">{{myfilename}}</span>
+                    </mat-form-field>
 
-                    <button mat-raised-button color="accent" class="submit-button" aria-label="REGISTER SEASON" 
-                    [disabled]="customerForm.invalid" (click)="onRegister()">
-                        <span>Update</span>
-                    </button>
+                    <div fxLayout="row" fxLayoutAlign="end center" fxFlex="70" style="margin-bottom: -30px;">
+                        <button mat-raised-button color="accent" class="submit-button" aria-label="REGISTER SEASON" 
+                        [disabled]="customerForm.invalid" (click)="onRegister()">
+                            <span>Update</span>
+                        </button>
+                    </div>
+
                 </div>
+
             </form>
 
             <!-- / REACTIVE FORM EXAMPLE -->

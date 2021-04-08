@@ -1,17 +1,20 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit , ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 
 import { Back, UpdateCustomer } from 'app/store/actions';
 import { Store } from '@ngrx/store';
+import { fuseAnimations } from '@fuse/animations';
 
 import { State as AppState, getAuthState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 @Component({
   selector: 'app-customer-form',
   templateUrl: './customer-form.component.html',
-  styleUrls: ['./customer-form.component.scss']
+  styleUrls: ['./customer-form.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  animations   : fuseAnimations
 })
 export class CustomerFormComponent implements OnInit {
 
@@ -20,6 +23,10 @@ export class CustomerFormComponent implements OnInit {
   type: string;
   customerId: number;
   customerName: string;
+
+  @ViewChild('UploadFileInput') uploadFileInput: ElementRef;
+  myfilename: string = '';
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -56,7 +63,7 @@ export class CustomerFormComponent implements OnInit {
         email             : ['', Validators.required],
         country           : ['', Validators.required],
         postCode          : ['', Validators.required],
-        city              : ['', Validators.required],        
+        city              : ['', Validators.required], 
       });
       
       this.mapUserStateToModel();
@@ -106,6 +113,37 @@ export class CustomerFormComponent implements OnInit {
   backPath(): void 
   {
     this._store.dispatch(new Back());
+  }
+
+  fileChangeEvent(fileInput: any) {
+
+    if (fileInput.target.files && fileInput.target.files[0]) {
+
+
+      this.myfilename = '';
+      Array.from(fileInput.target.files).forEach((file: File) => {
+        console.log(file);
+        this.myfilename += file.name + ',';
+      });
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const image = new Image();
+        image.src = e.target.result;
+        image.onload = rs => {
+
+          // Return Base64 Data URL
+          const imgBase64Path = e.target.result;
+
+        };
+      };
+      reader.readAsDataURL(fileInput.target.files[0]);
+
+      // Reset File Input to Selct Same file again
+      this.uploadFileInput.nativeElement.value = "";
+    } else {
+      this.myfilename = 'Select File';
+    }
   }
 
   mapUserStateToModel(): void
