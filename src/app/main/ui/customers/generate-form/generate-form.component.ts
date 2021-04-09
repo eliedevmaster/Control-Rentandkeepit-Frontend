@@ -11,12 +11,30 @@ import { fuseAnimations } from '@fuse/animations';
 import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
-import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
+
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+
+export const MY_FORMATS = {
+  parse: {
+      dateInput: 'LL'
+  },
+  display: {
+      dateInput: 'DD-MM-YYYY',
+      monthYearLabel: 'YYYY',
+      dateA11yLabel: 'LL',
+      monthYearA11yLabel: 'YYYY'
+  }
+};
 
 @Component({
   selector: 'app-generate-form',
   templateUrl: './generate-form.component.html',
   styleUrls: ['./generate-form.component.scss'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+  ],
   encapsulation: ViewEncapsulation.None,
   animations   : fuseAnimations
 })
@@ -69,14 +87,18 @@ export class GenerateFormComponent implements OnInit {
   {
       // Reactive Form
       this.generateForm = this._formBuilder.group({
-        name                  : ['', Validators.required],
+        firstName             : ['', Validators.required],
+        lastName              : ['', Validators.required],
         phoneNumber           : ['', Validators.required],
         address               : ['', Validators.required],
+        city                  : ['', Validators.required],
+        postCode              : ['', Validators.required],
+        state                 : ['', Validators.required],
         products              : [''],
         costs                 : [''],
         termLength            : ['', Validators.required],
         startDate             : ['', Validators.required],
-        finishDate             : ['', Validators.required],
+        finishDate            : ['', Validators.required],
         freqeuncyRepayment    : [52, Validators.required], 
         firstPaymentDate      : ['', Validators.required],
         leaseNumber           : ['', Validators.required],
@@ -109,7 +131,8 @@ export class GenerateFormComponent implements OnInit {
   setinitValue(): void 
   {
     //if(this.customer != null) {
-      this.generateForm.controls['name'].setValue(this.customerName);
+      this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
+      this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
       //this.generateForm.controls['phoneNumber'].setValue(customer.last_name);
       //this.generateForm.controls['address'].setValue(this.customer.city);
       this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
@@ -226,7 +249,7 @@ export class GenerateFormComponent implements OnInit {
       total_amount += cost * freqeuncyRepayment * termLength;
     });
 
-    this.generateForm.controls['totalAmount'].setValue(total_amount);
+    this.generateForm.controls['totalAmount'].setValue(total_amount.toFixed(2));
   }
   backPath(): void 
   {

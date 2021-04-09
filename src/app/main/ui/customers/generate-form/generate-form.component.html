@@ -75,14 +75,21 @@
                 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                    <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
-                        <mat-label>Name</mat-label>
-                        <input matInput formControlName="name" required>
+                    <mat-form-field appearance="outline" fxFlex="33" class="pr-4">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" required>
                         <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                        <mat-error>Name is required!</mat-error>
+                        <mat-error>First Name is required!</mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex="50" class="pl-4">
+                    <mat-form-field appearance="outline" fxFlex="33" class="pr-4">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Last Name is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="34" class="pl-4">
                         <mat-label>Phone number</mat-label>
                         <input matInput formControlName="phoneNumber" required>
                         <mat-icon matSuffix class="secondary-text">phone</mat-icon>
@@ -100,6 +107,59 @@
                         <mat-icon matSuffix class="secondary-text">home</mat-icon>
                         <mat-error>Address is required!</mat-error>
                     </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+
+                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                        <mat-label>City</mat-label>
+                        <input matInput formControlName="city" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>City is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                        <mat-label>Postal Code</mat-label>
+                        <input matInput #postalCode
+                            formControlName="postCode" maxlength="5" required>
+                        <mat-icon matSuffix class="secondary-text">markunread_mailbox</mat-icon>
+                        <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
+                        <mat-error>Postal Code is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                        <mat-label>State</mat-label>
+                        <mat-select formControlName="state" required>
+                            <mat-option [value]="'NSW'">
+                                <span>New South Wales</span>
+                            </mat-option>
+                            <mat-option [value]="'QLD'">
+                                <span>Queensland</span>
+                            </mat-option>
+                            <mat-option [value]="'VIC'">
+                                <span>Victoria</span>
+                            </mat-option>
+                            <mat-option [value]="'SA'">
+                                <span>South Australia</span>
+                            </mat-option>
+                            <mat-option [value]="'WA'">
+                                <span>Western Australia</span>
+                            </mat-option>
+                            <mat-option [value]="'NT'">
+                                <span>Northern Territory</span>
+                            </mat-option>
+                            <mat-option [value]="'TAS'">
+                                <span>Tasmania</span>
+                            </mat-option>
+                            <mat-option [value]="'ACT'">
+                                <span>Australian Capital Territory</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Term length is required!</mat-error>
+                    </mat-form-field>
+
 
                 </div>
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">

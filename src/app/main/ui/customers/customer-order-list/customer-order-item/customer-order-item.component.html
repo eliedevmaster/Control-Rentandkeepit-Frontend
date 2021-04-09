@@ -10,6 +10,13 @@
         </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="customerName">
+        <mat-header-cell *matHeaderCellDef>Customer</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">
+                {{customerName}}</p>
+        </mat-cell>
+    </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="startDate">
@@ -29,18 +36,18 @@
     </ng-container>
 
      <!-- Name Column -->
-     <ng-container matColumnDef="totalSales">
+    <!-- <ng-container matColumnDef="totalSales">
         <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
         <mat-cell *matCellDef="let order">
             <p class="text-truncate font-weight-600">${{order.total_sales}}</p>
         </mat-cell>
-    </ng-container>
+    </ng-container>-->
 
     <!-- Name Column -->
     <ng-container matColumnDef="termLength">
         <mat-header-cell *matHeaderCellDef>Term length</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p class="text-truncate font-weight-600">{{getTermLenght(order)}}</p>
+            <p class="text-truncate font-weight-600">{{getTermLength(order)}}</p>
         </mat-cell>
     </ng-container>
     <!-- Name Column -->

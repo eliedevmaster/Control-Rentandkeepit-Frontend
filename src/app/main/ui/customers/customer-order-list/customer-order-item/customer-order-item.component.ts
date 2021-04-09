@@ -41,7 +41,7 @@ export class CustomerOrderItemComponent implements OnInit {
     orderList: any[];
     user: User;
     dataSource: MatTableDataSource<any> | null;
-    displayedColumns = ['checkbox', 'startDate', 'numItemSold', 'totalSales', 'termLength', 'status', 'action'];
+    displayedColumns = ['checkbox', 'customerName',  'startDate', 'numItemSold', 'termLength', 'status', 'action'];
     selectedOrderList: any[];
     checkboxes: {};
     dialogRef: any;
@@ -159,7 +159,11 @@ export class CustomerOrderItemComponent implements OnInit {
         return displayDate;
     }
 
-    getTermLenght(order: any) : string 
+    showTotalAmount(order: any): number 
+    { 
+        return 0;
+    }
+    getTermLength(order: any) : string 
     {
         let order_item_metas: any = order.order_items[0].order_item_metas;
         
