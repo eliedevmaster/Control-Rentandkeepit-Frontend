@@ -93,17 +93,42 @@
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field appearance="outline" fxFlex="50" class="pr-4">
-                        <mat-label>Country</mat-label>
-                        <input matInput formControlName="country" required>
-                        <mat-icon matSuffix class="secondary-text">flag</mat-icon>
-                        <mat-error>Country is required!</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="50" class="pl-4">
                         <mat-label>City</mat-label>
                         <input matInput formControlName="city" required>
                         <mat-icon matSuffix class="secondary-text">flag</mat-icon>
                         <mat-error>City is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="50" class="pl-4">
+                        <mat-label>State</mat-label>
+                        <mat-select formControlName="state" required>
+                            <mat-option [value]="'NSW'">
+                                <span>New South Wales</span>
+                            </mat-option>
+                            <mat-option [value]="'QLD'">
+                                <span>Queensland</span>
+                            </mat-option>
+                            <mat-option [value]="'VIC'">
+                                <span>Victoria</span>
+                            </mat-option>
+                            <mat-option [value]="'SA'">
+                                <span>South Australia</span>
+                            </mat-option>
+                            <mat-option [value]="'WA'">
+                                <span>Western Australia</span>
+                            </mat-option>
+                            <mat-option [value]="'NT'">
+                                <span>Northern Territory</span>
+                            </mat-option>
+                            <mat-option [value]="'TAS'">
+                                <span>Tasmania</span>
+                            </mat-option>
+                            <mat-option [value]="'ACT'">
+                                <span>Australian Capital Territory</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Term length is required!</mat-error>
                     </mat-form-field>
 
                 </div>

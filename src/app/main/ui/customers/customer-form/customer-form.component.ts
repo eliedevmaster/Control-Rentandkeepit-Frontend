@@ -63,7 +63,7 @@ export class CustomerFormComponent implements OnInit {
         firstName         : ['', Validators.required],
         lastName          : ['', Validators.required],
         email             : ['', Validators.required],
-        country           : ['', Validators.required],
+        state             : ['', Validators.required],
         postCode          : ['', Validators.required],
         city              : ['', Validators.required], 
       });
@@ -93,7 +93,7 @@ export class CustomerFormComponent implements OnInit {
       first_name        : this.customerForm.value['firstName'],
       last_name         : this.customerForm.value['lastName'],
       email             : this.customerForm.value['email'],
-      country           : this.customerForm.value['country'], 
+      state             : this.customerForm.value['state'], 
       postcode          : this.customerForm.value['postCode'],
       city              : this.customerForm.value['city'],
     }
@@ -107,7 +107,7 @@ export class CustomerFormComponent implements OnInit {
     this.customerForm.controls['firstName'].setValue(customer.first_name);
     this.customerForm.controls['lastName'].setValue(customer.last_name);
     this.customerForm.controls['email'].setValue(customer.email);
-    this.customerForm.controls['country'].setValue(customer.country != '' ? customer.country : 'AU' );
+    this.customerForm.controls['state'].setValue(customer.state);
     this.customerForm.controls['postCode'].setValue(customer.postcode);
     this.customerForm.controls['city'].setValue(customer.city);
   }

@@ -21,7 +21,7 @@ export class CustomerService {
       first_name        : param.first_name,
       last_name         : param.last_name,
       email             : param.email,
-      country           : param.country, 
+      state             : param.state, 
       postcode          : param.postcode,
       city              : param.city,
     }

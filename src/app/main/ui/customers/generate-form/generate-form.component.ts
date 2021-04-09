@@ -4,12 +4,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 
-import { Back, GetCustomerList } from 'app/store/actions';
+import { Back } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
 import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
 import { User } from 'app/models/user';
+import Swal from 'sweetalert2/dist/sweetalert2.js';  
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 
 @Component({
   selector: 'app-generate-form',
@@ -29,6 +31,8 @@ export class GenerateFormComponent implements OnInit {
 
   customer: any = null;
   products: string[] = [];
+  costs: string[] = [];
+
   order: any;
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -49,7 +53,7 @@ export class GenerateFormComponent implements OnInit {
       this.customerId = this._activatedRoute.snapshot.params.customerId;
       this.customerName = this._activatedRoute.snapshot.params.customerName;
       this.order = JSON.parse(localStorage.getItem('order'));
-      this.setProuctsFromOrder(this.order);
+      this.setProuctsAndCostsFromOrder(this.order);
       //this._store.dispatch(new GetCustomerList());
       //this.mapCustomerStateToModel();
   }
@@ -68,10 +72,12 @@ export class GenerateFormComponent implements OnInit {
         name                  : ['', Validators.required],
         phoneNumber           : ['', Validators.required],
         address               : ['', Validators.required],
-        products              : ['', Validators.required],
+        products              : [''],
+        costs                 : [''],
         termLength            : ['', Validators.required],
         startDate             : ['', Validators.required],
-        freqeuncyRepayment    : ['', Validators.required], 
+        finishDate             : ['', Validators.required],
+        freqeuncyRepayment    : [52, Validators.required], 
         firstPaymentDate      : ['', Validators.required],
         leaseNumber           : ['', Validators.required],
         totalAmount           : ['', Validators.required],
@@ -97,7 +103,7 @@ export class GenerateFormComponent implements OnInit {
   // -----------------------------------------------------------------------------------------------------
   onGenerate(): void
   {
-    
+    Swal.fire('Yes!', 'The paperwork was succefully generated!', 'success');
   } 
 
   setinitValue(): void 
@@ -108,6 +114,7 @@ export class GenerateFormComponent implements OnInit {
       //this.generateForm.controls['address'].setValue(this.customer.city);
       this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
       this.generateForm.controls['startDate'].setValue(new Date(this.order.date_created_gmt).toISOString().substring(0, 10));
+      this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order).toISOString().substring(0, 10));
       this.generateForm.controls['freqeuncyRepayment'].setValue(0);
       //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
       //this.generateForm.controls['leaseNumber'].setValue(customer.city);
@@ -115,31 +122,47 @@ export class GenerateFormComponent implements OnInit {
     //}
 
   }
-
   getTermLenght(order: any) : number 
   {
         let order_item_metas: any = order.order_items[0].order_item_metas;
-        
+
         let order_item_meta: any = order_item_metas.find(x => x.meta_key == 'pa_rental-period');
 
         let termLength : string = order_item_meta ? order_item_meta.meta_value : '12-months';  
 
         if(termLength == '12-months')
-          return 0;
-        return 1;
+          return 1;
+        return 2;
   }
 
-  setProuctsFromOrder(order: any) : void
+  getFinishDate(order: any) : Date 
+  {
+    let plusMonths : number = 12;
+
+    if(this.getTermLenght(order) == 2)
+      plusMonths = 24;
+
+    let date: Date = new Date(this.order.date_created_gmt);
+    let finishDate:Date = new Date(date.setMonth(date.getMonth() + plusMonths));
+
+    return finishDate;
+  }
+
+  setProuctsAndCostsFromOrder(order: any) : void
   {
     console.log(order);
     if(order == null )
       return;
     let order_items: any = order.order_items;
     order_items.forEach(element => {
-      if(element.order_item_product.product != null)
+      if(element.order_item_product.product != null){
         this.products.push(element.order_item_product.product.post_title);
+      }
       else
         this.products.push(element.order_item_name);
+      
+      let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
+      this.costs.push(cost.toString());
     });
   }
 
@@ -161,7 +184,42 @@ export class GenerateFormComponent implements OnInit {
       this.products = this.products.filter(x => x != product);  
   }
 
+  addCost(event: MatChipInputEvent) 
+  {
+      const input = event.input;
+      const value = event.value;
+      if ( value ) {
+        if(isNaN(Number(value)))
+          this.costs.push('0');
+        else
+          this.costs.push(value);
+      }
+      if ( input ) {
+          input.value = '';
+      }
+  }
 
+  removeCost(cost): void
+  {
+      console.log(this.costs);
+      this.costs = this.costs.filter(x => x != cost);  
+  }
+
+  onChangeDate() : void 
+  {
+    let startDate: Date = new Date(this.generateForm.value['startDate']);
+    let termLength: number = 12 * this.generateForm.value['termLength'];
+    this.generateForm.controls['finishDate'].setValue(new Date(startDate.setMonth(startDate.getMonth() + termLength)).toISOString().substring(0, 10));
+  }
+
+  onChangeFreqeuncy(isForTermLenght:boolean = false) : void 
+  {
+    if(isForTermLenght)
+      this.onChangeDate();
+    let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
+    let termLength = this.generateForm.value['termLength'];
+    this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
+  }
   backPath(): void 
   {
     this._store.dispatch(new Back());

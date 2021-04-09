@@ -16,7 +16,6 @@ import { Go, GetOrderListForCustomer } from 'app/store/actions';
 
 
 import { CustomerListService } from 'app/main/ui/customers/customer-list/customer-list.service';
-import { CustomerFormComponent } from 'app/main/ui/customers/customer-list/customer-form/customer-form.component';
 
 import { User } from 'app/models/user';
 import { Customer } from 'app/models/customer';
@@ -39,7 +38,7 @@ export class CustomerItemComponent implements OnInit {
     customerList: Array<Customer>;
     user: User;
     dataSource: MatTableDataSource<Customer> | null;
-    displayedColumns = ['checkbox', 'name', 'lastactive', 'dateregistered', 'country', 'postcode', 'action'];
+    displayedColumns = ['checkbox', 'name', 'lastactive', 'dateregistered', 'city', 'state', 'postcode', 'action'];
     selectedCustomerList: Customer[];
     checkboxes: {};
     dialogRef: any;

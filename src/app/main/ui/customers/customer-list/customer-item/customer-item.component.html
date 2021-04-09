@@ -46,13 +46,26 @@
     </ng-container>
 
      <!-- Name Column -->
-     <ng-container matColumnDef="country">
-        <mat-header-cell *matHeaderCellDef>Country</mat-header-cell>
+     <ng-container matColumnDef="city">
+        <mat-header-cell *matHeaderCellDef>City</mat-header-cell>
         <mat-cell *matCellDef="let customer">
-            <p *ngIf="customer.country != ''" class="text-truncate font-weight-600">
-                {{customer.country}}
+            <p *ngIf="customer.city != ''" class="text-truncate font-weight-600">
+                {{customer.city}}
             </p>
-            <p *ngIf="customer.country == ''" class="text-truncate font-weight-600">
+            <p *ngIf="customer.city == ''" class="text-truncate font-weight-600">
+                -
+            </p>
+        </mat-cell>
+    </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="state">
+        <mat-header-cell *matHeaderCellDef>State</mat-header-cell>
+        <mat-cell *matCellDef="let customer">
+            <p *ngIf="customer.state != ''" class="text-truncate font-weight-600">
+                {{customer.state}}
+            </p>
+            <p *ngIf="customer.state == ''" class="text-truncate font-weight-600">
                 -
             </p>
         </mat-cell>

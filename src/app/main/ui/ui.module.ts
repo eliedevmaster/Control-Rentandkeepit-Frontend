@@ -75,6 +75,7 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CustomerOrderListModule,
         CustomerFormModule,
         GenerateFormModule,
+        
         /************************* */
 
         UIAngularMaterialModule,
