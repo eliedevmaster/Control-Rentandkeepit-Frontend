@@ -23,6 +23,7 @@ import { BasecourseListModule } from 'app/main/ui/company/courses/course-base/ba
 import { CustomerListModule } from 'app/main/ui/customers/customer-list/customer-list.module';
 import { CustomerOrderListModule } from 'app/main/ui/customers/customer-order-list/customer-order-list.module';
 import { CustomerFormModule } from 'app/main/ui/customers/customer-form/customer-form.module';
+import { GenerateFormModule } from 'app/main/ui/customers/generate-form/generate-form.module';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -73,7 +74,7 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CustomerListModule,
         CustomerOrderListModule,
         CustomerFormModule,
-
+        GenerateFormModule,
         /************************* */
 
         UIAngularMaterialModule,

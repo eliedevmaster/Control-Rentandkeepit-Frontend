@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DataSource } from '@angular/cdk/collections';
@@ -12,13 +13,12 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
-import { GetOrderListForCustomer } from 'app/store/actions';
+import { Go } from 'app/store/actions';
 
 
 import { CustomerOrderListService } from 'app/main/ui/customers/customer-order-list/customer-order-list.service';
 
 import { User } from 'app/models/user';
-import { Customer } from 'app/models/customer';
 
 @Component({
   selector: 'app-customer-order-item',
@@ -29,261 +29,241 @@ import { Customer } from 'app/models/customer';
 })
 export class CustomerOrderItemComponent implements OnInit {
 
-  @ViewChild('dialogContent')
-dialogContent: TemplateRef<any>;
+    @ViewChild('dialogContent')
+    dialogContent: TemplateRef<any>;
 
-willLoad: boolean = true;
-orderListLength: number = 0;
-
-orderList: any[];
-user: User;
-dataSource: MatTableDataSource<any> | null;
-displayedColumns = ['checkbox', 'startDate', 'numItemSold', 'totalSales', 'termLength', 'status', 'action'];
-selectedOrderList: any[];
-checkboxes: {};
-dialogRef: any;
-confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
-
-// Private
-private _unsubscribeAll: Subject<any>;
-
-/**
- * Constructor
- *
- * @param {OrderListService} _customerOrderListService
- * @param {MatDialog} _matDialog
- */
-constructor(
-    private _customerOrderListService: CustomerOrderListService,
-    private _cdref: ChangeDetectorRef,
-    private _store: Store<AppState>,
-    public _matDialog: MatDialog
-)
-{
-    // Set the private defaults
-    this._unsubscribeAll = new Subject();
-}
-
-// -----------------------------------------------------------------------------------------------------
-// @ Lifecycle hooks
-// -----------------------------------------------------------------------------------------------------
-
-/**
- * On init
- */
-ngOnInit(): void
-{
-
-} 
-ngAfterViewChecked(): void 
-{
-    if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
-        return;
+    willLoad: boolean = true;
+    orderListLength: number = 0;
     
-    this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
-    this._customerOrderListService.onSelectedOrderListChanged
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(orderList => {
-            this.orderList = orderList;
+    customerId: number;
+    customerName: string;
 
-            this.checkboxes = {};
-            orderList.map(order => {
-                this.checkboxes[order.id] = false;
+    orderList: any[];
+    user: User;
+    dataSource: MatTableDataSource<any> | null;
+    displayedColumns = ['checkbox', 'startDate', 'numItemSold', 'totalSales', 'termLength', 'status', 'action'];
+    selectedOrderList: any[];
+    checkboxes: {};
+    dialogRef: any;
+    confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
+
+    // Private
+    private _unsubscribeAll: Subject<any>;
+
+    /**
+     * Constructor
+     *
+     * @param {OrderListService} _customerOrderListService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _customerOrderListService: CustomerOrderListService,
+        private _cdref: ChangeDetectorRef,
+        private _store: Store<AppState>,
+        private _activatedRoute: ActivatedRoute,
+        public _matDialog: MatDialog
+    )
+    {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+        this.customerId = this._activatedRoute.snapshot.params.customerId;
+        this.customerName = this._activatedRoute.snapshot.params.customerName;
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {   
+        localStorage.removeItem('order');
+    } 
+    ngAfterViewChecked(): void 
+    {
+        if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
+            return;
+        
+        this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
+        this._customerOrderListService.onSelectedOrderListChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(orderList => {
+                this.orderList = orderList;
+
+                this.checkboxes = {};
+                orderList.map(order => {
+                    this.checkboxes[order.id] = false;
+                });
             });
-        });
 
-    this._customerOrderListService.onSelectedOrderListChanged
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(selectedOrderList => {
-            for ( const id in this.checkboxes )
-            {
-                if ( !this.checkboxes.hasOwnProperty(id) )
+        this._customerOrderListService.onSelectedOrderListChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedOrderList => {
+                for ( const id in this.checkboxes )
                 {
-                    continue;
+                    if ( !this.checkboxes.hasOwnProperty(id) )
+                    {
+                        continue;
+                    }
+
+                    this.checkboxes[id] = selectedOrderList.includes(id);
                 }
+                this.selectedOrderList = selectedOrderList;
+            });
 
-                this.checkboxes[id] = selectedOrderList.includes(id);
-            }
-            this.selectedOrderList = selectedOrderList;
-        });
+        this._customerOrderListService.onUserDataChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(user => {
+                this.user = user;
+            });
 
-    this._customerOrderListService.onUserDataChanged
-        .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe(user => {
-            this.user = user;
-        });
+        this._customerOrderListService.onFilterChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(() => {
+                this._customerOrderListService.deselectOrderList();
+            });
 
-    this._customerOrderListService.onFilterChanged
+        this._customerOrderListService.onSearchTextChanged
         .pipe(takeUntil(this._unsubscribeAll))
         .subscribe(() => {
-            this._customerOrderListService.deselectOrderList();
-        });
+            this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
+        }); 
+        this._cdref.detectChanges();
+        this.orderListLength = this._customerOrderListService.orderList.length;
 
-    this._customerOrderListService.onSearchTextChanged
-    .pipe(takeUntil(this._unsubscribeAll))
-    .subscribe(() => {
-        this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
-    }); 
-    this._cdref.detectChanges();
-    this.orderListLength = this._customerOrderListService.orderList.length;
-
-    if(this.orderListLength != 0)
+        if(this.orderListLength != 0)
             this.willLoad = false;
-    
-}
+    }
 
-/**
- * On destroy
- */
-ngOnDestroy(): void
-{
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-}
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
-showDate(date: string): string 
-{
-  let displayDate: string = new Date(date).toISOString().substring(0, 10);
-  return displayDate;
-}
+    generatePaperWork(order: any) : void 
+    {
+        localStorage.setItem('order', JSON.stringify(order));
+        this._store.dispatch(new Go({path: ['/ui/customers/generate-form/' + this.customerId + '/' + this.customerName], query: null, extras: null}));
+    }
 
-getTermLenght(order: any) : string 
-{
-  let order_item_metas: any = order.order_items[0].order_item_metas;
-  
-  let order_item_meta: any = order_item_metas.find(x => x.meta_key == 'pa_rental-period');
+    showDate(date: string): string 
+    {
+        let displayDate: string = new Date(date).toISOString().substring(0, 10);
+        return displayDate;
+    }
 
-  let termLength : string = order_item_meta ? order_item_meta.meta_value : '12-months';  
+    getTermLenght(order: any) : string 
+    {
+        let order_item_metas: any = order.order_items[0].order_item_metas;
+        
+        let order_item_meta: any = order_item_metas.find(x => x.meta_key == 'pa_rental-period');
 
-  return termLength;
+        let termLength : string = order_item_meta ? order_item_meta.meta_value : '12-months';  
 
-}
-// -----------------------------------------------------------------------------------------------------
-// @ Public methods
-// -----------------------------------------------------------------------------------------------------
+        return termLength;
 
-/**
- * Edit contact
- *
- * @param order
- */
-editOrder(order): void
-{
-    //this._store.dispatch(new GetOrderListForOrder({orderId : order.id}))
-    /*this.dialogRef = this._matDialog.open(OrderFormComponent, {
-        panelClass: 'contact-form-dialog',
-        data      : {
-            Order: Order,
-            action : 'edit'
-        }
-    });
-    this.dialogRef.afterClosed()
-        .subscribe(response => {
-            if ( !response )
-            {
-                return;
-            }
-            const actionType: string = response[0];
-            const formData: boolean = response[1];
-            switch ( actionType )
-            {
-                
-                case 'save':
-                    console.log("edit....");
-                    //this._customerOrderListService.updateContact(formData.getRawValue());
-                    break;
-                
-                case 'cancel':
-                    console.log("cancel....");
-                    //this.deleteOrder(Order);
-                    break;
-            }
+    }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Edit contact
+     *
+     * @param order
+     */
+    editOrder(order): void
+    {
+        
+    }
+
+    /**
+     * Delete Contact
+     */
+    deleteOrder(order): void
+    {
+        this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
+            disableClose: false
         });
 
-        */
-}
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
-/**
- * Delete Contact
- */
-deleteOrder(order): void
-{
-    this.confirmDialogRef = this._matDialog.open(FuseConfirmDialogComponent, {
-        disableClose: false
-    });
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if ( result )
+            {
+                //this._store.dispatch(new DeleteOrder({OrderId : Order.id}));
+                this._customerOrderListService.deleteOrder(order);
+            }
+            this.confirmDialogRef = null;
+        });
 
-    this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
+    }
 
-    this.confirmDialogRef.afterClosed().subscribe(result => {
-        if ( result )
+
+    /**
+     * On selected change
+     *
+     * @param order
+     */
+    onSelectedChange(orderId): void
+    {
+        this._customerOrderListService.toggleSelectedOrder(orderId);
+    }
+
+    /**
+     * Toggle star
+     *
+     * @param OrderId
+     */
+    toggleStar(orderId): void
+    {
+        /*if ( this.user.starred.includes(contactId) )
         {
-            //this._store.dispatch(new DeleteOrder({OrderId : Order.id}));
-            this._customerOrderListService.deleteOrder(order);
+            this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
         }
-        this.confirmDialogRef = null;
-    });
+        else
+        {
+            this.user.starred.push(contactId);
+        }
 
-}
-
-
-/**
- * On selected change
- *
- * @param order
- */
-onSelectedChange(orderId): void
-{
-    this._customerOrderListService.toggleSelectedOrder(orderId);
-}
-
-/**
- * Toggle star
- *
- * @param OrderId
- */
-toggleStar(orderId): void
-{
-    /*if ( this.user.starred.includes(contactId) )
-    {
-        this.user.starred.splice(this.user.starred.indexOf(contactId), 1);
+        this._customerOrderListService.updateUserData(this.user);*/
     }
-    else
-    {
-        this.user.starred.push(contactId);
     }
 
-    this._customerOrderListService.updateUserData(this.user);*/
-}
-}
+    export class FilesDataSource extends DataSource<any>
+    {
+    /**
+    * Constructor
+    *
+    * @param {OrderListService} _customerOrderListService
+    */
+    constructor(
+    private _customerOrderListService: CustomerOrderListService
+    )
+    {
+    super();
+    }
 
-export class FilesDataSource extends DataSource<any>
-{
-/**
-* Constructor
-*
-* @param {OrderListService} _customerOrderListService
-*/
-constructor(
-  private _customerOrderListService: CustomerOrderListService
-)
-{
-  super();
-}
+    /**
+    * Connect function called by the table to retrieve one stream containing the data to render.
+    * @returns {Observable<any[]>}
+    */
+    connect(): Observable<any[]>
+    {
+    return this._customerOrderListService.onSelectedOrderListChanged;
+    }
 
-/**
-* Connect function called by the table to retrieve one stream containing the data to render.
-* @returns {Observable<any[]>}
-*/
-connect(): Observable<any[]>
-{
-  return this._customerOrderListService.onSelectedOrderListChanged;
-}
-
-/**
-* Disconnect
-*/
-disconnect(): void
-{
-}
+    /**
+    * Disconnect
+    */
+    disconnect(): void
+    {
+    }
 }

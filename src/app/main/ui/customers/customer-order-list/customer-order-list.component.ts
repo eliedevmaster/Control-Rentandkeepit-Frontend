@@ -49,7 +49,6 @@ export class CustomerOrderListComponent implements OnInit {
       private _fuseSidebarService: FuseSidebarService,
       private _store: Store<AppState>,
       private _activatedRoute: ActivatedRoute,
-      private _matDialog: MatDialog
   )
   {
       // Set the defaults
@@ -111,26 +110,7 @@ export class CustomerOrderListComponent implements OnInit {
    */
   newOrder(): void
   {
-      /*if(this.user.active == 0) {
-        Swal.fire('Ooops!', 'You have to register company at first!', 'error');
-        this._store.dispatch(new Go({path: ['/ui/register-company'], query: null, extras: null}));
-        return;
-      }
-      this.dialogRef = this._matDialog.open(OrderFormComponent, {
-          panelClass: 'contact-form-dialog',
-          data      : {
-              action: 'new'
-          }
-      });
 
-      this.dialogRef.afterClosed()
-          .subscribe((response: FormGroup) => {
-              if ( !response )
-              {
-                  return;
-              }
-              //this._customerOrderListService.updateOrder();
-          });*/
   }
 
   /**
