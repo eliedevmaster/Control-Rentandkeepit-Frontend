@@ -118,7 +118,7 @@ export class GenerateFormComponent implements OnInit {
       this.generateForm.controls['freqeuncyRepayment'].setValue(0);
       //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
       //this.generateForm.controls['leaseNumber'].setValue(customer.city);
-      this.generateForm.controls['totalAmount'].setValue(this.order.total_sales);
+      //this.generateForm.controls['totalAmount'].setValue(this.order.total_sales);
     //}
 
   }
@@ -219,6 +219,14 @@ export class GenerateFormComponent implements OnInit {
     let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
     let termLength = this.generateForm.value['termLength'];
     this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
+
+    let total_amount: number = 0;
+    this.costs.forEach(element => {
+      let cost = Number(element);
+      total_amount += cost * freqeuncyRepayment * termLength;
+    });
+
+    this.generateForm.controls['totalAmount'].setValue(total_amount);
   }
   backPath(): void 
   {
