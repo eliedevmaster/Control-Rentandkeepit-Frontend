@@ -1,7 +1,23 @@
 import { FuseNavigation } from '@fuse/types';
 
 export const navigation: FuseNavigation[] = [
-   
+    
+    {
+        id      : 'dashboard',
+        title   : 'Dashboard',
+        type    : 'group',
+        icon    : 'web',
+        children: [
+            {
+                id   : 'analytics',
+                title: 'Analytics',
+                type : 'item',
+                icon : 'dashboard',
+                url  : '/apps/dashboards/analytics'
+            },
+        ]
+    },
+
     {
         id      : 'coustomer-management',
         title   : 'Application Management',
@@ -15,8 +31,6 @@ export const navigation: FuseNavigation[] = [
                 icon : 'people',
                 url  : '/ui/customers/customer-list',
             },
-
-            
         ]
     },
 
