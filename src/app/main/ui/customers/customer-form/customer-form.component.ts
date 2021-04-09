@@ -9,6 +9,8 @@ import { fuseAnimations } from '@fuse/animations';
 
 import { State as AppState, getAuthState } from 'app/store/reducers';
 import { User } from 'app/models/user';
+
+
 @Component({
   selector: 'app-customer-form',
   templateUrl: './customer-form.component.html',
@@ -105,7 +107,7 @@ export class CustomerFormComponent implements OnInit {
     this.customerForm.controls['firstName'].setValue(customer.first_name);
     this.customerForm.controls['lastName'].setValue(customer.last_name);
     this.customerForm.controls['email'].setValue(customer.email);
-    this.customerForm.controls['country'].setValue(customer.country);
+    this.customerForm.controls['country'].setValue(customer.country != '' ? customer.country : 'AU' );
     this.customerForm.controls['postCode'].setValue(customer.postcode);
     this.customerForm.controls['city'].setValue(customer.city);
   }
