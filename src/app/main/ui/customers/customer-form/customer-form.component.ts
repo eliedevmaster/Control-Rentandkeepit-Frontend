@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit , ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';  
+import { catchError, map } from 'rxjs/operators';  
+import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
 import { Back, UpdateCustomer } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
+import { FileUploadService } from  'app/core/services/file-upload.service';
 
 import { State as AppState, getAuthState } from 'app/store/reducers';
 import { User } from 'app/models/user';
@@ -26,8 +29,8 @@ export class CustomerFormComponent implements OnInit {
   customerId: number;
   customerName: string;
 
-  @ViewChild('UploadFileInput') uploadFileInput: ElementRef;
-  myfilename: string = '';
+  @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];
+
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -41,6 +44,7 @@ export class CustomerFormComponent implements OnInit {
       private _formBuilder: FormBuilder,
       private _activatedRoute: ActivatedRoute,
       private _store: Store<AppState>,
+      private _fileUploadService: FileUploadService,
   )
   {
       // Set the private defaults
@@ -117,35 +121,49 @@ export class CustomerFormComponent implements OnInit {
     this._store.dispatch(new Back());
   }
 
-  fileChangeEvent(fileInput: any) {
+  uploadFile(file) {  
+    const formData = new FormData();  
+    formData.append('file', file.data);  
+    file.inProgress = true;  
+    this._fileUploadService.upload(formData).pipe(  
+      map(event => {  
+        switch (event.type) {  
+          case HttpEventType.UploadProgress:  
+            file.progress = Math.round(event.loaded * 100 / event.total);  
+            break;  
+          case HttpEventType.Response:  
+            return event;  
+        }  
+      }),  
+      catchError((error: HttpErrorResponse) => {  
+        file.inProgress = false;  
+        return of(`${file.data.name} upload failed.`);  
+      })).subscribe((event: any) => {  
+        if (typeof (event) === 'object') {  
+          console.log(event.body);  
+        }  
+      });  
+  }
 
-    if (fileInput.target.files && fileInput.target.files[0]) {
+ uploadFiles() {  
+    this.fileUpload.nativeElement.value = '';  
+    console.log(this.files);
+    this.files.forEach(file => {  
+      this.uploadFile(file);  
+    });  
+}
 
-
-      this.myfilename = '';
-      Array.from(fileInput.target.files).forEach((file: File) => {
-        console.log(file);
-        this.myfilename += file.name + ',';
-      });
-
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const image = new Image();
-        image.src = e.target.result;
-        image.onload = rs => {
-
-          // Return Base64 Data URL
-          const imgBase64Path = e.target.result;
-
-        };
-      };
-      reader.readAsDataURL(fileInput.target.files[0]);
-
-      // Reset File Input to Selct Same file again
-      this.uploadFileInput.nativeElement.value = "";
-    } else {
-      this.myfilename = 'Select File';
-    }
+  onClick() {  
+      const fileUpload = this.fileUpload.nativeElement;
+      fileUpload.onchange = () => {  
+        for (let index = 0; index < fileUpload.files.length; index++)  
+        {  
+            const file = fileUpload.files[index];
+            this.files.push({ data: file, inProgress: false, progress: 0});  
+        }  
+        this.uploadFiles();  
+      };  
+      fileUpload.click();  
   }
 
   mapUserStateToModel(): void
@@ -161,7 +179,6 @@ export class CustomerFormComponent implements OnInit {
   {
     return this._store.select(getAuthState);
   }
-
 
 }
 

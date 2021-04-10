@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit
 
                 this.isAuthenticated = state.isAuthenticated;
                 this._store.dispatch(new Go({path: ['/apps/dashboards/analytics'], query: null, extras: null}));   
-                
+                    
             }
             else {
                 this.errorMsg = state.errorMessage;
