@@ -1,5 +1,4 @@
 import { CustomerActionTypes, CustomerActions } from '../actions/customer.action';
-import { Customer } from '../../models/customer'
 
 export interface State {
   customerList: any | null;

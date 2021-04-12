@@ -160,53 +160,54 @@
                         <mat-hint align="end">{{postalCode.value.length}} / 5</mat-hint>
                         <mat-error>Postal Code is required!</mat-error>
                     </mat-form-field>
-
-
                 </div>
+                <br><br>
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <mat-form-field  appearance="outline" floatLabel="always" fxFlex="100" class="w-100-p">
+
+                    <mat-form-field appearance="outline" fxFlex="70" class="px-8">
                         <mat-label>Products</mat-label>
-    
-                        <mat-chip-list #productList name="products" formControlName="products">
-                            <mat-chip *ngFor="let product of products"
-                                     [removable]="true" (removed)="removeProduct(product)">
-                                {{product}}
-                                <mat-icon matChipRemove>cancel</mat-icon>
-                            </mat-chip>
-                            <input [matChipInputFor]="productList"
-                                   [matChipInputAddOnBlur]="true"
-                                   (matChipInputTokenEnd)="addProduct($event)"
-                                   required
-                            />
-    
-                        </mat-chip-list>
-    
+                        <mat-select formControlName="product">
+                            <mat-option *ngFor="let product of productList" [value]="product.ID">
+                                <span>{{product.post_name}} ( ${{product.product_meta.max_price}} )</span>
+                            </mat-option>
+                            
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">product</mat-icon>
+                        <mat-error>Product is required!</mat-error>
                     </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
+                        <mat-label>Product quantity</mat-label>
+                        <input matInput type="number" formControlName="productQty" required>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Product Quantity is required!</mat-error>
+                    </mat-form-field>
+
+                    <button mat-fab color="warn" class="add-file-button" aria-label="Add Product" style="margin-top: -20px;"
+                    (click)="addProduct()">
+                        <mat-icon>add</mat-icon>
+                    </button>
                 </div>
-                
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
                     <mat-form-field  appearance="outline" floatLabel="always" fxFlex="100" class="w-100-p">
-                        <mat-label>Costs per product</mat-label>
+                        <mat-label>Ordered Products</mat-label>
     
-                        <mat-chip-list #costList name="costs" formControlName="costs">
-                            <mat-chip *ngFor="let cost of costs"
-                                     [removable]="true" (removed)="removeCost(cost)">
-                                ${{cost}}
+                        <mat-chip-list #costList name="displayProducts" formControlName="displayProducts">
+                            <mat-chip *ngFor="let displayProduct of displayProducts"
+                                     [removable]="true" (removed)="removeDisplayProduct(displayProduct)">
+                                {{displayProduct}}
                                 <mat-icon matChipRemove>cancel</mat-icon>
                             </mat-chip>
                             <input [matChipInputFor]="costList"
                                    [matChipInputAddOnBlur]="true"
-                                   (matChipInputTokenEnd)="addCost($event)"
                                    required
                             />
-    
                         </mat-chip-list>
-    
                     </mat-form-field>
                 </div>
+                <br><br>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-
                     <mat-form-field appearance="outline" fxFlex="25" class="px-8">
                         <mat-label>Term length</mat-label>
                         <mat-select formControlName="termLength" (selectionChange)="onChangeFreqeuncy(true)" required>

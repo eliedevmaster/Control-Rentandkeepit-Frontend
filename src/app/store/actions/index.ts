@@ -4,3 +4,4 @@ export * from './company.action';
 export * from './collaborator.action';
 export * from './instructor.action';
 export * from './customer.action';
+export * from './product.action';

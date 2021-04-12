@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 
-import { Back } from 'app/store/actions';
+import { Back, GetProductListError } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -12,8 +12,10 @@ import { Packer } from "docx";
 import * as fs from 'file-saver';
 import { DocumentCreator } from "./doc-creator";
 
-import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
+import { GetProductList } from 'app/store/actions';
+import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
+
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {  MomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -49,9 +51,14 @@ export class GenerateFormComponent implements OnInit {
   customerId: number;
   customerName: string;
 
+  productList : any[] = [];
+
   customer: any = null;
+
   products: string[] = [];
-  costs: string[] = [];
+  costs: number[] = [];
+  counts: number[] = [];
+  displayProducts: string[] = [];
 
   order: any;
   // Private
@@ -74,8 +81,9 @@ export class GenerateFormComponent implements OnInit {
       this.customerName = this._activatedRoute.snapshot.params.customerName;
       this.order = JSON.parse(localStorage.getItem('order'));
       this.setProuctsAndCostsFromOrder(this.order);
-      //this._store.dispatch(new GetCustomerList());
+      this._store.dispatch(new GetProductList());
       //this.mapCustomerStateToModel();
+      this.mapProductStateToModel();
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -96,8 +104,9 @@ export class GenerateFormComponent implements OnInit {
         city                  : ['', Validators.required],
         postCode              : ['', Validators.required],
         state                 : ['', Validators.required],
-        products              : [''],
-        costs                 : [''],
+        product               : [''],
+        productQty            : [0],
+        displayProducts       : [''],
         termLength            : ['', Validators.required],
         startDate             : ['', Validators.required],
         finishDate            : ['', Validators.required],
@@ -139,7 +148,6 @@ export class GenerateFormComponent implements OnInit {
   
   onGenerate(): void
   {
-
     const param = {
       refKey: this.makeId(),
       customerName : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
@@ -154,7 +162,6 @@ export class GenerateFormComponent implements OnInit {
       leaseNumber :  this.generateForm.value['leaseNumber'],
       totalAmount :  this.generateForm.value['totalAmount'],
     }
-
 
     let fileName : string = this.customerName + '.docx';
 
@@ -213,7 +220,6 @@ export class GenerateFormComponent implements OnInit {
 
   setProuctsAndCostsFromOrder(order: any) : void
   {
-    console.log(order);
     if(order == null )
       return;
     let order_items: any = order.order_items;
@@ -225,47 +231,33 @@ export class GenerateFormComponent implements OnInit {
         this.products.push(element.order_item_name);
       
       let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
-      this.costs.push(cost.toString());
+      this.costs.push(cost);
+      this.counts.push(Number(element.order_item_product.product_qty));
+
+      let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) x ' + Number(element.order_item_product.product_qty);
+      this.displayProducts.push(displayProduct);
     });
   }
 
-  addProduct(event: MatChipInputEvent) 
+  addProduct() 
   {
-      const input = event.input;
-      const value = event.value;
-      if ( value ) {
-          this.products.push(value);
-      }
+    
+      let productID = this.generateForm.value['product'];
+      let product: any = this.productList.find(x => x.ID == productID);
 
-      if ( input ) {
-          input.value = '';
-      }
+      this.products.push(product.post_name);
+      this.costs.push(product.product_meta.max_price);
+      this.counts.push(Number(this.generateForm.value['productQty']));
+
+      let displayProduct: string  = product.post_name + '( $' + product.product_meta.max_price + ' ) x ' + this.generateForm.value['productQty'];
+      this.displayProducts.push(displayProduct);
+
+      this.onChangeFreqeuncy();
   }
 
-  removeProduct(product): void
+  removeDisplayProduct(displayProduct): void
   {
-      this.products = this.products.filter(x => x != product);  
-  }
-
-  addCost(event: MatChipInputEvent) 
-  {
-      const input = event.input;
-      const value = event.value;
-      if ( value ) {
-        if(isNaN(Number(value)))
-          this.costs.push('0');
-        else
-          this.costs.push(value);
-      }
-      if ( input ) {
-          input.value = '';
-      }
-  }
-
-  removeCost(cost): void
-  {
-      console.log(this.costs);
-      this.costs = this.costs.filter(x => x != cost);  
+      this.displayProducts = this.displayProducts.filter(x => x != displayProduct);  
   }
 
   onChangeDate() : void 
@@ -277,17 +269,17 @@ export class GenerateFormComponent implements OnInit {
 
   onChangeFreqeuncy(isForTermLenght:boolean = false) : void 
   {
-    if(isForTermLenght)
-      this.onChangeDate();
-    let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
-    let termLength = this.generateForm.value['termLength'];
-    this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
+      if(isForTermLenght)
+        this.onChangeDate();
+      let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
+      let termLength = this.generateForm.value['termLength'];
+      this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
 
-    let total_amount: number = 0;
-    this.costs.forEach(element => {
-      let cost = Number(element);
-      total_amount += cost * freqeuncyRepayment * termLength;
-    });
+      let total_amount: number = 0;
+      this.costs.forEach((element, index) => {
+        console.log(this.counts[index]);
+        total_amount += element * this.counts[index] * freqeuncyRepayment * termLength;
+      });
 
     this.generateForm.controls['totalAmount'].setValue(total_amount.toFixed(2));
   }
@@ -311,8 +303,19 @@ export class GenerateFormComponent implements OnInit {
       if(state.customerList != null) {
         this.customer = state.customerList.find(x => x.customer_id == this.customerId);
       }
+    }); 
+  }
+
+  mapProductStateToModel() : void
+  {
+    this.getProductState().subscribe(state => {
+      if(state.productList != null) {
+        this.productList = [];
+        state.productList.forEach(element => {
+            this.productList.push(element);
+        });
+      }
     });
-    
   }
 
   getAuthState() 
@@ -323,6 +326,11 @@ export class GenerateFormComponent implements OnInit {
   getCustomerState()
   {
     return this._store.select(getCustomerState);
+  }
+
+  getProductState ()
+  {
+    return this._store.select(getProductState);
   }
 
 }

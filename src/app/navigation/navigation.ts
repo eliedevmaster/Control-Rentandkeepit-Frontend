@@ -5,33 +5,23 @@ export const navigation: FuseNavigation[] = [
     {
         id      : 'dashboard',
         title   : 'Dashboard',
-        type    : 'group',
-        icon    : 'web',
+        type    : 'collapsable',
+        icon     : 'dashboard',
         children: [
             {
                 id   : 'analytics',
                 title: 'Analytics',
                 type : 'item',
-                icon : 'dashboard',
                 url  : '/apps/dashboards/analytics'
             },
         ]
     },
-
     {
-        id      : 'coustomer-management',
-        title   : 'Application Management',
-        type    : 'group',
-        icon    : 'web',
-        children: [
-            {
-                id   : 'customer-list',
-                title: 'Coustomers',
-                type : 'item',
-                icon : 'people',
-                url  : '/ui/customers/customer-list',
-            },
-        ]
+        id   : 'customer-list',
+        title: 'Coustomers',
+        type : 'item',
+        icon : 'people',
+        url  : '/ui/customers/customer-list',
     },
 
    /* //

@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
 import { AuthService } from '../services/auth.service';
-import { Customer } from '../../models/customer';
-import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +11,6 @@ export class CustomerService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  
   updateCustomer(param: any) : Observable<any> 
   {
     const url = `${env.backendBaseUrl}/api/customers/` + param.id;
