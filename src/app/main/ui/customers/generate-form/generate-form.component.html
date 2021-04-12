@@ -274,13 +274,17 @@
                         <mat-label>Total amount of rental</mat-label>
                         <input matInput formControlName="totalAmount" required>
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
-                        <mat-error>otal amount is required!</mat-error>
+                        <mat-error>total amount is required!</mat-error>
                     </mat-form-field>
 
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="end center" fxFlex="1 0 auto">
 
+                    <!--<button mat-raised-button color="accent" class="submit-button" aria-label="GENERATE" 
+                    [disabled]="generateForm.invalid" (click)="onGenerate()">                       
+                        <span >Generate</span>
+                    </button>-->
                     <button mat-raised-button color="accent" class="submit-button" aria-label="GENERATE" 
                     [disabled]="generateForm.invalid" (click)="onGenerate()">                       
                         <span >Generate</span>

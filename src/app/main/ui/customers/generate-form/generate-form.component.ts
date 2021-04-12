@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit , ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit , ViewEncapsulation, VERSION } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -8,12 +8,14 @@ import { Back } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
+import { Packer } from "docx";
+import * as fs from 'file-saver';
+import { DocumentCreator } from "./doc-creator";
+
 import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
 import { User } from 'app/models/user';
-import Swal from 'sweetalert2/dist/sweetalert2.js';  
-
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+import {  MomentDateAdapter } from '@angular/material-moment-adapter';
 
 export const MY_FORMATS = {
   parse: {
@@ -123,9 +125,47 @@ export class GenerateFormComponent implements OnInit {
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
+
+   makeId() : string 
+   {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return text;
+  }
+  
   onGenerate(): void
   {
-    Swal.fire('Yes!', 'The paperwork was succefully generated!', 'success');
+
+    const param = {
+      refKey: this.makeId(),
+      customerName : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
+      address : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'],
+      phoneNumber : this.generateForm.value['phoneNumber'],
+      products :  JSON.stringify(this.products),
+      term : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
+      startDate : new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10),
+      eachRepayment :  '',
+      firstPaymentDate : new Date(this.generateForm.value['firstPaymentDate']).toISOString().substring(0, 10),
+      frequency : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
+      leaseNumber :  this.generateForm.value['leaseNumber'],
+      totalAmount :  this.generateForm.value['totalAmount'],
+    }
+
+
+    let fileName : string = this.customerName + '.docx';
+
+    const documentCreator = new DocumentCreator();
+    const doc = documentCreator.create(param);
+
+    Packer.toBlob(doc).then(buffer => {
+      console.log(buffer);
+      fs.saveAs(buffer, fileName);
+      console.log("Document created successfully");
+    });
   } 
 
   setinitValue(): void 
