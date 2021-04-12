@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 
-import { Back, GetProductListError } from 'app/store/actions';
+import { Back, SaveAgreement } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -20,180 +20,196 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import {  MomentDateAdapter } from '@angular/material-moment-adapter';
 
 export const MY_FORMATS = {
-  parse: {
-      dateInput: 'LL'
-  },
-  display: {
-      dateInput: 'DD-MM-YYYY',
-      monthYearLabel: 'YYYY',
-      dateA11yLabel: 'LL',
-      monthYearA11yLabel: 'YYYY'
-  }
+    parse: {
+        dateInput: 'LL'
+    },
+    display: {
+        dateInput: 'DD-MM-YYYY',
+        monthYearLabel: 'YYYY',
+        dateA11yLabel: 'LL',
+        monthYearA11yLabel: 'YYYY'
+    }
 };
 
 @Component({
-  selector: 'app-generate-form',
-  templateUrl: './generate-form.component.html',
-  styleUrls: ['./generate-form.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ],
-  encapsulation: ViewEncapsulation.None,
-  animations   : fuseAnimations
+    selector: 'app-generate-form',
+    templateUrl: './generate-form.component.html',
+    styleUrls: ['./generate-form.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    ],
+    encapsulation: ViewEncapsulation.None,
+    animations   : fuseAnimations
 })
+
 export class GenerateFormComponent implements OnInit {
 
-  generateForm: FormGroup;
-  user: User;
-  type: string;
-  
-  customerId: number;
-  customerName: string;
+    generateForm: FormGroup;
+    user: User;
+    type: string;
+    
+    customerId: number;
+    customerName: string;
 
-  productList : any[] = [];
+    productList : any[] = [];
 
-  customer: any = null;
+    customer: any = null;
 
-  products: string[] = [];
-  costs: number[] = [];
-  counts: number[] = [];
-  displayProducts: string[] = [];
+    products: string[] = [];
+    costs: number[] = [];
+    counts: number[] = [];
+    displayProducts: string[] = [];
 
-  order: any;
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    order: any;
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {FormBuilder} _formBuilder
-   */
-  constructor(
-      private _formBuilder: FormBuilder,
-      private _activatedRoute: ActivatedRoute,
-      private _store: Store<AppState>,
-  )
-  {
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-      this.customerId = this._activatedRoute.snapshot.params.customerId;
-      this.customerName = this._activatedRoute.snapshot.params.customerName;
-      this.order = JSON.parse(localStorage.getItem('order'));
-      this.setProuctsAndCostsFromOrder(this.order);
-      this._store.dispatch(new GetProductList());
-      //this.mapCustomerStateToModel();
-      this.mapProductStateToModel();
-  }
+    /**
+     * Constructor
+     *
+     * @param {FormBuilder} _formBuilder
+     */
+    constructor(
+        private _formBuilder: FormBuilder,
+        private _activatedRoute: ActivatedRoute,
+        private _store: Store<AppState>,
+    )
+    {
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+        this.customerId = this._activatedRoute.snapshot.params.customerId;
+        this.customerName = this._activatedRoute.snapshot.params.customerName;
 
-  /**
-   * On init
-   */
-  ngOnInit(): void
-  {
-      // Reactive Form
-      this.generateForm = this._formBuilder.group({
-        firstName             : ['', Validators.required],
-        lastName              : ['', Validators.required],
-        phoneNumber           : ['', Validators.required],
-        address               : ['', Validators.required],
-        city                  : ['', Validators.required],
-        postCode              : ['', Validators.required],
-        state                 : ['', Validators.required],
-        product               : [''],
-        productQty            : [0],
-        displayProducts       : [''],
-        termLength            : ['', Validators.required],
-        startDate             : ['', Validators.required],
-        finishDate            : ['', Validators.required],
-        freqeuncyRepayment    : [52, Validators.required], 
-        firstPaymentDate      : ['', Validators.required],
-        leaseNumber           : ['', Validators.required],
-        totalAmount           : ['', Validators.required],
-        
-      });
-      console.log(this.order); 
-      this.mapUserStateToModel();
-      this.setinitValue();
-  }
+        this.order = JSON.parse(localStorage.getItem('order'));
+        this.setProuctsAndCostsFromOrder(this.order);
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void
-  {
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
-
-  // -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
-
-   makeId() : string 
-   {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-  
-    return text;
-  }
-  
-  onGenerate(): void
-  {
-    const param = {
-      refKey: this.makeId(),
-      customerName : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
-      address : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'],
-      phoneNumber : this.generateForm.value['phoneNumber'],
-      products :  JSON.stringify(this.products),
-      term : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
-      startDate : new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10),
-      eachRepayment :  '',
-      firstPaymentDate : new Date(this.generateForm.value['firstPaymentDate']).toISOString().substring(0, 10),
-      frequency : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
-      leaseNumber :  this.generateForm.value['leaseNumber'],
-      totalAmount :  this.generateForm.value['totalAmount'],
+        this._store.dispatch(new GetProductList());
+        this.mapProductStateToModel();
     }
 
-    let fileName : string = this.customerName + '.docx';
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-    const documentCreator = new DocumentCreator();
-    const doc = documentCreator.create(param);
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
+        // Reactive Form
+        this.generateForm = this._formBuilder.group({
+            firstName             : ['', Validators.required],
+            lastName              : ['', Validators.required],
+            phoneNumber           : ['', Validators.required],
+            address               : ['', Validators.required],
+            city                  : ['', Validators.required],
+            postCode              : ['', Validators.required],
+            state                 : ['', Validators.required],
+            product               : [''],
+            productQty            : [0],
+            displayProducts       : [''],
+            termLength            : ['', Validators.required],
+            startDate             : ['', Validators.required],
+            finishDate            : ['', Validators.required],
+            freqeuncyRepayment    : [52, Validators.required], 
+            firstPaymentDate      : ['', Validators.required],
+            leaseNumber           : ['', Validators.required],
+            totalAmount           : ['', Validators.required],
+            
+        });
+        console.log(this.order); 
+        this.mapUserStateToModel();
+        this.setinitValue();
+    }
 
-    Packer.toBlob(doc).then(buffer => {
-      console.log(buffer);
-      fs.saveAs(buffer, fileName);
-      console.log("Document created successfully");
-    });
-  } 
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 
-  setinitValue(): void 
-  {
-    //if(this.customer != null) {
-      this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
-      this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
-      //this.generateForm.controls['phoneNumber'].setValue(customer.last_name);
-      //this.generateForm.controls['address'].setValue(this.customer.city);
-      this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
-      this.generateForm.controls['startDate'].setValue(new Date(this.order.date_created_gmt).toISOString().substring(0, 10));
-      this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order).toISOString().substring(0, 10));
-      this.generateForm.controls['freqeuncyRepayment'].setValue(0);
-      //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
-      //this.generateForm.controls['leaseNumber'].setValue(customer.city);
-      //this.generateForm.controls['totalAmount'].setValue(this.order.total_sales);
-    //}
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-  }
-  getTermLenght(order: any) : number 
-  {
+    makeId() : string 
+    {
+        var text = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    
+        for (var i = 0; i < 5; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+        return text;
+    }
+    
+    onGenerate(): void
+    {   
+        let eachRepayment : number = 0;
+
+        this.costs.forEach((element, index) => {
+            eachRepayment += (element * this.counts[index]);
+        });
+
+        const param = {
+            refKey              : this.makeId(),
+            customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
+            address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'],
+            phoneNumber         : this.generateForm.value['phoneNumber'],
+            products            : JSON.stringify(this.products),
+            term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
+            startDate           : new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10),
+            eachRepayment       : eachRepayment,
+            firstPaymentDate    : new Date(this.generateForm.value['firstPaymentDate']).toISOString().substring(0, 10),
+            frequency           : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
+            leaseNumber         : this.generateForm.value['leaseNumber'],
+            totalAmount         : this.generateForm.value['totalAmount'],
+        }
+
+        let fileName : string = this.customerName + '.docx';
+
+        const documentCreator = new DocumentCreator();
+        const doc = documentCreator.create(param);
+
+        Packer.toBlob(doc).then(buffer => {
+            console.log(buffer);
+            fs.saveAs(buffer, fileName);
+            console.log("Document created successfully");
+        });
+
+        const payload = {
+            customer_id : this.customerId,
+            order_id : this.order.order_id,
+            meta_key : param.refKey,
+        }
+
+        this._store.dispatch(new SaveAgreement({agreement : payload}));
+    } 
+
+    setinitValue(): void 
+    {
+        //if(this.customer != null) {
+        this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
+        this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
+        //this.generateForm.controls['phoneNumber'].setValue(customer.last_name);
+        //this.generateForm.controls['address'].setValue(this.customer.city);
+        this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
+        this.generateForm.controls['startDate'].setValue(new Date(this.order.date_created_gmt).toISOString().substring(0, 10));
+        this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order).toISOString().substring(0, 10));
+        this.generateForm.controls['freqeuncyRepayment'].setValue(0);
+        //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
+        //this.generateForm.controls['leaseNumber'].setValue(customer.city);
+        //this.generateForm.controls['totalAmount'].setValue(this.order.total_sales);
+        //}
+
+    }
+    getTermLenght(order: any) : number 
+    {
         let order_item_metas: any = order.order_items[0].order_item_metas;
 
         let order_item_meta: any = order_item_metas.find(x => x.meta_key == 'pa_rental-period');
@@ -201,136 +217,140 @@ export class GenerateFormComponent implements OnInit {
         let termLength : string = order_item_meta ? order_item_meta.meta_value : '12-months';  
 
         if(termLength == '12-months')
-          return 1;
+            return 1;
+
         return 2;
-  }
+    }
 
-  getFinishDate(order: any) : Date 
-  {
-    let plusMonths : number = 12;
+    getFinishDate(order: any) : Date 
+    {
+        let plusMonths : number = 12;
 
-    if(this.getTermLenght(order) == 2)
-      plusMonths = 24;
+        if(this.getTermLenght(order) == 2)
+            plusMonths = 24;
 
-    let date: Date = new Date(this.order.date_created_gmt);
-    let finishDate:Date = new Date(date.setMonth(date.getMonth() + plusMonths));
+        let date: Date = new Date(this.order.date_created_gmt);
+        let finishDate:Date = new Date(date.setMonth(date.getMonth() + plusMonths));
 
-    return finishDate;
-  }
+        return finishDate;
+    }
 
-  setProuctsAndCostsFromOrder(order: any) : void
-  {
-    if(order == null )
-      return;
-    let order_items: any = order.order_items;
-    order_items.forEach(element => {
-      if(element.order_item_product.product != null){
-        this.products.push(element.order_item_product.product.post_title);
-      }
-      else
-        this.products.push(element.order_item_name);
-      
-      let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
-      this.costs.push(cost);
-      this.counts.push(Number(element.order_item_product.product_qty));
+    setProuctsAndCostsFromOrder(order: any) : void
+    {
+        if(order == null )
+            return;
+        
+        let order_items: any = order.order_items;
 
-      let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) x ' + Number(element.order_item_product.product_qty);
-      this.displayProducts.push(displayProduct);
-    });
-  }
+        order_items.forEach(element => {
+            if(element.order_item_product.product != null){
+                this.products.push(element.order_item_product.product.post_title);
+            }
+            else
+                this.products.push(element.order_item_name);
+            
+            let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
+            this.costs.push(cost);
+            this.counts.push(Number(element.order_item_product.product_qty));
 
-  addProduct() 
-  {
-    
-      let productID = this.generateForm.value['product'];
-      let product: any = this.productList.find(x => x.ID == productID);
-
-      this.products.push(product.post_name);
-      this.costs.push(product.product_meta.max_price);
-      this.counts.push(Number(this.generateForm.value['productQty']));
-
-      let displayProduct: string  = product.post_name + '( $' + product.product_meta.max_price + ' ) x ' + this.generateForm.value['productQty'];
-      this.displayProducts.push(displayProduct);
-
-      this.onChangeFreqeuncy();
-  }
-
-  removeDisplayProduct(displayProduct): void
-  {
-      this.displayProducts = this.displayProducts.filter(x => x != displayProduct);  
-  }
-
-  onChangeDate() : void 
-  {
-    let startDate: Date = new Date(this.generateForm.value['startDate']);
-    let termLength: number = 12 * this.generateForm.value['termLength'];
-    this.generateForm.controls['finishDate'].setValue(new Date(startDate.setMonth(startDate.getMonth() + termLength)).toISOString().substring(0, 10));
-  }
-
-  onChangeFreqeuncy(isForTermLenght:boolean = false) : void 
-  {
-      if(isForTermLenght)
-        this.onChangeDate();
-      let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
-      let termLength = this.generateForm.value['termLength'];
-      this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
-
-      let total_amount: number = 0;
-      this.costs.forEach((element, index) => {
-        console.log(this.counts[index]);
-        total_amount += element * this.counts[index] * freqeuncyRepayment * termLength;
-      });
-
-    this.generateForm.controls['totalAmount'].setValue(total_amount.toFixed(2));
-  }
-  backPath(): void 
-  {
-    this._store.dispatch(new Back());
-  }
-
-  mapUserStateToModel(): void
-  {
-    this.getAuthState().subscribe(state => {
-      if(state.user != null) {
-        this.user = new User(state.user);
-      }
-    });
-  }
-
-  mapCustomerStateToModel() : void
-  {
-    this.getCustomerState().subscribe(state => {
-      if(state.customerList != null) {
-        this.customer = state.customerList.find(x => x.customer_id == this.customerId);
-      }
-    }); 
-  }
-
-  mapProductStateToModel() : void
-  {
-    this.getProductState().subscribe(state => {
-      if(state.productList != null) {
-        this.productList = [];
-        state.productList.forEach(element => {
-            this.productList.push(element);
+            let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) x ' + Number(element.order_item_product.product_qty);
+            this.displayProducts.push(displayProduct);
         });
-      }
-    });
-  }
+    }
 
-  getAuthState() 
-  {
-    return this._store.select(getAuthState);
-  }
+    addProduct() 
+    {
+        
+        let productID = this.generateForm.value['product'];
+        let product: any = this.productList.find(x => x.ID == productID);
 
-  getCustomerState()
-  {
-    return this._store.select(getCustomerState);
-  }
+        this.products.push(product.post_name);
+        this.costs.push(product.product_meta.max_price);
+        this.counts.push(Number(this.generateForm.value['productQty']));
 
-  getProductState ()
-  {
-    return this._store.select(getProductState);
-  }
+        let displayProduct: string  = product.post_name + '( $' + product.product_meta.max_price + ' ) x ' + this.generateForm.value['productQty'];
+        this.displayProducts.push(displayProduct);
+
+        this.onChangeFreqeuncy();
+    }
+
+    removeDisplayProduct(displayProduct): void
+    {
+        this.displayProducts = this.displayProducts.filter(x => x != displayProduct);  
+    }
+
+    onChangeDate() : void 
+    {
+        let startDate: Date = new Date(this.generateForm.value['startDate']);
+        let termLength: number = 12 * this.generateForm.value['termLength'];
+        this.generateForm.controls['finishDate'].setValue(new Date(startDate.setMonth(startDate.getMonth() + termLength)).toISOString().substring(0, 10));
+    }
+
+    onChangeFreqeuncy(isForTermLenght:boolean = false) : void 
+    {
+        if(isForTermLenght)
+            this.onChangeDate();
+        let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
+        let termLength = this.generateForm.value['termLength'];
+        this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
+
+        let total_amount: number = 0;
+        this.costs.forEach((element, index) => {
+            console.log(this.counts[index]);
+            total_amount += element * this.counts[index] * freqeuncyRepayment * termLength;
+        });
+
+        this.generateForm.controls['totalAmount'].setValue(total_amount.toFixed(2));
+    }
+
+    backPath(): void 
+    {
+        this._store.dispatch(new Back());
+    }
+
+    mapUserStateToModel(): void
+    {
+        this.getAuthState().subscribe(state => {
+            if(state.user != null) {
+                this.user = new User(state.user);
+            }
+        });
+    }
+
+    mapCustomerStateToModel() : void
+    {
+        this.getCustomerState().subscribe(state => {
+            if(state.customerList != null) {
+                this.customer = state.customerList.find(x => x.customer_id == this.customerId);
+            }
+        }); 
+    }
+
+    mapProductStateToModel() : void
+    {
+        this.getProductState().subscribe(state => {
+        if(state.productList != null) {
+            this.productList = [];
+            state.productList.forEach(element => {
+                this.productList.push(element);
+            });
+        }
+        });
+    }
+
+    getAuthState() 
+    {
+        return this._store.select(getAuthState);
+    }
+
+    getCustomerState()
+    {
+        return this._store.select(getCustomerState);
+    }
+
+    getProductState ()
+    {
+        return this._store.select(getProductState);
+    }
 
 }

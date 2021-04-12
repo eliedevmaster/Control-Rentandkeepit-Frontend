@@ -3,7 +3,9 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, tap, switchMap, catchError } from 'rxjs/operators';
 import { CustomerActionTypes, GetCustomerList,
         GetCustomerListError,GetCustomerListComplete, 
-        GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer } from '../actions/customer.action';
+        GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
+        UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
+        SaveAgreementError, SaveAgreement, SaveAgreementComplete } from '../actions/customer.action';
 
 import { Router } from '@angular/router';
 
@@ -85,6 +87,26 @@ export class CustomerEffects
               catchError((error: Error) => {
                 Swal.fire('Ooops!', 'The customer profile update has failed', 'error');
                 return of(new UpdateCustomerError({ errorMessage: error.message }));
+              })
+            );
+      })
+    );
+
+
+    @Effect()
+    saveAgreement$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.SAVE_AGREEMENT),
+      map((action: SaveAgreement) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.saveAgreement(payload.agreement)
+            .pipe(
+            map((state) => {
+                Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
+                return new SaveAgreementComplete();
+            }),
+              catchError((error: Error) => {
+                Swal.fire('Ooops!', 'The agreement has invailed', 'error');
+                return of(new SaveAgreementError({ errorMessage: error.message }));
               })
             );
       })

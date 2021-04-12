@@ -10,7 +10,7 @@ export class DocumentCreator {
     {   
         const text_ref = "ref# : " + param.refKey;
 
-        const text1 = "Rent & Keep It Pty Ltd (ACN: 003 949 979) (Australian Credit License number 390807) of 41/464-480 Kent St, Sydney, NSW 2000. Tel: 1300 999 599 Fax: (02) 9475 0995 (“provider”) agrees to lease to the “Hirer” the Goods described below on the terms and conditions contained in this Schedule and the document titled Terms & Conditions.";
+        const text1 = "Rent & Keep It Pty Ltd (ACN: 003 949 979) (Australian Credit License number 390807) of 41/464-480 Kent St, Sydney, NSW 2000. Tel: 1300 999 599 Fax: (02) 9475 0995 Provider agrees to lease to " + param.customerName + " the Goods described below on the terms and conditions contained in this Schedule and the document titled Terms & Conditions.";
         
         const text2 = 'The Lease Agreement between Rent & Keep It Pty Ltd/Provider and the Hirer consist of the following documents.';
         
@@ -62,7 +62,7 @@ export class DocumentCreator {
         const text29 = 'Address:	           _____________________	                             Address:           _____________________';
         const text30 = '	           _____________________			                          _____________________';
 
-        const text31 = 'Relationship:     _____________________			Relationship:	____________________';
+        const text31 = 'Relationship:     _____________________			Relationship:     _____________________';
 
 
 

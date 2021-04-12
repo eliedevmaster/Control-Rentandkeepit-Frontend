@@ -11,6 +11,17 @@ export class CustomerService {
 
   constructor(private http: HttpClient, private authService: AuthService) { }
 
+  saveAgreement(param: any) : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/customers/agreement`;
+    const body = {
+        customer_id       : param.customer_id,
+        order_id          : param.order_id,
+        meta_key          : param.meta_key,
+    }
+    return this.http.post(url, body, {headers: this.authService.authHeaders()});
+  }
+
   updateCustomer(param: any) : Observable<any> 
   {
     const url = `${env.backendBaseUrl}/api/customers/` + param.id;
