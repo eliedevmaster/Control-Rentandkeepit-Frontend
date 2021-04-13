@@ -85,8 +85,6 @@ export class GenerateFormComponent implements OnInit {
         this.order = JSON.parse(localStorage.getItem('order'));
         this.setProuctsAndCostsFromOrder(this.order);
 
-        this._store.dispatch(new GetProductList());
-        this.mapProductStateToModel();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -107,8 +105,8 @@ export class GenerateFormComponent implements OnInit {
             city                  : ['', Validators.required],
             postCode              : ['', Validators.required],
             state                 : ['', Validators.required],
-            product               : [''],
-            productQty            : [0],
+            productName           : [''],
+            productPrice          : [0],
             displayProducts       : [''],
             termLength            : ['', Validators.required],
             startDate             : ['', Validators.required],
@@ -153,7 +151,7 @@ export class GenerateFormComponent implements OnInit {
         let eachRepayment : number = 0;
 
         this.costs.forEach((element, index) => {
-            eachRepayment += (element * this.counts[index]);
+            eachRepayment += element;
         });
 
         const param = {
@@ -251,32 +249,30 @@ export class GenerateFormComponent implements OnInit {
             
             let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
             this.costs.push(cost);
-            this.counts.push(Number(element.order_item_product.product_qty));
 
-            let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) x ' + Number(element.order_item_product.product_qty);
+            let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) ';
             this.displayProducts.push(displayProduct);
         });
     }
 
     addProduct() 
     {
-        
-        let productID = this.generateForm.value['product'];
-        let product: any = this.productList.find(x => x.ID == productID);
+        this.products.push(this.generateForm.value['productName']);
+        this.costs.push(Number(this.generateForm.value['productPrice']));
 
-        this.products.push(product.post_name);
-        this.costs.push(product.product_meta.max_price);
-        this.counts.push(Number(this.generateForm.value['productQty']));
-
-        let displayProduct: string  = product.post_name + '( $' + product.product_meta.max_price + ' ) x ' + this.generateForm.value['productQty'];
+        let displayProduct: string  = this.generateForm.value['productName'] + '( $' + this.generateForm.value['productPrice'] + ' )';
         this.displayProducts.push(displayProduct);
-
-        this.onChangeFreqeuncy();
+        this.setTotalAmount();
     }
 
     removeDisplayProduct(displayProduct): void
     {
-        this.displayProducts = this.displayProducts.filter(x => x != displayProduct);  
+        let index: number =  this.displayProducts.indexOf(displayProduct);
+        this.products.splice(index, 1);
+        this.costs.splice(index, 1);
+        //this.displayProducts = this.displayProducts.filter(x => x != displayProduct);  
+        this.displayProducts.splice(index, 1);
+        this.setTotalAmount();
     }
 
     onChangeDate() : void 
@@ -294,12 +290,19 @@ export class GenerateFormComponent implements OnInit {
         let termLength = this.generateForm.value['termLength'];
         this.generateForm.controls['leaseNumber'].setValue(freqeuncyRepayment * termLength);
 
-        let total_amount: number = 0;
-        this.costs.forEach((element, index) => {
-            console.log(this.counts[index]);
-            total_amount += element * this.counts[index] * freqeuncyRepayment * termLength;
-        });
+        this.setTotalAmount();
+    }
 
+    setTotalAmount() : void 
+    {
+        let total_amount: number = 0;
+
+        let freqeuncyRepayment = this.generateForm.value['freqeuncyRepayment'];
+        let termLength = this.generateForm.value['termLength'];
+
+        this.costs.forEach(element => {
+            total_amount += element *  freqeuncyRepayment * termLength;
+        })
         this.generateForm.controls['totalAmount'].setValue(total_amount.toFixed(2));
     }
 

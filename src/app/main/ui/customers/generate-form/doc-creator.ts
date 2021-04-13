@@ -5,9 +5,18 @@ import { AlignmentType, Document, HeadingLevel, Packer,
          convertInchesToTwip,
          LevelFormat, UnderlineType, PageBreak, PageNumber, PageNumberFormat, Footer} from "docx";
 
+import * as fs from 'file-system';
+
 export class DocumentCreator {
     public create(param: any): Document 
     {   
+        const contact_text1 = 'Rent & Keep It Pty Ltd';
+        const contact_text2 = 'Suite 560/41, 464-480 Kent St';
+        const contact_text3 = 'Sydney NSW 2000';
+        const contact_text4 = 'Phone: 1300 999 599 | Fax: 02 9475 0995';
+        const contact_text5 = 'Email: info@rentandkeepit.com.au';
+        const contact_text6 = 'www.rentandkeepit.com.au';
+        
         const text_ref = "ref# : " + param.refKey;
 
         const text1 = "Rent & Keep It Pty Ltd (ACN: 003 949 979) (Australian Credit License number 390807) of 41/464-480 Kent St, Sydney, NSW 2000. Tel: 1300 999 599 Fax: (02) 9475 0995 Provider agrees to lease to " + param.customerName + " the Goods described below on the terms and conditions contained in this Schedule and the document titled Terms & Conditions.";
@@ -64,7 +73,7 @@ export class DocumentCreator {
 
         const text31 = 'Relationship:     _____________________			Relationship:     _____________________';
 
-
+        console.log('fs', fs);
 
         const doc = new Document({
             creator: "Clippy",
@@ -190,6 +199,50 @@ export class DocumentCreator {
                     },
 
                     children: [
+                        new Paragraph({
+                            text : contact_text1,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                before: 10,
+                                after: 40,
+                            },
+                        }),
+                        new Paragraph({
+                            text : contact_text2,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                after: 40,
+                            },
+                        }),
+                        new Paragraph({
+                            text : contact_text3,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                after: 40,
+                            },
+                        }),
+                        new Paragraph({
+                            text : contact_text4,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                after: 40,
+                            },
+                        }),
+                        new Paragraph({
+                            text : contact_text5,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                after: 40,
+                            },
+                        }),
+                        new Paragraph({
+                            text : contact_text6,
+                            alignment: AlignmentType.RIGHT,
+                            spacing: {
+                                after: 350,
+                            },
+                        }),
+                        
                         new Paragraph({
                             text: "SCHEDULE LEASE AGREEMENT",
                             heading: HeadingLevel.HEADING_1,

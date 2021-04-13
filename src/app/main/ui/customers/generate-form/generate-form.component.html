@@ -164,23 +164,18 @@
                 <br><br>
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                    <mat-form-field appearance="outline" fxFlex="70" class="px-8">
-                        <mat-label>Products</mat-label>
-                        <mat-select formControlName="product">
-                            <mat-option *ngFor="let product of productList" [value]="product.ID">
-                                <span>{{product.post_name}} ( ${{product.product_meta.max_price}} )</span>
-                            </mat-option>
-                            
-                        </mat-select>
-                        <mat-icon matSuffix class="secondary-text">product</mat-icon>
-                        <mat-error>Product is required!</mat-error>
+                    <mat-form-field appearance="outline" fxFlex="60" class="px-8">
+                        <mat-label>Product Name</mat-label>
+                        <input matInput formControlName="productName">
+                        <mat-icon matSuffix class="secondary-text">shopping_cart</mat-icon>
+                        <mat-error>Product Name is required!</mat-error>
                     </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
-                        <mat-label>Product quantity</mat-label>
-                        <input matInput type="number" formControlName="productQty" required>
-                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                        <mat-error>Product Quantity is required!</mat-error>
+                    
+                    <mat-form-field appearance="outline" fxFlex="35" class="px-8">
+                        <mat-label>Product price</mat-label>
+                        <input matInput type="number" formControlName="productPrice">
+                        <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
+                        <mat-error>Price is required!</mat-error>
                     </mat-form-field>
 
                     <button mat-fab color="warn" class="add-file-button" aria-label="Add Product" style="margin-top: -20px;"
