@@ -25,20 +25,23 @@ export class DocumentCreator {
         
         const text3 = 'Rent & Keep It Pty Ltd (ACN 003 949 979) of 41/464-480 Kent St, Sydney, NSW 2000.';
         
-        const text4 = param.customerName + ' of ' + param.address +  '       Tel: ' + param.phoneNumber;
+        const text4 = "[" + param.customerName + "]" + ' of ' + "[" +  param.address + "]" + '       Tel: ' + param.phoneNumber;
         
+
         const text5 = 'The goods being hired are:		              New ' + param.products;
-        const text6 = 'To be kept at:				' + param.address;
+        const text6 = 'To be kept at:				[' + param.address + "]";
 
         const text7 = 'THE LEASE AGREEMENT';
         const text8 = '– Summary of financial Information:';
 
         const text9 = 'Term                                                    ' + param.term + ' ';
-        const text10 = "commencing on the " + param.startDate;
+
+        let startDate = new Date(param.startDate);
+        const text10 = "commencing on the [" + startDate.getDay() + '] day of [' + startDate.getMonth() + 1 + "] [" + startDate.getFullYear + "]";
 
         const text11 = 'Amount of each repayment                  $' + param.eachRepayment;
         const text12 = 'Frequency of repayments                    ' + param.frequency;
-        const text13 = 'Your First Payment Date is                 ' + param.firstPaymentDate;
+        const text13 = 'Your First Payment Date is                 [' + param.firstPaymentDate + ']';
         const text14 = 'The number of Payments';
         const text14_1 = 'under the lease is			   ' + param.leaseNumber + ' equal repayments';
         
@@ -81,7 +84,7 @@ export class DocumentCreator {
                 default: {
                     heading1: {
                         run: {
-                            size: 28,
+                            size: 35,
                             bold: true,
                             color: "blue",
                         },
@@ -242,7 +245,11 @@ export class DocumentCreator {
                         }),
                         
                         new Paragraph({
-                            text: "SCHEDULE LEASE AGREEMENT",
+                            text: "SCHEDULE",
+                            heading: HeadingLevel.HEADING_1,
+                        }),
+                        new Paragraph({
+                            text: "LEASE AGREEMENT",
                             heading: HeadingLevel.HEADING_1,
                         }),
 

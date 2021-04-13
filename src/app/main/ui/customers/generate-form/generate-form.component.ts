@@ -2,16 +2,11 @@ import { Component, OnDestroy, OnInit , ViewEncapsulation, VERSION } from '@angu
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { environment as env } from '../../../../../environments/environment';
 
-import { Back, SaveAgreement } from 'app/store/actions';
+import { Back, SaveAgreement, DownLoadDocx, DownLoadDocxComplete } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
-
-import { Packer } from "docx";
-import * as fs from 'file-saver';
-import { DocumentCreator } from "./doc-creator";
-import { FileUploadService } from 'app/core/services/file-upload.service';
 
 import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
@@ -125,9 +120,6 @@ export class GenerateFormComponent implements OnInit {
         this.mapUserStateToModel();
         this.setinitValue();
 
-        this._customerService.getHeadImageForDocx().subscribe(state => {
-            console.log(state);
-        });
     }
 
     /**
@@ -147,7 +139,7 @@ export class GenerateFormComponent implements OnInit {
     makeId() : string 
     {
         var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var possible = "0123456789";
     
         for (var i = 0; i < 5; i++)
             text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -158,9 +150,11 @@ export class GenerateFormComponent implements OnInit {
     {   
         let eachRepayment : number = 0;
 
-        this.costs.forEach((element, index) => {
+        this.costs.forEach((element) => {
             eachRepayment += element;
         });
+
+        let startDate = new Date(this.generateForm.value['startDate']);
 
         const param = {
             refKey              : this.makeId(),
@@ -170,7 +164,9 @@ export class GenerateFormComponent implements OnInit {
             postCode            : this.generateForm.value['postCode'],
             products            : JSON.stringify(this.products),
             term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
-            startDate           : new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10),
+            startDate_day       : startDate.getDay().toString(),
+            startDate_month     : startDate.toLocaleString('default', { month: 'long' }),
+            startDate_year      : startDate.getFullYear().toString(),
             eachRepayment       : eachRepayment,
             firstPaymentDate    : new Date(this.generateForm.value['firstPaymentDate']).toISOString().substring(0, 10),
             frequency           : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
@@ -178,17 +174,21 @@ export class GenerateFormComponent implements OnInit {
             totalAmount         : this.generateForm.value['totalAmount'],
         }
 
-        let fileName : string = this.customerName + '.docx';
-
-        const documentCreator = new DocumentCreator();
-        const doc = documentCreator.create(param, this.headImage);
-
-        Packer.toBlob(doc).then(buffer => {
-            console.log(buffer);
-            fs.saveAs(buffer, fileName);
-            console.log("Document created successfully");
-        });
-
+        window.location.href =  `${env.backendBaseUrl}/download/` + param.refKey + '/'
+                                                                  + param.customerName + '/'
+                                                                  + param.address + '/'
+                                                                  + param.phoneNumber + '/'
+                                                                  + param.postCode + '/'
+                                                                  + param.products + '/'
+                                                                  + param.term + '/'
+                                                                  + param.startDate_day + '/'
+                                                                  + param.startDate_month + '/'
+                                                                  + param.startDate_year + '/'
+                                                                  + param.eachRepayment + '/'
+                                                                  + param.firstPaymentDate + '/'
+                                                                  + param.frequency + '/'
+                                                                  + param.leaseNumber + '/'
+                                                                  + param.totalAmount;       
         const payload = {
             customer_id : this.customerId,
             order_id : this.order.order_id,

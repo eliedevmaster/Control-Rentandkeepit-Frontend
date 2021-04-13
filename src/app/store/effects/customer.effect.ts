@@ -5,7 +5,7 @@ import { CustomerActionTypes, GetCustomerList,
         GetCustomerListError,GetCustomerListComplete, 
         GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
         UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
-        SaveAgreementError, SaveAgreement, SaveAgreementComplete } from '../actions/customer.action';
+        SaveAgreementError, SaveAgreement, SaveAgreementComplete, DownLoadDocxComplete, DownLoadDocx } from '../actions/customer.action';
 
 import { Router } from '@angular/router';
 
@@ -109,6 +109,21 @@ export class CustomerEffects
                 return of(new SaveAgreementError({ errorMessage: error.message }));
               })
             );
+      })
+    );
+
+    @Effect()
+    downLoadDocx$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.DOWN_LOAD_DOCX),
+      map((action: DownLoadDocx) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.downLoadDocx()
+            .pipe(
+            map((state) => {
+                Swal.fire('Yes!', 'DownLoad', 'success');
+                return new DownLoadDocxComplete();
+            })
+          );
       })
     );
     
