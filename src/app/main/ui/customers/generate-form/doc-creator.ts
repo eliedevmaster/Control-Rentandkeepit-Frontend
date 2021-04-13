@@ -5,8 +5,6 @@ import { AlignmentType, Document, HeadingLevel, Packer,
          convertInchesToTwip,
          LevelFormat, UnderlineType, PageBreak, PageNumber, PageNumberFormat, Footer} from "docx";
 
-import * as fs from 'file-system';
-
 export class DocumentCreator {
     public create(param: any): Document 
     {   
@@ -72,8 +70,6 @@ export class DocumentCreator {
         const text30 = '	           _____________________			                          _____________________';
 
         const text31 = 'Relationship:     _____________________			Relationship:     _____________________';
-
-        console.log('fs', fs);
 
         const doc = new Document({
             creator: "Clippy",
