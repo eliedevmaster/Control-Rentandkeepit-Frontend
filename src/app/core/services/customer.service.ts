@@ -48,4 +48,9 @@ export class CustomerService {
     return this.http.get(url, {headers: this.authService.authHeaders()});
   }
 
+  getHeadImageForDocx()
+  {
+    const url = `${env.backendBaseUrl}/api/customers/headimage`;
+    return this.http.get(url, {headers: this.authService.authHeaders()});  
+  }
 }

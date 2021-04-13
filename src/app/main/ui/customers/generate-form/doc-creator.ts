@@ -6,8 +6,10 @@ import { AlignmentType, Document, HeadingLevel, Packer,
          LevelFormat, UnderlineType, PageBreak, PageNumber, PageNumberFormat, Footer} from "docx";
 
 export class DocumentCreator {
-    public create(param: any): Document 
+
+    public create(param: any, headImage: any): Document 
     {   
+        
         const contact_text1 = 'Rent & Keep It Pty Ltd';
         const contact_text2 = 'Suite 560/41, 464-480 Kent St';
         const contact_text3 = 'Sydney NSW 2000';

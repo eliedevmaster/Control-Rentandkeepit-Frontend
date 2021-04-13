@@ -20,9 +20,11 @@ export class FileUploadService {
     return headers;
   }
 
-  public upload(formData) 
+  upload(formData) 
   {
     const url = `${env.backendBaseUrl}/api/assets`;
     return this.http.post<any>(url, formData,  {reportProgress: true, observe: 'events', headers: this.authFileUploadHeaders()});  
   }
+
+  
 }

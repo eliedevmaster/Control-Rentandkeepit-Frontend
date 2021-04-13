@@ -203,48 +203,6 @@
                 <br><br>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
-                        <mat-label>Term length</mat-label>
-                        <mat-select formControlName="termLength" (selectionChange)="onChangeFreqeuncy(true)" required>
-                            <mat-option [value]="1">
-                                <span>12-months</span>
-                            </mat-option>
-                            <mat-option [value]="2">
-                                <span>24-months</span>
-                            </mat-option>
-                        </mat-select>
-                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
-                        <mat-error>Term length is required!</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="25">
-                        <mat-label>Commencement date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="startDate" (selectionChange)="onChangeDate()" required>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                        <mat-error>Commencement date is required!</mat-error>
-                    </mat-form-field>
-
-                    
-                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
-                        <mat-label>Finish date</mat-label>
-                        <input matInput [matDatepicker]="picker2" formControlName="finishDate" required>
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                        <mat-datepicker #picker2></mat-datepicker>
-                        <mat-error>Finish date is required!</mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
-                        <mat-label>First payment date</mat-label>
-                        <input matInput [matDatepicker]="picker1" formControlName="firstPaymentDate" required>
-                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                        <mat-datepicker #picker1></mat-datepicker>
-                        <mat-error>First payment date is required!</mat-error>
-                    </mat-form-field>
-                </div>
-                
-                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
-
                     <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                         <mat-label>Freqeuncy of repayment</mat-label>
                         <mat-select formControlName="freqeuncyRepayment" (selectionChange)="onChangeFreqeuncy()" required>
@@ -259,18 +217,61 @@
                         <mat-error>Freqeuncy of repayment is required!</mat-error>
                     </mat-form-field>
 
+                    <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                        <mat-label>Term length</mat-label>
+                        <mat-select formControlName="termLength" (selectionChange)="onChangeFreqeuncy(true)" required>
+                            <mat-option [value]="1">
+                                <span>12-months</span>
+                            </mat-option>
+                            <mat-option [value]="2">
+                                <span>24-months</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                        <mat-error>Term length is required!</mat-error>
+                    </mat-form-field>
+
                     <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                         <mat-label>Number of payments under the lease</mat-label>
                         <input matInput formControlName="leaseNumber" required>
                         <mat-icon matSuffix class="secondary-text">flag</mat-icon>
                         <mat-error>Country is required!</mat-error>
                     </mat-form-field>
+                    
+                </div>
+                
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
                         <mat-label>Total amount of rental</mat-label>
                         <input matInput formControlName="totalAmount" required>
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                         <mat-error>total amount is required!</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
+                        <mat-label>First payment date</mat-label>
+                        <input matInput [matDatepicker]="picker1" formControlName="firstPaymentDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                        <mat-datepicker #picker1></mat-datepicker>
+                        <mat-error>First payment date is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="25">
+                        <mat-label>Commencement date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="startDate" (selectionChange)="onChangeDate()" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>Commencement date is required!</mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="outline" fxFlex="25" class="px-8">
+                        <mat-label>Finish date</mat-label>
+                        <input matInput [matDatepicker]="picker2" formControlName="finishDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                        <mat-datepicker #picker2></mat-datepicker>
+                        <mat-error>Finish date is required!</mat-error>
                     </mat-form-field>
 
                 </div>

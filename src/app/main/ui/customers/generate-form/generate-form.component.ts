@@ -11,13 +11,14 @@ import { fuseAnimations } from '@fuse/animations';
 import { Packer } from "docx";
 import * as fs from 'file-saver';
 import { DocumentCreator } from "./doc-creator";
+import { FileUploadService } from 'app/core/services/file-upload.service';
 
-import { GetProductList } from 'app/store/actions';
 import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {  MomentDateAdapter } from '@angular/material-moment-adapter';
+import { CustomerService } from 'app/core/services/customer.service';
 
 export const MY_FORMATS = {
     parse: {
@@ -62,6 +63,8 @@ export class GenerateFormComponent implements OnInit {
     displayProducts: string[] = [];
 
     order: any;
+
+    headImage: any;
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -73,6 +76,7 @@ export class GenerateFormComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private _activatedRoute: ActivatedRoute,
+        private _customerService: CustomerService,
         private _store: Store<AppState>,
     )
     {
@@ -120,6 +124,10 @@ export class GenerateFormComponent implements OnInit {
         console.log(this.order); 
         this.mapUserStateToModel();
         this.setinitValue();
+
+        this._customerService.getHeadImageForDocx().subscribe(state => {
+            console.log(state);
+        });
     }
 
     /**
@@ -159,6 +167,7 @@ export class GenerateFormComponent implements OnInit {
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
             address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'],
             phoneNumber         : this.generateForm.value['phoneNumber'],
+            postCode            : this.generateForm.value['postCode'],
             products            : JSON.stringify(this.products),
             term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
             startDate           : new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10),
@@ -172,7 +181,7 @@ export class GenerateFormComponent implements OnInit {
         let fileName : string = this.customerName + '.docx';
 
         const documentCreator = new DocumentCreator();
-        const doc = documentCreator.create(param);
+        const doc = documentCreator.create(param, this.headImage);
 
         Packer.toBlob(doc).then(buffer => {
             console.log(buffer);
