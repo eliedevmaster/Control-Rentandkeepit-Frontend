@@ -159,7 +159,7 @@ export class GenerateFormComponent implements OnInit {
         const param = {
             refKey              : this.makeId(),
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
-            address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'],
+            address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'] + ', ' + this.generateForm.value['postCode'],
             phoneNumber         : this.generateForm.value['phoneNumber'],
             postCode            : this.generateForm.value['postCode'],
             products            : JSON.stringify(this.products),
