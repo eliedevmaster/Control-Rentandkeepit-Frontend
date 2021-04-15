@@ -164,8 +164,9 @@ export class GenerateFormComponent implements OnInit {
         let productText: string = products.slice(0, -1); 
 
         let firstPaymentDate = new Date(this.generateForm.value['firstPaymentDate']);
-        let firstPaymentDateString: string = firstPaymentDate.getDay().toString() + '-' + (firstPaymentDate.getMonth() + 1).toString() + '-' + firstPaymentDate.getFullYear().toString()
-
+        let firstPaymentDateString: string = firstPaymentDate.getDate().toString() + '-' + (firstPaymentDate.getMonth() + 1).toString() + '-' + firstPaymentDate.getFullYear().toString()
+        console.log(this.generateForm.value['firstPaymentDate']);
+        console.log(firstPaymentDateString);
         const param = {
             refKey              : this.makeId(),
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
@@ -174,7 +175,7 @@ export class GenerateFormComponent implements OnInit {
             postCode            : this.generateForm.value['postCode'],
             products            : productText,
             term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
-            startDate_day       : startDate.getDay().toString(),
+            startDate_day       : startDate.getDate().toString(),
             startDate_month     : startDate.toLocaleString('default', { month: 'long' }),
             startDate_year      : startDate.getFullYear().toString(),
             eachRepayment       : eachRepayment,
@@ -216,8 +217,9 @@ export class GenerateFormComponent implements OnInit {
         //this.generateForm.controls['phoneNumber'].setValue(customer.last_name);
         //this.generateForm.controls['address'].setValue(this.customer.city);
         this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
-        this.generateForm.controls['startDate'].setValue(new Date(this.order.date_created_gmt).toISOString().substring(0, 10));
-        this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order).toISOString().substring(0, 10));
+        let start_date = new Date(this.order.date_created_gmt).toISOString().substring(0, 10);
+        this.generateForm.controls['startDate'].setValue(start_date);
+        this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
         this.generateForm.controls['freqeuncyRepayment'].setValue(0);
         //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
         //this.generateForm.controls['leaseNumber'].setValue(customer.city);
@@ -239,19 +241,24 @@ export class GenerateFormComponent implements OnInit {
         return 2;
     }
 
-    getFinishDate(order: any) : Date 
+    getFinishDate(order: any, start_date: string) : Date 
     {
         let plusMonths : number = 12;
 
         if(this.getTermLenght(order) == 2)
             plusMonths = 24;
 
-        let date: Date = new Date(this.order.date_created_gmt);
+        let date: Date = new Date(start_date);
         let finishDate:Date = new Date(date.setMonth(date.getMonth() + plusMonths));
 
         return finishDate;
     }
 
+    changeDate ()
+    {
+        let start_date = new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10);
+        this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
+    }
     setProuctsAndCostsFromOrder(order: any) : void
     {
         if(order == null )

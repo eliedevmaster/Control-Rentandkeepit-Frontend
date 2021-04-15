@@ -264,9 +264,9 @@
 
                     <mat-form-field appearance="outline" fxFlex="25">
                         <mat-label>Commencement date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="startDate" (selectionChange)="onChangeDate()" required>
+                        <input matInput [matDatepicker]="picker" formControlName="startDate" required>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-datepicker #picker (selectedChanged)="onChangeDate()"></mat-datepicker>
                         <mat-error>Commencement date is required!</mat-error>
                     </mat-form-field>
                     
