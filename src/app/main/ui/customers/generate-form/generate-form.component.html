@@ -162,6 +162,7 @@
                     </mat-form-field>
                 </div>
                 <br><br>
+
                 <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field appearance="outline" fxFlex="60" class="px-8">
@@ -183,24 +184,9 @@
                         <mat-icon>add</mat-icon>
                     </button>
                 </div>
-                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
-                    <mat-form-field  appearance="outline" floatLabel="always" fxFlex="100" class="w-100-p">
-                        <mat-label>Ordered Products</mat-label>
-    
-                        <mat-chip-list #costList name="displayProducts" formControlName="displayProducts">
-                            <mat-chip *ngFor="let displayProduct of displayProducts"
-                                     [removable]="true" (removed)="removeDisplayProduct(displayProduct)">
-                                {{displayProduct}}
-                                <mat-icon matChipRemove>cancel</mat-icon>
-                            </mat-chip>
-                            <input [matChipInputFor]="costList"
-                                   [matChipInputAddOnBlur]="true"
-                                   required
-                            />
-                        </mat-chip-list>
-                    </mat-form-field>
-                </div>
-                <br><br>
+                
+                
+                
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                     <mat-form-field appearance="outline" fxFlex="33" class="px-8">
@@ -239,7 +225,26 @@
                     </mat-form-field>
                     
                 </div>
-                
+                <br><br>
+
+                <div fxLayout="row wrap" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-form-field  appearance="outline" floatLabel="always" fxFlex="100" class="w-100-p">
+                        <mat-label>Ordered Products</mat-label>
+    
+                        <mat-chip-list #costList name="displayProducts" formControlName="displayProducts">
+                            <mat-chip *ngFor="let displayProduct of displayProducts"
+                                     [removable]="true" (removed)="removeDisplayProduct(displayProduct)">
+                                {{displayProduct}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input [matChipInputFor]="costList"
+                                   [matChipInputAddOnBlur]="true"
+                                   required
+                            />
+                        </mat-chip-list>
+                    </mat-form-field>
+                </div>
+
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
                     <mat-form-field appearance="outline" fxFlex="25" class="px-8">
@@ -248,7 +253,6 @@
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                         <mat-error>total amount is required!</mat-error>
                     </mat-form-field>
-
 
                     <mat-form-field appearance="outline" fxFlex="25" class="px-8">
                         <mat-label>First payment date</mat-label>

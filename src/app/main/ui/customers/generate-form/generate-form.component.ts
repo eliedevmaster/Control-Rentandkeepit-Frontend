@@ -156,19 +156,29 @@ export class GenerateFormComponent implements OnInit {
 
         let startDate = new Date(this.generateForm.value['startDate']);
 
+        let products: string = '';
+        
+        this.products.forEach(element => {
+            products = products + element + ',';
+        });
+        let productText: string = products.slice(0, -1); 
+
+        let firstPaymentDate = new Date(this.generateForm.value['firstPaymentDate']);
+        let firstPaymentDateString: string = firstPaymentDate.getDay().toString() + '-' + (firstPaymentDate.getMonth() + 1).toString() + '-' + firstPaymentDate.getFullYear().toString()
+
         const param = {
             refKey              : this.makeId(),
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
             address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'] + ', ' + this.generateForm.value['postCode'],
             phoneNumber         : this.generateForm.value['phoneNumber'],
             postCode            : this.generateForm.value['postCode'],
-            products            : JSON.stringify(this.products),
+            products            : productText,
             term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
             startDate_day       : startDate.getDay().toString(),
             startDate_month     : startDate.toLocaleString('default', { month: 'long' }),
             startDate_year      : startDate.getFullYear().toString(),
             eachRepayment       : eachRepayment,
-            firstPaymentDate    : new Date(this.generateForm.value['firstPaymentDate']).toISOString().substring(0, 10),
+            firstPaymentDate    : firstPaymentDateString, 
             frequency           : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
             leaseNumber         : this.generateForm.value['leaseNumber'],
             totalAmount         : this.generateForm.value['totalAmount'],
