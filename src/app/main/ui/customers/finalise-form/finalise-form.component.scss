@@ -2,7 +2,9 @@
 
     .content {
         margin-top: -50px;
-
+        
+        
+        
         form {
             width: 100%;
             max-width: 1300px !important;
@@ -11,8 +13,10 @@
                 margin-bottom: 25px;
                 margin-top: -9px;
             } 
+             
         }
 
+        
         .form-errors-model {
             flex: 1;
 
@@ -28,6 +32,5 @@
     }
 }
 .back:hover {
-
     cursor: pointer;
 }

@@ -9,6 +9,8 @@ import { AuthService } from '../services/auth.service';
 })
 export class CustomerService {
 
+  productInfo: any;
+  
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   saveAgreement(param: any) : Observable<any>

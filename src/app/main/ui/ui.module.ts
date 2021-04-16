@@ -24,7 +24,7 @@ import { CustomerListModule } from 'app/main/ui/customers/customer-list/customer
 import { CustomerOrderListModule } from 'app/main/ui/customers/customer-order-list/customer-order-list.module';
 import { CustomerFormModule } from 'app/main/ui/customers/customer-form/customer-form.module';
 import { GenerateFormModule } from 'app/main/ui/customers/generate-form/generate-form.module';
-
+import { FinaliseFormModule } from 'app/main/ui/customers/finalise-form/finalise-form.module';
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -75,6 +75,7 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CustomerOrderListModule,
         CustomerFormModule,
         GenerateFormModule,
+        FinaliseFormModule,
         
         /************************* */
 

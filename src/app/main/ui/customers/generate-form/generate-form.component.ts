@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment as env } from '../../../../../environments/environment';
 
-import { Back, SaveAgreement, DownLoadDocx, DownLoadDocxComplete } from 'app/store/actions';
+import { Go, Back, SaveAgreement } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -54,10 +54,11 @@ export class GenerateFormComponent implements OnInit {
 
     products: string[] = [];
     costs: number[] = [];
-    counts: number[] = [];
     displayProducts: string[] = [];
 
     order: any;
+
+    enableFinaliseButton: boolean = false;
 
     headImage: any;
     // Private
@@ -86,6 +87,14 @@ export class GenerateFormComponent implements OnInit {
 
     }
 
+    get productInfo(): any {
+        return this._customerService.productInfo;
+    }
+
+    set productInfo(value: any) {
+        this._customerService.productInfo = value;
+    }
+    
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -96,6 +105,7 @@ export class GenerateFormComponent implements OnInit {
     ngOnInit(): void
     {
         // Reactive Form
+        localStorage.removeItem('productInfo');
         this.generateForm = this._formBuilder.group({
             firstName             : ['', Validators.required],
             lastName              : ['', Validators.required],
@@ -207,24 +217,32 @@ export class GenerateFormComponent implements OnInit {
         }
 
         this._store.dispatch(new SaveAgreement({agreement : payload}));
+        this.enableFinaliseButton = true;
     } 
+
+    onFinalise(): void
+    {
+        const orderedProdcuts = {
+            products    : this.products,
+            costs       : this.costs,
+            leaseNumber : this.generateForm.value['leaseNumber'],
+        };
+
+        //this.productInfo = orderedProdcuts;
+        localStorage.setItem('productInfo', JSON.stringify(orderedProdcuts));
+        this._store.dispatch(new Go({path: ['/ui/customers/finalise-form/' + this.customerId + '/' + this.customerName], query: null, extras: null}));
+    }
 
     setinitValue(): void 
     {
-        //if(this.customer != null) {
         this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
         this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
-        //this.generateForm.controls['phoneNumber'].setValue(customer.last_name);
-        //this.generateForm.controls['address'].setValue(this.customer.city);
+     
         this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
         let start_date = new Date(this.order.date_created_gmt).toISOString().substring(0, 10);
         this.generateForm.controls['startDate'].setValue(start_date);
         this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
         this.generateForm.controls['freqeuncyRepayment'].setValue(0);
-        //this.generateForm.controls['firstPaymentDate'].setValue(customer.city);
-        //this.generateForm.controls['leaseNumber'].setValue(customer.city);
-        //this.generateForm.controls['totalAmount'].setValue(this.order.total_sales);
-        //}
 
     }
     getTermLenght(order: any) : number 
