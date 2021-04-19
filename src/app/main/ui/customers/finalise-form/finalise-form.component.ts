@@ -221,7 +221,6 @@ export class FinaliseFormComponent implements OnInit
 }
 
   onClick() { 
-      
       if(this.bugFlag == true) {
         this.bugFlag = false;
         return;
