@@ -67,8 +67,6 @@ export class FinaliseFormComponent implements OnInit
     installmentFortnightAmount: number;
     installmentMonthAmount: number;
 
-    bugFlag: boolean = false;
-
     @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];
 
 
@@ -141,7 +139,6 @@ export class FinaliseFormComponent implements OnInit
 
    onChange() : void 
    {
-      this.bugFlag = true;
       this.totalProfit = Number((this.totalAmount - this.actualPrice).toFixed(2));
       if(this.productInfo.frequency == 'Weekly') {
         this.installmentWeekAmount = Number((this.totalProfit / this.productInfo.leaseNumber).toFixed(2));
@@ -214,18 +211,12 @@ export class FinaliseFormComponent implements OnInit
 
  uploadFiles() {  
     this.fileUpload.nativeElement.value = '';  
-    console.log(this.files);
     this.files.forEach(file => {  
       this.uploadFile(file);  
     });  
 }
 
-  onClick() { 
-      if(this.bugFlag == true) {
-        this.bugFlag = false;
-        return;
-      }
-      
+  onClick() {       
       const fileUpload = this.fileUpload.nativeElement;
       fileUpload.onchange = () => {  
         for (let index = 0; index < fileUpload.files.length; index++)  

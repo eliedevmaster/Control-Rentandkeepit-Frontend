@@ -84,7 +84,7 @@
      
                     <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                         <mat-label>Actual product price</mat-label>
-                        <input matInput type="number" formControlName="actualPrice" [(ngModel)]="actualPrice" (change)="onChange()">
+                        <input matInput type="number" formControlName="actualPrice" [(ngModel)]="actualPrice" (ngModelChange)="onChange()">
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                         <mat-error>Price is required!</mat-error>
                     </mat-form-field>

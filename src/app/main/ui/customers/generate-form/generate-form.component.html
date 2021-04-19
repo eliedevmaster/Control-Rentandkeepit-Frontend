@@ -265,9 +265,9 @@
 
                     <mat-form-field appearance="outline" fxFlex="25">
                         <mat-label>Commencement date</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="startDate" required>
+                        <input matInput [matDatepicker]="picker" formControlName="startDate" (dateChange)="onChangeDate()" required>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker (selectedChanged)="onChangeDate()"></mat-datepicker>
+                        <mat-datepicker #picker></mat-datepicker>
                         <mat-error>Commencement date is required!</mat-error>
                     </mat-form-field>
                     
@@ -289,7 +289,7 @@
                     </button>
 
                     <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
-                    [disabled]="!enableFinaliseButton"  (click)="onFinalise()">                       
+                    [disabled]="generateForm.invalid"  (click)="onFinalise()">                       
                         <span >Next</span>
                     </button>
                 </div>
