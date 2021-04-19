@@ -14,6 +14,7 @@ import { User } from 'app/models/user';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {  MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomerService } from 'app/core/services/customer.service';
+import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 export const MY_FORMATS = {
     parse: {
@@ -216,7 +217,11 @@ export class GenerateFormComponent implements OnInit {
             meta_key : param.refKey,
         }
 
-        this._store.dispatch(new SaveAgreement({agreement : payload}));
+        if(this.customerId != 0)
+            this._store.dispatch(new SaveAgreement({agreement : payload}));
+        else 
+            Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
+
         this.enableFinaliseButton = true;
     } 
 
@@ -235,14 +240,17 @@ export class GenerateFormComponent implements OnInit {
 
     setinitValue(): void 
     {
-        this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
-        this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
-     
-        this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
-        let start_date = new Date(this.order.date_created_gmt).toISOString().substring(0, 10);
-        this.generateForm.controls['startDate'].setValue(start_date);
-        this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
-        this.generateForm.controls['freqeuncyRepayment'].setValue(0);
+        if(this.customerId != 0) {
+
+            this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
+            this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
+        
+            this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
+            let start_date = new Date(this.order.date_created_gmt).toISOString().substring(0, 10);
+            this.generateForm.controls['startDate'].setValue(start_date);
+            this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
+            this.generateForm.controls['freqeuncyRepayment'].setValue(0);
+        }
 
     }
     getTermLenght(order: any) : number 
@@ -277,9 +285,10 @@ export class GenerateFormComponent implements OnInit {
         let start_date = new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10);
         this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
     }
+
     setProuctsAndCostsFromOrder(order: any) : void
     {
-        if(order == null )
+        if(order == null || this.customerId == 0)
             return;
         
         let order_items: any = order.order_items;
@@ -321,6 +330,9 @@ export class GenerateFormComponent implements OnInit {
 
     onChangeDate() : void 
     {
+        if(this.generateForm.value['startDate'] == '')
+            return;
+         
         let startDate: Date = new Date(this.generateForm.value['startDate']);
         let termLength: number = 12 * this.generateForm.value['termLength'];
         this.generateForm.controls['finishDate'].setValue(new Date(startDate.setMonth(startDate.getMonth() + termLength)).toISOString().substring(0, 10));

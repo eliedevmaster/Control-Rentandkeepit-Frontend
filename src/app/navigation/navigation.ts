@@ -24,6 +24,22 @@ export const navigation: FuseNavigation[] = [
         url  : '/ui/customers/customer-list',
     },
 
+    {
+        id   : 'manual-generate',
+        title: 'Generate',
+        type : 'item',
+        icon : 'description',
+        url  : '/ui/customers/generate-form/0/0',
+    },
+
+    {
+        id   : 'payment',
+        title: 'Payment',
+        type : 'item',
+        icon : 'attach_money',
+        url  : '/ui/customers/generate-form1',
+    },
+
    /* //
     {
         id       : 'applications',

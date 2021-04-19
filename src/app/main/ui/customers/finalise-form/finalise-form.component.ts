@@ -115,7 +115,8 @@ export class FinaliseFormComponent implements OnInit
    
    onFinalise() : void 
    {
-
+      console.log("11111");
+      Swal.fire('Yes!', 'You finalise the lease successfully.', 'success');
    }
 
    setInitValue() : void
