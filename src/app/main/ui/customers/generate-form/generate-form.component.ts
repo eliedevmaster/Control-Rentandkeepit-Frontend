@@ -160,6 +160,11 @@ export class GenerateFormComponent implements OnInit {
     onGenerate(): void
     {   
         let eachRepayment : number = 0;
+        
+        if(this.products.length == 0) {
+            Swal.fire('Ooops', 'There are no products.', 'error');
+            return;
+        }
 
         this.costs.forEach((element) => {
             eachRepayment += element;
@@ -226,11 +231,6 @@ export class GenerateFormComponent implements OnInit {
 
     onFinalise(): void
     {
-        let termLength: number = 12;
-        if(this.generateForm.value['termLength'] == 2) {
-            termLength = 24;
-        }   
-
         const orderedProdcuts = {
             products    : this.products,
             costs       : this.costs,
