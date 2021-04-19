@@ -176,8 +176,7 @@ export class GenerateFormComponent implements OnInit {
 
         let firstPaymentDate = new Date(this.generateForm.value['firstPaymentDate']);
         let firstPaymentDateString: string = firstPaymentDate.getDate().toString() + '-' + (firstPaymentDate.getMonth() + 1).toString() + '-' + firstPaymentDate.getFullYear().toString()
-        console.log(this.generateForm.value['firstPaymentDate']);
-        console.log(firstPaymentDateString);
+
         const param = {
             refKey              : this.makeId(),
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
@@ -191,7 +190,7 @@ export class GenerateFormComponent implements OnInit {
             startDate_year      : startDate.getFullYear().toString(),
             eachRepayment       : eachRepayment,
             firstPaymentDate    : firstPaymentDateString, 
-            frequency           : this.generateForm.value['freqeuncyRepayment'] == 53 ? 'Weekly' : 'Fortnightly',
+            frequency           : this.generateForm.value['freqeuncyRepayment'] == 52 ? 'Weekly' : 'Fortnightly',
             leaseNumber         : this.generateForm.value['leaseNumber'],
             totalAmount         : this.generateForm.value['totalAmount'],
         }
@@ -227,13 +226,19 @@ export class GenerateFormComponent implements OnInit {
 
     onFinalise(): void
     {
+        let termLength: number = 12;
+        if(this.generateForm.value['termLength'] == 2) {
+            termLength = 24;
+        }   
+
         const orderedProdcuts = {
             products    : this.products,
             costs       : this.costs,
             leaseNumber : this.generateForm.value['leaseNumber'],
+            termLength  : this.generateForm.value['termLength'] == 1 ? 12 : 24,
+            frequency   : this.generateForm.value['freqeuncyRepayment'] == 52 ? 'Weekly' : 'Fortnightly'
         };
 
-        //this.productInfo = orderedProdcuts;
         localStorage.setItem('productInfo', JSON.stringify(orderedProdcuts));
         this._store.dispatch(new Go({path: ['/ui/customers/finalise-form/' + this.customerId + '/' + this.customerName], query: null, extras: null}));
     }
@@ -253,6 +258,7 @@ export class GenerateFormComponent implements OnInit {
         }
 
     }
+
     getTermLenght(order: any) : number 
     {
         let order_item_metas: any = order.order_items[0].order_item_metas;
@@ -330,7 +336,7 @@ export class GenerateFormComponent implements OnInit {
 
     onChangeDate() : void 
     {
-        if(this.generateForm.value['startDate'] == '')
+        if(this.generateForm.value['startDate'] == "")
             return;
          
         let startDate: Date = new Date(this.generateForm.value['startDate']);

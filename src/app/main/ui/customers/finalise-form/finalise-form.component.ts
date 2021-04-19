@@ -1,11 +1,16 @@
-import { Component, OnDestroy, OnInit , ViewEncapsulation, VERSION } from '@angular/core';
+import { Component, OnDestroy, OnInit , ViewEncapsulation, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Subject } from 'rxjs';
+
+import { Subject, of } from 'rxjs';  
+import { catchError, map } from 'rxjs/operators';  
+import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
+
 
 import { Back } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
+import { FileUploadService } from  'app/core/services/file-upload.service';
 
 import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
@@ -54,7 +59,18 @@ export class FinaliseFormComponent implements OnInit
     costs: number[] = [];
     actualCosts: number[] = [];
 
-    displayProducts: any[] = [];
+    totalAmount: number;
+    actualPrice: number;
+    totalProfit: number;
+    
+    installmentWeekAmount: number;
+    installmentFortnightAmount: number;
+    installmentMonthAmount: number;
+
+    bugFlag: boolean = false;
+
+    @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];
+
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -69,6 +85,7 @@ export class FinaliseFormComponent implements OnInit
         private _activatedRoute: ActivatedRoute,
         private _customerService: CustomerService,
         private _store: Store<AppState>,
+        private _fileUploadService: FileUploadService,
     )
     {
         // Set the private defaults
@@ -88,11 +105,15 @@ export class FinaliseFormComponent implements OnInit
       this.setInitValue();
        // Reactive Form
       this.finaliseForm = this._formBuilder.group({
-           productList           : [''],
-           actualPrice           : [0],
-           displayProducts       : [''],
-           totalAmount           : ['', Validators.required],
-           profitAmount          : ['', Validators.required],
+            invoice                      : ['', Validators.required],
+            supplier                     : ['', Validators.required],
+            actualPrice                  : ['', Validators.required],
+            totalAmount                  : ['', Validators.required],
+            totalProfit                  : ['', Validators.required],
+            installmentWeekAmount        : ['', Validators.required],
+            installmentFortnightAmount   : ['', Validators.required],
+            installmentMonthAmount       : ['', Validators.required]
+
       });
       this.mapUserStateToModel();
       this.setTotalAmount();
@@ -115,8 +136,22 @@ export class FinaliseFormComponent implements OnInit
    
    onFinalise() : void 
    {
-      console.log("11111");
       Swal.fire('Yes!', 'You finalise the lease successfully.', 'success');
+   }
+
+   onChange() : void 
+   {
+      this.bugFlag = true;
+      this.totalProfit = Number((this.totalAmount - this.actualPrice).toFixed(2));
+      if(this.productInfo.frequency == 'Weekly') {
+        this.installmentWeekAmount = Number((this.totalProfit / this.productInfo.leaseNumber).toFixed(2));
+        this.installmentFortnightAmount = this.installmentWeekAmount * 2;
+      }
+      else {
+        this.installmentFortnightAmount = Number((this.totalProfit / this.productInfo.leaseNumber).toFixed(2));
+        this.installmentWeekAmount = Number((this.installmentFortnightAmount / 2).toFixed(2));
+      }
+      this.installmentMonthAmount = Number((this.totalProfit / Number(this.productInfo.termLength)).toFixed(2));
    }
 
    setInitValue() : void
@@ -132,68 +167,77 @@ export class FinaliseFormComponent implements OnInit
         this.costs.push(this.productInfo.costs[index]);
         this.actualCosts.push(this.productInfo.costs[index]);
       });
-
    }
 
-   addProduct() 
-   {
-      let product = this.finaliseForm.value['productList'];
-      let index = this.products.indexOf(product);
-      let cost = this.costs[index];
-      
-      let actualCost = this.finaliseForm.value['actualPrice'];
-      
-      if(this.displayProducts.length === this.products.length) {
-        Swal.fire('Ooops!', 'Sorry, Can not add the product!', 'error');
-        return;
-      }
-
-      if(cost < actualCost) {
-        Swal.fire('Ooops!', 'Sorry, The actual price must be smaller than product price!', 'error');
-        return;
-      }
-
-      this.actualCosts[index] = actualCost;
-
-      let displayProduct: string  = product + '( $' + cost + ' / $' + actualCost + ' )';
-      let displayIndex = index;
-      let addingData = {
-        index: displayIndex,
-        displayData: displayProduct,
-      }
-      this.displayProducts.push(addingData);
-      this.setTotalAmount();
-   }
-
-   removeDisplayProduct(displayProduct): void
-   {
-       let index: number =  this.displayProducts.indexOf(displayProduct);
-       
-       this.actualCosts[displayProduct.index] = this.costs[displayProduct.index];
-       
-       this.displayProducts.splice(index, 1);
-       this.setTotalAmount();
-   }
 
    setTotalAmount() : void 
    {
-      let totalAmount: number = 0;
+      let totalAmountPrice: number = 0;
       let actualAmount : number = 0;
       this.costs.forEach((element, index)=> {
-        totalAmount += element * this.productInfo.leaseNumber;
-
+        totalAmountPrice += element * this.productInfo.leaseNumber;
         actualAmount += this.actualCosts[index] * this.productInfo.leaseNumber;    
       });
-      let profitAmount = totalAmount - actualAmount;
- 
-      this.finaliseForm.controls['totalAmount'].setValue(totalAmount.toFixed(2));
-      this.finaliseForm.controls['profitAmount'].setValue(profitAmount.toFixed(2));
+
+      this.totalAmount = Number(totalAmountPrice.toFixed(2));
    }
 
    backPath(): void 
    {
        this._store.dispatch(new Back());
    }
+
+
+   uploadFile(file) {  
+    const formData = new FormData();  
+    formData.append('file', file.data);  
+    file.inProgress = true;  
+    this._fileUploadService.upload(formData).pipe(  
+      map(event => {  
+        switch (event.type) {  
+          case HttpEventType.UploadProgress:  
+            file.progress = Math.round(event.loaded * 100 / event.total);  
+            break;  
+          case HttpEventType.Response:  
+            return event;  
+        }  
+      }),  
+      catchError((error: HttpErrorResponse) => {  
+        file.inProgress = false;  
+        return of(`${file.data.name} upload failed.`);  
+      })).subscribe((event: any) => {  
+        if (typeof (event) === 'object') {  
+          console.log(event.body);  
+        }  
+      });  
+  }
+
+ uploadFiles() {  
+    this.fileUpload.nativeElement.value = '';  
+    console.log(this.files);
+    this.files.forEach(file => {  
+      this.uploadFile(file);  
+    });  
+}
+
+  onClick() { 
+      
+      if(this.bugFlag == true) {
+        this.bugFlag = false;
+        return;
+      }
+      
+      const fileUpload = this.fileUpload.nativeElement;
+      fileUpload.onchange = () => {  
+        for (let index = 0; index < fileUpload.files.length; index++)  
+        {  
+            const file = fileUpload.files[index];
+            this.files.push({ data: file, inProgress: false, progress: 0});  
+        }  
+        this.uploadFiles();  
+      };  
+      fileUpload.click();  
+  }
 
    mapUserStateToModel(): void
    {
