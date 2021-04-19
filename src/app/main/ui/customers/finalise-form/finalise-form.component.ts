@@ -136,7 +136,7 @@ export class FinaliseFormComponent implements OnInit
    
    onFinalise() : void 
    {
-      Swal.fire('Yes!', 'You finalise the lease successfully.', 'success');
+      Swal.fire('Yes!', 'You have finalised the lease successfully.', 'success');
    }
 
    onChange() : void 
