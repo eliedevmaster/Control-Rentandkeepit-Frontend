@@ -3,6 +3,7 @@ import { FuseNavigation } from '@fuse/types';
 export const navigation: FuseNavigation[] = [
     
     {
+        
         id      : 'dashboard',
         title   : 'Dashboard',
         type    : 'collapsable',
@@ -18,16 +19,16 @@ export const navigation: FuseNavigation[] = [
     },
 
     {
-        id   : 'customer-list',
-        title: 'Customers',
+        id   : 'manual-generate',
+        title: 'Generic Lease Agreement',
         type : 'item',
-        icon : 'people',
-        url  : '/ui/customers/customer-list',
+        icon : 'description',
+        url  : '/ui/customers/generate-form/0/0',
     },
 
     {
         id   : 'applications',
-        title: 'Applications',
+        title: 'Customer Applications',
         type : 'collapsable',
         icon : 'shopping_cart',
         children: [
@@ -35,7 +36,7 @@ export const navigation: FuseNavigation[] = [
                 id   : 'unprocessed',
                 title: 'Unprocessed',
                 type : 'item',
-                url  : '/ui/customers1/customer-list',
+                url  : '/ui/customers/customer-list',
             },
             {
                 id   : 'approved',
@@ -55,20 +56,20 @@ export const navigation: FuseNavigation[] = [
                 type : 'item',
                 url  : '/ui/customers4/customer-list',
             },
+
+            {
+                id   : 'defaults',
+                title: 'Defaults',
+                type : 'item',
+                url  : '/ui/customers5/customer-list',
+            },
         ]
     },
 
-    {
-        id   : 'manual-generate',
-        title: 'Generate',
-        type : 'item',
-        icon : 'description',
-        url  : '/ui/customers/generate-form/0/0',
-    },
-
+   
     {
         id   : 'payment',
-        title: 'Payment',
+        title: 'Payments',
         type : 'collapsable',
         icon : 'attach_money',
         children: [
