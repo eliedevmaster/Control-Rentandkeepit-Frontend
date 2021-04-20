@@ -38,7 +38,7 @@ export class CustomerItemComponent implements OnInit {
     customerList: Array<Customer>;
     user: User;
     dataSource: MatTableDataSource<Customer> | null;
-    displayedColumns = ['checkbox', 'name', 'lastactive', 'dateregistered', 'city', 'state', 'postcode', 'action'];
+    displayedColumns = ['checkbox', 'name', 'lastactive', 'city', 'state', 'postcode', 'action'];
     selectedCustomerList: Customer[];
     checkboxes: {};
     dialogRef: any;

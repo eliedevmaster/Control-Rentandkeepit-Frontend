@@ -29,43 +29,10 @@ export const navigation: FuseNavigation[] = [
     {
         id   : 'applications',
         title: 'Customer Applications',
-        type : 'collapsable',
+        type : 'item',
         icon : 'shopping_cart',
-        children: [
-            {
-                id   : 'unprocessed',
-                title: 'Unprocessed',
-                type : 'item',
-                url  : '/ui/customers/customer-list',
-            },
-            {
-                id   : 'approved',
-                title: 'Approved',
-                type : 'item',
-                url  : '/ui/customers2/customer-list',
-            },
-            {
-                id   : 'declined',
-                title: 'Declined',
-                type : 'item',
-                url  : '/ui/customers3/customer-list',
-            },
-            {
-                id   : 'finalised',
-                title: 'Finalised',
-                type : 'item',
-                url  : '/ui/customers4/customer-list',
-            },
-
-            {
-                id   : 'defaults',
-                title: 'Defaults',
-                type : 'item',
-                url  : '/ui/customers5/customer-list',
-            },
-        ]
+        url  : '/ui/customers/customer-list',
     },
-
    
     {
         id   : 'payment',
@@ -92,8 +59,9 @@ export const navigation: FuseNavigation[] = [
                 url  : '/ui/customers1/generate-form/0/0'
             },
         ]
-    },
+    }
 
+    
    /* //
     {
         id       : 'applications',

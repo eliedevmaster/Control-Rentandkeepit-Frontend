@@ -21,6 +21,7 @@ import { CustomerListService } from './customer-list.service';
 import { CustomerListComponent } from './customer-list.component';
 import { CustomerItemComponent } from './customer-item/customer-item.component';
 import { CustomerFormComponent } from './customer-form/customer-form.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   {
@@ -32,7 +33,7 @@ const routes: Routes = [
   }
 ];
 @NgModule({
-  declarations: [CustomerListComponent, CustomerItemComponent, CustomerFormComponent],
+  declarations: [CustomerListComponent, CustomerItemComponent, CustomerFormComponent, SidebarComponent],
   imports: [
     RouterModule.forChild(routes),
     MatSlideToggleModule,

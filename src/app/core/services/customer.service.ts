@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
@@ -21,6 +22,21 @@ export class CustomerService {
         order_id          : param.order_id,
         meta_key          : param.meta_key,
     }
+    return this.http.post(url, body, {headers: this.authService.authHeaders()});
+  }
+  
+  addCustomer(param: any) : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/customers`;
+    const body = {
+      first_name      : param.first_name,
+      last_name       : param.last_name,
+      postCode        : param.postCode,
+      address         : param.address,
+      city            : param.city,
+      state           : param.state,
+    }
+
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }
 

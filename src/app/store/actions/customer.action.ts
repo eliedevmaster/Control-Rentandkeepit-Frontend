@@ -10,6 +10,10 @@ export enum CustomerActionTypes {
     GET_ORDER_LIST_FOR_CUSTOMER_COMPLETE = '[Customer] GET_ORDER_LIST_FOR_CUSTOMER_COMPLETE',
     GET_ORDER_LIST_FOR_CUSTOMER_ERROR = '[Customer] GET_ORDER_LIST_FOR_CUSTOMER_ERROR',
 
+    ADD_CUSTOMER = '[Customer] ADD_CUSTOMER',
+    ADD_CUSTOMER_COMPLETE = '[Customer] ADD_CUSTOMER_COMPLETE',
+    ADD_CUSTOMER_ERROR = '[Customer] ADD_CUSTOMER_ERROR',
+
     UPDATE_CUSTOMER = '[Customer] UPDATE_CUSTOMER',
     UPDATE_CUSTOMER_COMLETE = '[Customer] UPDATE_CUSTOMER_COMLETE',
     UPDATE_CUSTOMER_ERROR = '[Customer] UPDATE_CUSTOMER_ERROR',
@@ -51,6 +55,21 @@ export class GetOrderListForCustomerError implements Action {
     readonly type = CustomerActionTypes.GET_ORDER_LIST_FOR_CUSTOMER_ERROR;
     constructor (public payload: {errorMessage: string}) {}
 }
+
+export class AddCustomer implements Action {
+    readonly type = CustomerActionTypes.ADD_CUSTOMER;
+    constructor (public payload: {customer: any}) {}
+}
+
+export class AddCustomerComplete implements Action {
+    readonly type = CustomerActionTypes.ADD_CUSTOMER_COMPLETE;
+}
+
+export class AddCustomerError implements Action {
+    readonly type = CustomerActionTypes.ADD_CUSTOMER_ERROR;
+    constructor (public payload: {errorMessage: any}) {}
+}
+
 
 export class UpdateCustomer implements Action {
     readonly type = CustomerActionTypes.UPDATE_CUSTOMER;
@@ -97,6 +116,9 @@ export type CustomerActions
  | GetOrderListForCustomer
  | GetOrderListForCustomerComplete
  | GetOrderListForCustomerError
+ | AddCustomer
+ | AddCustomerComplete
+ | AddCustomerError
  | UpdateCustomer
  | UpdateCustomerComplete
  | UpdateCustomerError

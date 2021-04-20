@@ -5,7 +5,8 @@ import { CustomerActionTypes, GetCustomerList,
         GetCustomerListError,GetCustomerListComplete, 
         GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
         UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
-        SaveAgreementError, SaveAgreement, SaveAgreementComplete, DownLoadDocxComplete, DownLoadDocx } from '../actions/customer.action';
+        SaveAgreementError, SaveAgreement, SaveAgreementComplete,
+        AddCustomer, AddCustomerComplete, AddCustomerError } from '../actions/customer.action';
 
 import { Router } from '@angular/router';
 
@@ -74,6 +75,25 @@ export class CustomerEffects
     );
     
     @Effect()
+    addCustomer$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.ADD_CUSTOMER),
+      map((action: AddCustomer) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.addCustomer(payload.customer)
+            .pipe(
+            map((customer) => {
+                Swal.fire('Yes!', 'The customer profile has successfully updated', 'success');
+                return new AddCustomerComplete()
+            }),
+              catchError((error: Error) => {
+                Swal.fire('Ooops!', 'The customer profile update has failed', 'error');
+                return of(new AddCustomerError({ errorMessage: error.message }));
+              })
+            );
+      })
+    );
+
+    @Effect()
     updateCustomer$ = this.actions$.pipe(
       ofType(CustomerActionTypes.UPDATE_CUSTOMER),
       map((action: UpdateCustomer) => action.payload),
@@ -110,21 +130,5 @@ export class CustomerEffects
               })
             );
       })
-    );
-
-    @Effect()
-    downLoadDocx$ = this.actions$.pipe(
-      ofType(CustomerActionTypes.DOWN_LOAD_DOCX),
-      map((action: DownLoadDocx) => action.payload),
-      switchMap((payload) => {
-        return this.customerService.downLoadDocx()
-            .pipe(
-            map((state) => {
-                Swal.fire('Yes!', 'DownLoad', 'success');
-                return new DownLoadDocxComplete();
-            })
-          );
-      })
-    );
-    
+    );    
 }
