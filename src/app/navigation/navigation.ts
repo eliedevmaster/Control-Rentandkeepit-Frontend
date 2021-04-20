@@ -18,10 +18,42 @@ export const navigation: FuseNavigation[] = [
     },
     {
         id   : 'customer-list',
-        title: 'Coustomers',
-        type : 'item',
+        title: 'Customers',
+        type : 'collapsable',
         icon : 'people',
-        url  : '/ui/customers/customer-list',
+        children: [
+            {
+                id   : 'all-customers',
+                title: 'All customers',
+                type : 'item',
+                url  : '/ui/customers/customer-list',
+            },
+            {
+                id   : 'unprocessed',
+                title: 'Unprocessed',
+                type : 'item',
+                url  : '/ui/customers1/customer-list',
+            },
+            {
+                id   : 'approved',
+                title: 'Approved',
+                type : 'item',
+                url  : '/ui/customers2/customer-list',
+            },
+            {
+                id   : 'declined',
+                title: 'Declined',
+                type : 'item',
+                url  : '/ui/customers3/customer-list',
+            },
+            {
+                id   : 'finalised',
+                title: 'Finalised',
+                type : 'item',
+                url  : '/ui/customers4/customer-list',
+            },
+        ]
+        
     },
 
     {
@@ -35,9 +67,28 @@ export const navigation: FuseNavigation[] = [
     {
         id   : 'payment',
         title: 'Payment',
-        type : 'item',
+        type : 'collapsable',
         icon : 'attach_money',
-        url  : '/ui/customers/generate-form1',
+        children: [
+            {
+                id   : 'manual-payment',
+                title: 'Manual Payment',
+                type : 'item',
+                url  : '/ui/customers1/generate-form/0/0'
+            },
+            {
+                id   : 'centrepay-bulk-upload',
+                title: 'Centrepay Bulk Upload',
+                type : 'item',
+                url  : '/ui/customers1/generate-form/0/0'
+            },
+            {
+                id   : 'ezi-debit-bulk-upload',
+                title: 'Ezi-Debit Bulk Upload',
+                type : 'item',
+                url  : '/ui/customers1/generate-form/0/0'
+            },
+        ]
     },
 
    /* //
