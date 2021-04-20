@@ -16,18 +16,21 @@ export const navigation: FuseNavigation[] = [
             },
         ]
     },
+
     {
         id   : 'customer-list',
         title: 'Customers',
-        type : 'collapsable',
+        type : 'item',
         icon : 'people',
+        url  : '/ui/customers/customer-list',
+    },
+
+    {
+        id   : 'applications',
+        title: 'Applications',
+        type : 'collapsable',
+        icon : 'shopping_cart',
         children: [
-            {
-                id   : 'all-customers',
-                title: 'All customers',
-                type : 'item',
-                url  : '/ui/customers/customer-list',
-            },
             {
                 id   : 'unprocessed',
                 title: 'Unprocessed',
@@ -53,7 +56,6 @@ export const navigation: FuseNavigation[] = [
                 url  : '/ui/customers4/customer-list',
             },
         ]
-        
     },
 
     {
