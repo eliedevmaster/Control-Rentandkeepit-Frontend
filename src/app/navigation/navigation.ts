@@ -36,7 +36,7 @@ export const navigation: FuseNavigation[] = [
 
     {
         id   : 'applications',
-        title: 'Customer Applications',
+        title: 'Customer Lease Agreements',
         type : 'item',
         icon : 'shopping_cart',
         url  : '/ui/customers/customer-order-list',
@@ -52,19 +52,19 @@ export const navigation: FuseNavigation[] = [
                 id   : 'manual-payment',
                 title: 'Manual Payment',
                 type : 'item',
-                url  : '/ui/customers1/generate-form/0/0'
+                url  : '/ui/payments/manual-payment'
             },
             {
                 id   : 'centrepay-bulk-upload',
                 title: 'Centrepay Bulk Upload',
                 type : 'item',
-                url  : '/ui/customers1/generate-form/0/0'
+                url  : '/ui/payments/centrepay-bulk-upload'
             },
             {
                 id   : 'ezi-debit-bulk-upload',
                 title: 'Ezi-Debit Bulk Upload',
                 type : 'item',
-                url  : '/ui/customers1/generate-form/0/0'
+                url  : '/ui/payments/ezi-debit-bulk-upload'
             },
         ]
     },

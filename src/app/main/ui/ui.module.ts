@@ -20,11 +20,16 @@ import { TimescheduleListModule } from 'app/main/ui/company/courses/course-base/
 import { BasecourseListModule } from 'app/main/ui/company/courses/course-base/basecourse-list/basecourse-list.module';
 
 ////////////////////////////////////////////////////////////////////////////////
+
 import { CustomerListModule } from 'app/main/ui/customers/customer-list/customer-list.module';
 import { CustomerOrderListModule } from 'app/main/ui/customers/customer-order-list/customer-order-list.module';
 import { CustomerFormModule } from 'app/main/ui/customers/customer-form/customer-form.module';
 import { GenerateFormModule } from 'app/main/ui/customers/generate-form/generate-form.module';
 import { FinaliseFormModule } from 'app/main/ui/customers/finalise-form/finalise-form.module';
+import { CentrepayBulkUploadModule } from 'app/main/ui/payments/centrepay-bulk-upload/centrepay-bulk-upload.module';
+import { EziDebitBulkUploadModule } from 'app/main/ui/payments/ezi-debit-bulk-upload/ezi-debit-bulk-upload.module';
+import { ManualPaymentModule } from 'app/main/ui/payments/manual-payment/manual-payment.module';
+
 /////////////////////////////////////////////////////////////////////////////////
 
 
@@ -76,6 +81,9 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CustomerFormModule,
         GenerateFormModule,
         FinaliseFormModule,
+        CentrepayBulkUploadModule,
+        EziDebitBulkUploadModule,
+        ManualPaymentModule,
         
         /************************* */
 

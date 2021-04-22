@@ -171,7 +171,6 @@ export class CustomerOrderItemComponent implements OnInit {
                     Swal.fire('Cancelled', 'This application is safe', 'error');
                 }
             });
-
         }
 
     showDate(date: string): string 
