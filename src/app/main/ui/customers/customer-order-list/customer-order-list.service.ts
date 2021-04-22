@@ -46,6 +46,8 @@ export class CustomerOrderListService {
       this.onUserDataChanged = new BehaviorSubject([]);
       this.onSearchTextChanged = new Subject();
       this.onFilterChanged = new Subject();
+
+      this.filterBy = 'unprocessed';
   }
 
   // -----------------------------------------------------------------------------------------------------
