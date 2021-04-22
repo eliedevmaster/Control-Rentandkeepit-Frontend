@@ -327,19 +327,26 @@ export class GenerateFormComponent implements OnInit {
             return;
         
         let order_items: any = order.order_items;
+        console.log('order_items : ' , order_items);
 
         order_items.forEach(element => {
-            if(element.order_item_product.product != null){
-                this.products.push(element.order_item_product.product.post_title);
-            }
-            else
-                this.products.push(element.order_item_name);
-            
-            let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
-            this.costs.push(cost);
 
-            let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) ';
-            this.displayProducts.push(displayProduct);
+            let count = Number(element.order_item_product.product_qty);
+            for (let i = 0; i < count; i ++) {
+                if(element.order_item_product.product != null) {
+                        this.products.push(element.order_item_product.product.post_title);
+                }
+                else {
+                    this.products.push(element.order_item_name);
+                }
+                    
+                let cost: number = Number(element.order_item_product.product_gross_revenue) / Number(element.order_item_product.product_qty);
+                this.costs.push(cost);
+
+                let displayProduct: string  = element.order_item_name + '( $' + cost + ' ) ';
+                this.displayProducts.push(displayProduct);
+            }
+           
         });
     }
 
