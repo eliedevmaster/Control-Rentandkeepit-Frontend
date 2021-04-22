@@ -68,15 +68,6 @@ export const navigation: FuseNavigation[] = [
             },
         ]
     },
-
-    {
-        id       : 'contacts',
-        title    : 'Contacts',
-        translate: 'NAV.CONTACTS',
-        type     : 'item',
-        icon     : 'account_box',
-        url      : '/apps/contacts'
-    },
     
    /* //
     {
