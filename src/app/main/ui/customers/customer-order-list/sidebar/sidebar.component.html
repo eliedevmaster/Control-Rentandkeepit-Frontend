@@ -1,0 +1,63 @@
+<div class="sidebar-content">
+
+    <div class="card">
+
+        <!-- SIDEBAR HEADER -->
+        <div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+
+            <!-- USER -->
+            
+            <span class="h2">Application Status</span>
+            <!-- / USER -->
+
+        </div>
+        <!-- / SIDEBAR HEADER -->
+
+        <!-- SIDEBAR CONTENT -->
+        <div class="content py-16" fusePerfectScrollbar>
+
+            <div class="nav material2">
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('unprocessed')"
+                       [ngClass]="{'active accent':filterBy ==='unprocessed'}">
+                        <span class="h3">Unprocessed</span>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('approved')"
+                       [ngClass]="{'active accent':filterBy ==='approved'}">
+                        <span class="h3">Approved</span>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('declined')"
+                       [ngClass]="{'active accent':filterBy ==='declined'}">
+                        <span class="h3">Declined</span>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('finalised')"
+                       [ngClass]="{'active accent':filterBy ==='finalised'}">
+                        <span class="h3">Finalised</span>
+                    </a>
+                </div>
+
+                <div class="nav-item" aria-label="inbox">
+                    <a class="nav-link" matRipple (click)="changeFilter('defaulted')"
+                       [ngClass]="{'active accent':filterBy ==='defaulted'}">
+                        <span class="h3">Defaulted</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- / SIDEBAR CONTENT -->

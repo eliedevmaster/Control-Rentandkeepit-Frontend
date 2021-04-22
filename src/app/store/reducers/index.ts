@@ -7,7 +7,9 @@ import * as auth from './auth.reducers';
 import * as company from './company.reducers';
 import * as collaborator from './collaborator.reducers';
 import * as instructor from './instructor.reducers';
+
 import * as customer from './customer.reducers';
+import * as order from './order.reducers';
 import * as product from './product.reducers';
 
 export interface RouterStateUrl
@@ -24,7 +26,9 @@ export interface State
     companyReducer: company.State;
     collaboratorReducer: collaborator.State;
     instructorReducer: instructor.State;
+
     customerReducer: customer.State;
+    orderReducer: order.State;
     productReducer: product.State;
 }
 
@@ -34,7 +38,9 @@ export const reducers: ActionReducerMap<State> = {
     companyReducer: company.reducer,
     collaboratorReducer: collaborator.reducer,
     instructorReducer: instructor.reducer,
+
     customerReducer: customer.reducer,
+    orderReducer: order.reducer,
     productReducer : product.reducer,
 };
 
@@ -70,6 +76,11 @@ export const selectCustomerState = createSelector(
     customer.selectCustomer
 );
 
+export const getOrderState = createFeatureSelector<order.State>('orderReducer');
+export const selectOrderState = createSelector(
+    getOrderState,
+    order.selectOrder
+);
 
 export const getProductState = createFeatureSelector<product.State>('productReducer');
 export const selectProductState = createSelector(

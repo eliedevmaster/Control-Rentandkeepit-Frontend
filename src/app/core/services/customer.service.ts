@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
@@ -14,24 +13,13 @@ export class CustomerService {
   
   constructor(private http: HttpClient, private authService: AuthService) { }
 
-  saveAgreement(param: any) : Observable<any>
-  {
-    const url = `${env.backendBaseUrl}/api/customers/agreement`;
-    const body = {
-        customer_id       : param.customer_id,
-        order_id          : param.order_id,
-        meta_key          : param.meta_key,
-    }
-    return this.http.post(url, body, {headers: this.authService.authHeaders()});
-  }
-  
   addCustomer(param: any) : Observable<any>
   {
     const url = `${env.backendBaseUrl}/api/customers`;
     const body = {
       first_name      : param.first_name,
       last_name       : param.last_name,
-      postCode        : param.postCode,
+      postcode        : param.postcode,
       address         : param.address,
       city            : param.city,
       state           : param.state,
@@ -39,6 +27,11 @@ export class CustomerService {
 
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }
+
+  //addNewOrder(param: any) : Observable<any>
+  //{
+
+  //}
 
   updateCustomer(param: any) : Observable<any> 
   {

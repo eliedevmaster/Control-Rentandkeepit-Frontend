@@ -7,7 +7,7 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
 
-import { Back } from 'app/store/actions';
+import { Back, SetOrderStatus } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
@@ -135,6 +135,11 @@ export class FinaliseFormComponent implements OnInit
    onFinalise() : void 
    {
       Swal.fire('Yes!', 'You have finalised the lease successfully.', 'success');
+      const payload = {
+        order_id  : this.productInfo.order_id,
+        type      : 3
+      }
+      this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
    }
 
    onChange() : void 

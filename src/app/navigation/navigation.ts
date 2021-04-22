@@ -27,11 +27,19 @@ export const navigation: FuseNavigation[] = [
     },
 
     {
+        id   : 'customers',
+        title: 'Customers',
+        type : 'item',
+        icon : 'people',
+        url  : '/ui/customers/customer-list',
+    },
+
+    {
         id   : 'applications',
         title: 'Customer Applications',
         type : 'item',
         icon : 'shopping_cart',
-        url  : '/ui/customers/customer-list',
+        url  : '/ui/customers/customer-order-list',
     },
    
     {
@@ -59,8 +67,16 @@ export const navigation: FuseNavigation[] = [
                 url  : '/ui/customers1/generate-form/0/0'
             },
         ]
-    }
+    },
 
+    {
+        id       : 'contacts',
+        title    : 'Contacts',
+        translate: 'NAV.CONTACTS',
+        type     : 'item',
+        icon     : 'account_box',
+        url      : '/apps/contacts'
+    },
     
    /* //
     {

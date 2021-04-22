@@ -5,7 +5,6 @@ import { CustomerActionTypes, GetCustomerList,
         GetCustomerListError,GetCustomerListComplete, 
         GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
         UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
-        SaveAgreementError, SaveAgreement, SaveAgreementComplete,
         AddCustomer, AddCustomerComplete, AddCustomerError } from '../actions/customer.action';
 
 import { Router } from '@angular/router';
@@ -64,7 +63,6 @@ export class CustomerEffects
                 orderList.forEach(element => {
                   orderArray.push(element);
                 });
-                console.log('orders : ', orderList);
                 return new GetOrderListForCustomerComplete({orderList : orderArray})
             }),
               catchError((error: Error) => {
@@ -82,14 +80,14 @@ export class CustomerEffects
         return this.customerService.addCustomer(payload.customer)
             .pipe(
             map((customer) => {
-                Swal.fire('Yes!', 'The customer profile has successfully updated', 'success');
+
                 return new AddCustomerComplete()
             }),
-              catchError((error: Error) => {
-                Swal.fire('Ooops!', 'The customer profile update has failed', 'error');
-                return of(new AddCustomerError({ errorMessage: error.message }));
-              })
-            );
+            catchError((error: Error) => {
+              Swal.fire('Ooops!', 'The customer can not be added', 'error');
+              return of(new AddCustomerError({ errorMessage: error.message }));
+            })
+          );
       })
     );
 
@@ -111,24 +109,4 @@ export class CustomerEffects
             );
       })
     );
-
-
-    @Effect()
-    saveAgreement$ = this.actions$.pipe(
-      ofType(CustomerActionTypes.SAVE_AGREEMENT),
-      map((action: SaveAgreement) => action.payload),
-      switchMap((payload) => {
-        return this.customerService.saveAgreement(payload.agreement)
-            .pipe(
-            map((state) => {
-                Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
-                return new SaveAgreementComplete();
-            }),
-              catchError((error: Error) => {
-                Swal.fire('Ooops!', 'The agreement has invailed', 'error');
-                return of(new SaveAgreementError({ errorMessage: error.message }));
-              })
-            );
-      })
-    );    
 }

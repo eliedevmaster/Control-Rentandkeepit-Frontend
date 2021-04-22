@@ -115,7 +115,6 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let customer; columns: displayedColumns;"
              class="contact"
-             (click)="editOrder(customer)"
              [ngClass]="{'accent-50':checkboxes[customer.id]}"
              [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>

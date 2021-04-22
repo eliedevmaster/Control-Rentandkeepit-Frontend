@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { environment as env } from '../../../../../environments/environment';
 
-import { Go, Back, SaveAgreement } from 'app/store/actions';
+import { Go, Back, SaveAgreement, AddCustomer } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 
@@ -14,6 +14,8 @@ import { User } from 'app/models/user';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import {  MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomerService } from 'app/core/services/customer.service';
+import { OrderService } from 'app/core/services/order.service';
+
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 export const MY_FORMATS = {
@@ -74,6 +76,7 @@ export class GenerateFormComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _activatedRoute: ActivatedRoute,
         private _customerService: CustomerService,
+        private _orderService: OrderService,
         private _store: Store<AppState>,
     )
     {
@@ -88,12 +91,12 @@ export class GenerateFormComponent implements OnInit {
 
     }
 
-    get productInfo(): any {
-        return this._customerService.productInfo;
+    get orderInfo(): any {
+        return this._orderService.orderInfo;
     }
 
-    set productInfo(value: any) {
-        this._customerService.productInfo = value;
+    set orderInfo(value: any) {
+        this._orderService.orderInfo = value;
     }
     
     // -----------------------------------------------------------------------------------------------------
@@ -215,23 +218,48 @@ export class GenerateFormComponent implements OnInit {
                                                                   + param.frequency + '/'
                                                                   + param.leaseNumber + '/'
                                                                   + param.totalAmount;       
-        const payload = {
-            customer_id : this.customerId,
-            order_id : this.order.order_id,
-            meta_key : param.refKey,
-        }
+        
 
-        if(this.customerId != 0)
+        if(this.customerId != 0) 
+        {
+            const payload = {
+                customer_id : this.customerId,
+                order_id : this.order.order_id,
+                meta_key : param.refKey,
+            }
+            
             this._store.dispatch(new SaveAgreement({agreement : payload}));
-        else 
-            Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
+        }
+            
+        else  {
+            const payload = {
+                first_name : this.generateForm.value['firstName'],
+                last_name  : this.generateForm.value['lastName'],
+                address    : this.generateForm.value['address'],
+                city       : this.generateForm.value['city'],
+                postcode   : this.generateForm.value['postCode'],
+                state      : this.generateForm.value['state'],
+            }
+            
+            /*const order = {
+                start_date: new Date(this.generateForm.value['startDate']),
+                num_items_sold : this.products.length,
+                total_sales : eachRepayment
+            }
+            this.orderInfo = order;*/
 
+            this._store.dispatch(new AddCustomer({customer: payload}));
+
+            Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
+        }
+        
         this.enableFinaliseButton = true;
     } 
 
     onFinalise(): void
     {
         const orderedProdcuts = {
+            order_id    : this.order.order_id,
             products    : this.products,
             costs       : this.costs,
             leaseNumber : this.generateForm.value['leaseNumber'],
@@ -249,9 +277,10 @@ export class GenerateFormComponent implements OnInit {
 
             this.generateForm.controls['firstName'].setValue(this.customerName.split(' ')[0]);
             this.generateForm.controls['lastName'].setValue(this.customerName.split(' ')[1]);
-        
             this.generateForm.controls['termLength'].setValue(this.getTermLenght(this.order));
+            
             let start_date = new Date(this.order.date_created_gmt).toISOString().substring(0, 10);
+            
             this.generateForm.controls['startDate'].setValue(start_date);
             this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
             this.generateForm.controls['freqeuncyRepayment'].setValue(0);
@@ -288,7 +317,6 @@ export class GenerateFormComponent implements OnInit {
 
     changeDate ()
     {
-        console.log('-------------');
         let start_date = new Date(this.generateForm.value['startDate']).toISOString().substring(0, 10);
         this.generateForm.controls['finishDate'].setValue(this.getFinishDate(this.order, start_date).toISOString().substring(0, 10));
     }

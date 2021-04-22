@@ -18,9 +18,7 @@ export enum CustomerActionTypes {
     UPDATE_CUSTOMER_COMLETE = '[Customer] UPDATE_CUSTOMER_COMLETE',
     UPDATE_CUSTOMER_ERROR = '[Customer] UPDATE_CUSTOMER_ERROR',
 
-    SAVE_AGREEMENT = '[Customer] SAVE_AGREEMENT',
-    SAVE_AGREEMENT_COMPLETE = '[Customer] SAVE_AGREEMENT_COMPLETE',
-    SAVE_AGREEMENT_ERROR = '[Customer] SAVE_AGREEMENT_ERROR',
+   
 
     DOWN_LOAD_DOCX = '[Cusotmer] DOWN_LOAD_DOCX',
     DOWN_LOAD_DOCX_COMPLETE = '[Cusotmer] DOWN_LOAD_DOCX_COMPLETE',
@@ -85,19 +83,7 @@ export class UpdateCustomerError implements Action {
     constructor (public payload: {errorMessage: any}) {}
 }
 
-export class SaveAgreement implements Action {
-    readonly type = CustomerActionTypes.SAVE_AGREEMENT;
-    constructor (public payload: {agreement: any}) {}
-}
 
-export class SaveAgreementComplete implements Action {
-    readonly type = CustomerActionTypes.SAVE_AGREEMENT_COMPLETE;
-}
-
-export class SaveAgreementError implements Action {
-    readonly type = CustomerActionTypes.SAVE_AGREEMENT_ERROR;
-    constructor (public payload: {errorMessage: any}) {}
-}
 
 export class DownLoadDocx implements Action {
     readonly type = CustomerActionTypes.DOWN_LOAD_DOCX;
@@ -122,8 +108,5 @@ export type CustomerActions
  | UpdateCustomer
  | UpdateCustomerComplete
  | UpdateCustomerError
- | SaveAgreement
- | SaveAgreementComplete
- | SaveAgreementError
  | DownLoadDocx
  | DownLoadDocxComplete;

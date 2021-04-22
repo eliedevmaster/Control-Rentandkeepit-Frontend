@@ -12,13 +12,13 @@ import { fuseAnimations } from '@fuse/animations';
 import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/confirm-dialog.component';
 
 import { Store } from '@ngrx/store';
-import { State as AppState, getAuthState } from 'app/store/reducers';
-import { Go } from 'app/store/actions';
-
+import { State as AppState } from 'app/store/reducers';
+import { Go, SetOrderStatus, GetOrderList } from 'app/store/actions';
 
 import { CustomerOrderListService } from 'app/main/ui/customers/customer-order-list/customer-order-list.service';
-
 import { User } from 'app/models/user';
+import Swal from 'sweetalert2/dist/sweetalert2.js'; 
+
 
 @Component({
   selector: 'app-customer-order-item',
@@ -34,9 +34,6 @@ export class CustomerOrderItemComponent implements OnInit {
 
     willLoad: boolean = true;
     orderListLength: number = 0;
-    
-    customerId: number;
-    customerName: string;
 
     orderList: any[];
     user: User;
@@ -66,8 +63,6 @@ export class CustomerOrderItemComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        this.customerId = this._activatedRoute.snapshot.params.customerId;
-        this.customerName = this._activatedRoute.snapshot.params.customerName;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -83,8 +78,8 @@ export class CustomerOrderItemComponent implements OnInit {
     } 
     ngAfterViewChecked(): void 
     {
-        if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
-            return;
+        //if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
+        //    return;
         
         this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
         this._customerOrderListService.onSelectedOrderListChanged
@@ -148,10 +143,36 @@ export class CustomerOrderItemComponent implements OnInit {
     }
 
     generatePaperWork(order: any) : void 
-    {
+    {   
+       let customerName = order.customer.first_name + ' ' + order.customer.last_name;
         localStorage.setItem('order', JSON.stringify(order));
-        this._store.dispatch(new Go({path: ['/ui/customers/generate-form/' + this.customerId + '/' + this.customerName], query: null, extras: null}));
+        this._store.dispatch(new Go({path: ['/ui/customers/generate-form/' + order.customer.customer_id + '/' + customerName], query: null, extras: null}));
     }
+    decline(order: any) : void
+    {   
+        const payload = {
+            order_id : order.order_id,
+            type : 2, // declined.
+        }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will decline this application!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, decline it!',
+            cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.value) {
+                    this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
+                    this._store.dispatch(new GetOrderList());
+                } 
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire('Cancelled', 'This application is safe', 'error');
+                }
+            });
+
+        }
 
     showDate(date: string): string 
     {

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Store } from '@ngrx/store';
-import { State as AppState, getCustomerState, getAuthState } from 'app/store/reducers';
+import { State as AppState, getOrderState, getAuthState } from 'app/store/reducers';
 
 import { User } from 'app/models/user';
 import { Order } from 'app/models/order/order';
@@ -92,48 +92,64 @@ export class CustomerOrderListService {
   {
       this.orderList = [];
       return new Promise((resolve, reject) => {
-              this._store.select(getCustomerState).subscribe((state) => {
-                  if (state.orderListForCustomer == null) {
+              this._store.select(getOrderState).subscribe((state) => {
+                            if (state.orderList == null) {
 
-                      resolve('the state has problem');
-                  }
-                  else {
-                      this.orderList = [];
-                      state.orderListForCustomer.forEach(element => {
-                          this.orderList.push(element);
-                      });
+                                resolve('the state has problem');
+                            }
+                            else {
+                                this.orderList = [];
+                                state.orderList.forEach(element => {
+                                    this.orderList.push(element);
+                                });
 
-                      if ( this.searchText && this.searchText !== '' )
-                      {
-                          this.orderList = FuseUtils.filterArrayByString(this.orderList, this.searchText);
-                      }
-                      this.onOrdersChanged.next(this.orderList);
-                      resolve(this.orderList);
-                  }
+                                if ( this.searchText && this.searchText !== '' ) {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, this.searchText);
+                                }
 
-              }, reject);
-          }
-      );
-  }
-  /**
-   * Get user data
-   *
-   * @returns {Promise<any>}
-   */
-  getUserData(): Promise<any>
-  {
-      return new Promise((resolve, reject) => {
+                                if ( this.filterBy === 'unprocessed') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-processing');
+                                }
 
-              this._store.select(getAuthState).subscribe(state => {
-                  if (state.user == null) {
-                      resolve('the state has problems');
-                  }
-                  else {
-                      this.user = new User(state.user);
-                      this.onUserDataChanged.next(this.user);
-                      resolve(this.user);
-                  }
-              }, reject);
+                                if ( this.filterBy === 'approved') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-approved');
+                                }
+
+                                if ( this.filterBy === 'declined') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-declined');
+                                }
+
+                                if ( this.filterBy === 'finalised') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-finalised');
+                                }
+
+                                this.onOrdersChanged.next(this.orderList);
+                                resolve(this.orderList);
+                            }
+
+                        }, reject);
+                    }
+                );
+            }
+            /**
+             * Get user data
+             *
+             * @returns {Promise<any>}
+             */
+            getUserData(): Promise<any>
+            {
+                return new Promise((resolve, reject) => {
+
+                        this._store.select(getAuthState).subscribe(state => {
+                            if (state.user == null) {
+                                resolve('the state has problems');
+                            }
+                            else {
+                                this.user = new User(state.user);
+                                this.onUserDataChanged.next(this.user);
+                                resolve(this.user);
+                            }
+                        }, reject);
 
           }
       );
@@ -228,14 +244,14 @@ export class CustomerOrderListService {
   updateUserData(userData): Promise<any>
   {
       return new Promise((resolve, reject) => {
-        this._store.select(getCustomerState).subscribe((state) => {
-          if (state.orderListForCustomer == null) {
+        this._store.select(getOrderState).subscribe((state) => {
+          if (state.orderList == null) {
 
               resolve('the state has problem');
           }
           else {
               this.orderList = [];
-              state.orderListForCustomer.forEach(element => {
+              state.orderList.forEach(element => {
                   this.orderList.push(element);
               });
 

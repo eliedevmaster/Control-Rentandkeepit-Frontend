@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 
-import { Go, GetOrderListForCustomer} from 'app/store/actions';
+import { Go, GetOrderList} from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
 
@@ -59,7 +59,7 @@ export class CustomerOrderListComponent implements OnInit {
       this.mapUserStateToModel();
       this.customerId = this._activatedRoute.snapshot.params.customerId;
       this.customerName = this._activatedRoute.snapshot.params.customerName;
-      this._store.dispatch(new GetOrderListForCustomer({customerId : this.customerId}));
+      this._store.dispatch(new GetOrderList());
   }
 
 

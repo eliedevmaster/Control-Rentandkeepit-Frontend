@@ -28,19 +28,7 @@ export const initialState: State = {
               orderListForCustomer : action.payload.orderList,
           };
         }
-        
-        case CustomerActionTypes.SAVE_AGREEMENT_COMPLETE: {
-          return {
-              ...state,
-          };
-        }
-
-        case CustomerActionTypes.SAVE_AGREEMENT_ERROR: {
-          return {
-            ...state,
-            errorMessage : action.payload.errorMessage,
-          }
-        }
+       
         
         default: {
             return state;

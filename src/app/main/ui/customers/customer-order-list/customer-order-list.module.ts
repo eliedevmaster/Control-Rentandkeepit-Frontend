@@ -20,10 +20,11 @@ import { CustomerOrderListService } from './customer-order-list.service';
 
 import { CustomerOrderListComponent } from './customer-order-list.component';
 import { CustomerOrderItemComponent } from './customer-order-item/customer-order-item.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   {
-      path     : 'customers/customer-order-list/:customerId/:customerName',
+      path     : 'customers/customer-order-list',
       component: CustomerOrderListComponent,
       resolve  : {
           instructors: CustomerOrderListService
@@ -32,7 +33,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [CustomerOrderListComponent, CustomerOrderItemComponent],
+  declarations: [CustomerOrderListComponent, CustomerOrderItemComponent, SidebarComponent],
   imports: [
     RouterModule.forChild(routes),
     MatSlideToggleModule,

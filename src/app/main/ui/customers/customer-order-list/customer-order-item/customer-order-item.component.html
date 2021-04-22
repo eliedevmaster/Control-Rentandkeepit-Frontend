@@ -14,7 +14,7 @@
         <mat-header-cell *matHeaderCellDef>Customer</mat-header-cell>
         <mat-cell *matCellDef="let order">
             <p class="text-truncate font-weight-600">
-                {{customerName}}</p>
+                {{order.customer.first_name}} {{order.customer.last_name}}</p>
         </mat-cell>
     </ng-container>
 
@@ -29,7 +29,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="numItemSold">
-        <mat-header-cell *matHeaderCellDef>Number of total Items</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Number of Items</mat-header-cell>
         <mat-cell *matCellDef="let order">
             <p class="text-truncate font-weight-600">{{order.num_items_sold}}</p>
         </mat-cell>
@@ -51,16 +51,17 @@
         </mat-cell>
     </ng-container>
     <!-- Name Column -->
+    
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Processing&nbsp;</p>
-            <p *ngIf="order.status == 'wc-complete'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Complete&nbsp;</p>
+            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Unporeccessed&nbsp;</p>
+            <p *ngIf="order.status == 'wc-approved'" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Approved&nbsp;</p>
+            <p *ngIf="order.status == 'wc-declined'" class="status text-truncate h6 p-4 status" [ngClass]="'warn-500'">&nbsp;Declined&nbsp;</p>
+            <p *ngIf="order.status == 'wc-finalised'" class="status text-truncate h6 p-4 status" [ngClass]="'blue-grey'">&nbsp;Finalised&nbsp;</p>
         </mat-cell>
     </ng-container>
-    
-
-    
+      
     <!-- Buttons Column -->
     <ng-container matColumnDef="action">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -68,7 +69,7 @@
             <div fxFlex="row" fxLayoutAlign="end center">
                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(order.id)" aria-label="Toggle star">
                     <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(order.id)">star</mat-icon>-->
-                    <mat-icon class="secondary-text">star_border</mat-icon>
+                    <mat-icon class="amber-fg">star</mat-icon>
                 </button>
 
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
@@ -80,6 +81,10 @@
                     <button mat-menu-item aria-label="remove" (click)="generatePaperWork(order)">
                         <mat-icon>description</mat-icon>
                         <span>Generate</span>
+                    </button>
+                    <button mat-menu-item aria-label="remove" (click)="decline(order)">
+                        <mat-icon>remove_circle_outline</mat-icon>
+                        <span>Decline</span>
                     </button>
                 </mat-menu>
             </div>
