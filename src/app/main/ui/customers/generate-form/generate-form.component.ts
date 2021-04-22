@@ -375,7 +375,6 @@ export class GenerateFormComponent implements OnInit {
         if(this.generateForm.value['startDate'] == "")
             return;
         
-        console.log("dddd");
         let startDate: Date = new Date(this.generateForm.value['startDate']);
         let termLength: number = 12 * this.generateForm.value['termLength'];
         this.generateForm.controls['finishDate'].setValue(new Date(startDate.setMonth(startDate.getMonth() + termLength)).toISOString().substring(0, 10));
