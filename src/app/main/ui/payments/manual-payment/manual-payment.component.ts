@@ -5,12 +5,12 @@ import { Subject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';  
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
-import { Back } from 'app/store/actions';
+import { Back, GetCustomerList } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
 
-import { State as AppState, getAuthState } from 'app/store/reducers';
+import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
@@ -27,6 +27,7 @@ export class ManualPaymentComponent implements OnInit {
 
   manualPaymentForm: FormGroup;
   user: User;
+  customerList: any[] = [];
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -43,6 +44,7 @@ export class ManualPaymentComponent implements OnInit {
   {
       // Set the private defaults
       this._unsubscribeAll = new Subject();
+      this._store.dispatch(new GetCustomerList());
   }
 
   // -----------------------------------------------------------------------------------------------------
@@ -56,12 +58,13 @@ export class ManualPaymentComponent implements OnInit {
   {
       // Reactive Form
       this.manualPaymentForm = this._formBuilder.group({
-        customerAccount           : ['', Validators.required],
-        amountPaid                : ['', Validators.required],
-        ampuntToPay               : ['', Validators.required]
+        customer           : ['', Validators.required],
+        amountPaid         : ['', Validators.required],
+        ampuntToPay        : ['', Validators.required]
       });
       
       this.mapUserStateToModel();
+      this.mapCustomerListToModel();
   }
 
   /**
@@ -96,9 +99,26 @@ export class ManualPaymentComponent implements OnInit {
     });
   }
 
+  mapCustomerListToModel() : void
+  {
+    this.getCustomerList().subscribe(state => {
+      if(state.customerList != null) {
+        this.customerList = [];
+        state.customerList.forEach(element => {
+          this.customerList.push(element);
+        });    
+      }
+    });
+  }
+
   getAuthState() 
   {
     return this._store.select(getAuthState);
+  }
+
+  getCustomerList()
+  {
+    return this._store.select(getCustomerState)
   }
 
 }

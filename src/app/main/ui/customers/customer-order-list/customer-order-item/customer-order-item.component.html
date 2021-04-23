@@ -69,7 +69,15 @@
             
             <div *ngIf="order.status == 'wc-processing'" fxFlex="row" fxLayoutAlign="end center">
                 
-                <button mat-raised-button class="submit-button green" aria-label="GENERATE" 
+                <button mat-icon-button (click)="generatePaperWork(order)" aria-label="Toggle star">
+                    <mat-icon style="color:green;">check_circle</mat-icon>
+                </button>
+
+                <button mat-icon-button (click)="decline(order)" aria-label="Toggle star">
+                    <mat-icon style="color: red;">cancel</mat-icon>
+                </button>
+
+                <!--<button mat-raised-button class="submit-button green" aria-label="GENERATE" 
                  (click)="generatePaperWork(order)">
                     <mat-icon>description</mat-icon>
                 </button>
@@ -77,7 +85,7 @@
                 <button mat-raised-button class="submit-button red" aria-label="GENERATE" 
                  (click)="decline(order)" style="margin-left: 5px;">
                     <mat-icon>not_interested</mat-icon>
-                </button>
+                </button>-->
             </div>
 
                 <!--<button mat-icon-button (click)="$event.stopPropagation();toggleStar(order.id)" aria-label="Toggle star">
