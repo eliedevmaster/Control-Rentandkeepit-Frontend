@@ -29,6 +29,7 @@ import { FinaliseFormModule } from 'app/main/ui/customers/finalise-form/finalise
 import { CentrepayBulkUploadModule } from 'app/main/ui/payments/centrepay-bulk-upload/centrepay-bulk-upload.module';
 import { EziDebitBulkUploadModule } from 'app/main/ui/payments/ezi-debit-bulk-upload/ezi-debit-bulk-upload.module';
 import { ManualPaymentModule } from 'app/main/ui/payments/manual-payment/manual-payment.module';
+import { ApplicationFormModule } from 'app/main/ui/customers/application-form/application-form.module';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -81,6 +82,8 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CustomerFormModule,
         GenerateFormModule,
         FinaliseFormModule,
+        ApplicationFormModule,
+        
         CentrepayBulkUploadModule,
         EziDebitBulkUploadModule,
         ManualPaymentModule,

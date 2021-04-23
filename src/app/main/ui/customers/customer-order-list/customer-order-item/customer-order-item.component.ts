@@ -205,7 +205,7 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     editOrder(order): void
     {
-        
+        this._store.dispatch(new Go({path: ['/ui/customers/application-form/' + order.order_id], query: null, extras: null}));
     }
 
     /**

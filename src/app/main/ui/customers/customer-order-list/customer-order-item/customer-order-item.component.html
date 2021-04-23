@@ -10,10 +10,10 @@
         </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="customerName">
+    <ng-container matColumnDef="customerName" >
         <mat-header-cell *matHeaderCellDef>Customer</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p class="text-truncate font-weight-600">
+            <p class="text-truncate font-weight-600" (click)='editOrder(order)'>
                 {{order.customer.first_name}} {{order.customer.last_name}}</p>
         </mat-cell>
     </ng-container>

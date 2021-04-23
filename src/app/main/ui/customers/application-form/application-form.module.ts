@@ -48,17 +48,18 @@ import {MatTreeModule} from '@angular/material/tree';
 import {OverlayModule} from '@angular/cdk/overlay';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { CustomerFormComponent } from './customer-form.component';
+import { ApplicationFormComponent } from './application-form.component';
 
 const routes: Routes = [
   {
-      path     : 'customers/customer-form/:customerId/:customerName',
-      component: CustomerFormComponent
+      path     : 'customers/application-form/:orderId',
+      component: ApplicationFormComponent
   }
 ];
 
+
 @NgModule({
-  declarations: [CustomerFormComponent],
+  declarations: [ApplicationFormComponent],
   imports: [
     RouterModule.forChild(routes),
     MatButtonModule,
@@ -117,4 +118,4 @@ const routes: Routes = [
     FuseSharedModule,
   ]
 })
-export class CustomerFormModule { }
+export class ApplicationFormModule { }

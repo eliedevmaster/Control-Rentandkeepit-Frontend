@@ -28,7 +28,7 @@ export const navigation: FuseNavigation[] = [
 
     {
         id   : 'customers',
-        title: 'Customers',
+        title: 'Customer Database',
         type : 'item',
         icon : 'people',
         url  : '/ui/customers/customer-list',
