@@ -13,6 +13,7 @@ import { FileUploadService } from  'app/core/services/file-upload.service';
 import { State as AppState, getAuthState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 import { VAlign } from 'docx';
+import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 @Component({
   selector: 'app-application-form',
@@ -131,7 +132,7 @@ export class ApplicationFormComponent implements OnInit {
      */
     finishHorizontalStepper(): void
     {
-        alert('You have finished the horizontal stepper!');
+        Swal.fire('Yes', 'The application was modified successfully.', 'success');
     }
 
     /**
