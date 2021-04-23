@@ -60,7 +60,8 @@ export class ManualPaymentComponent implements OnInit {
       this.manualPaymentForm = this._formBuilder.group({
         customer           : ['', Validators.required],
         amountPaid         : ['', Validators.required],
-        ampuntToPay        : ['', Validators.required]
+        ampuntToPay        : ['', Validators.required],
+        paymentMethod      : ['']
       });
       
       this.mapUserStateToModel();

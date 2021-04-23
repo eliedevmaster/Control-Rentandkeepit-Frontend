@@ -43,7 +43,7 @@
                 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
  
-                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                         <mat-label>Amount to pay</mat-label>
                         <input matInput type="number" formControlName="ampuntToPay">
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
@@ -52,7 +52,7 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                         <mat-label>Amount to reverse</mat-label>
                         <input matInput type="number" formControlName="ampuntToPay">
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
@@ -60,18 +60,20 @@
                             Amount to reverse is required
                         </mat-error>
                     </mat-form-field>
-
-                    <mat-form-field appearance="outline" fxFlex="34" class="px-8">
-                        <mat-label>Amount paid</mat-label>
-                        <input matInput type="number" formControlName="amountPaid">
-                        <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
-                        <mat-error>
-                            Amount paid is required
-                        </mat-error>
-                    </mat-form-field>
     
                 </div>
+                <br><br>
 
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    <mat-radio-group formControlName="paymentMethod" aria-label="Select an option" appearance="outline" fxFlex="100" class="px-8">
+                        <mat-radio-button appearance="outline" fxFlex="15" value="1" >Cash</mat-radio-button>
+                        <mat-radio-button appearance="outline" fxFlex="15" value="2">Eftpos</mat-radio-button>
+                        <mat-radio-button appearance="outline" fxFlex="15" value="3">Credit Card</mat-radio-button>
+                        <mat-radio-button appearance="outline" fxFlex="15" value="4">Direct Deposit</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+                <br><br>
+                
                 <div fxLayout="row" fxLayoutAlign="end center" fxFlex="1 0 auto">
                     
                     <button mat-raised-button class="submit-button" color="accent"

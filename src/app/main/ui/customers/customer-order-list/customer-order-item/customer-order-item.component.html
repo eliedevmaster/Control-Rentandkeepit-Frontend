@@ -55,7 +55,7 @@
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Unporeccessed&nbsp;</p>
+            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Unproeccessed&nbsp;</p>
             <p *ngIf="order.status == 'wc-approved'" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Approved&nbsp;</p>
             <p *ngIf="order.status == 'wc-declined'" class="status text-truncate h6 p-4 status" [ngClass]="'warn-500'">&nbsp;Declined&nbsp;</p>
             <p *ngIf="order.status == 'wc-finalised'" class="status text-truncate h6 p-4 status" [ngClass]="'blue-grey'">&nbsp;Finalised&nbsp;</p>
@@ -63,52 +63,31 @@
     </ng-container>
       
     <!-- Buttons Column -->
-    <ng-container matColumnDef="action">
+    <ng-container matColumnDef="action1">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let order">
             
-            <div *ngIf="order.status == 'wc-processing'" fxFlex="row" fxLayoutAlign="end center">
-                
+            <div *ngIf="order.status == 'wc-processing'" >
                 <button mat-icon-button (click)="generatePaperWork(order)" aria-label="Toggle star">
                     <mat-icon style="color:green;">check_circle</mat-icon>
+                    <span style="color:green;">Approved</span>
                 </button>
+                
+            </div>
+        </mat-cell>
+    </ng-container>
 
+    <ng-container matColumnDef="action2">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <div *ngIf="order.status == 'wc-processing'">
+                
                 <button mat-icon-button (click)="decline(order)" aria-label="Toggle star">
                     <mat-icon style="color: red;">cancel</mat-icon>
+                    <span style="color: red;">Declined</span>
                 </button>
-
-                <!--<button mat-raised-button class="submit-button green" aria-label="GENERATE" 
-                 (click)="generatePaperWork(order)">
-                    <mat-icon>description</mat-icon>
-                </button>
-
-                <button mat-raised-button class="submit-button red" aria-label="GENERATE" 
-                 (click)="decline(order)" style="margin-left: 5px;">
-                    <mat-icon>not_interested</mat-icon>
-                </button>-->
+                
             </div>
-
-                <!--<button mat-icon-button (click)="$event.stopPropagation();toggleStar(order.id)" aria-label="Toggle star">
-                    <!-<mat-icon class="amber-fg" *ngIf="user.starred.includes(order.id)">star</mat-icon>->
-                    <mat-icon class="amber-fg">star</mat-icon>
-                </button>-->
-
-                <!--<button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
-                    (click)="$event.stopPropagation();">
-                    <mat-icon class="secondary-text">more_vert</mat-icon>
-                </button>-->
-
-                <!--<mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="remove" (click)="generatePaperWork(order)">
-                        <mat-icon>description</mat-icon>
-                        <span>Generate</span>
-                    </button>
-                    <button mat-menu-item aria-label="remove" (click)="decline(order)">
-                        <mat-icon>remove_circle_outline</mat-icon>
-                        <span>Decline</span>
-                    </button>
-                </mat-menu>-->
-            
 
         </mat-cell>
     </ng-container>
