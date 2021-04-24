@@ -57,11 +57,9 @@ export class ApplicationFormComponent implements OnInit {
     {
 
         // Horizontal Stepper form steps
-        this.horizontalStepperStep1 = this._formBuilder.group({
-            comment                 :  ['', Validators.required],
-        });
+       
         
-        this.horizontalStepperStep2 = this._formBuilder.group({
+        this.horizontalStepperStep1 = this._formBuilder.group({
             firstName               :   ['asdf', Validators.required],
             lastName                :   ['asdf', Validators.required],
             middleName              :   ['K'],
@@ -72,17 +70,21 @@ export class ApplicationFormComponent implements OnInit {
             postCode                :   ['2000', Validators.required],
             phone                   :   ['0434161268', Validators.required],
             mobile                  :   [''],
+
+            notes                   :   ['', Validators.required],
         });
 
-        this.horizontalStepperStep3 = this._formBuilder.group({
+        this.horizontalStepperStep2 = this._formBuilder.group({
             identificationType  :  ['Proof of Age Card', Validators.required],
             idNumber            :  ['0119801785', Validators.required],
             expiryDate          :  [new Date('16/08/2026'), Validators.required],
             birthday            :  [new Date('16/08/1993'), Validators.required],
             existingCustomer    :  [2, Validators.required],
+
+            notes               :   ['', Validators.required],
         });
 
-        this.horizontalStepperStep4 = this._formBuilder.group({
+        this.horizontalStepperStep3 = this._formBuilder.group({
             //Income
             employmentStatus    :   ['Part Time', Validators.required],
             employerName        :   ['New horizones', Validators.required],
@@ -101,14 +103,18 @@ export class ApplicationFormComponent implements OnInit {
             repayAmountWeekly   :   [31, Validators.required],
             weeklyBillAmount    :   [180, Validators.required],
             weeklyHouseHold     :   [90, Validators.required],
+
+            notes               :   ['', Validators.required],
+
             
         });
         
-        this.horizontalStepperStep5 = this._formBuilder.group({
+        this.horizontalStepperStep4 = this._formBuilder.group({
             name                :   ['Denise', Validators.required],
             address             :   ['5 pitt street taree', Validators.required],
             phone               :   ['0421645969', Validators.required],
-            relationship        :   ['Friend', Validators.required]
+            relationship        :   ['Friend', Validators.required],
+            notes               :   ['', Validators.required],
         });
         
     }
@@ -127,6 +133,11 @@ export class ApplicationFormComponent implements OnInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    onModifySuccess(): void 
+    {
+        Swal.fire('Yes', 'The application was modified successfully.', 'success');
+
+    }
     /**
      * Finish the horizontal stepper
      */
