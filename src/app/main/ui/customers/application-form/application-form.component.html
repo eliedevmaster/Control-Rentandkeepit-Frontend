@@ -59,7 +59,7 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Email</mat-label>
                                 <input matInput type="email" formControlName="email" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">mail</mat-icon>
                                 <mat-error>Email is required!</mat-error>
                             </mat-form-field>
                 
@@ -111,7 +111,7 @@
                             <mat-form-field appearance="outline" fxFlex="33" class="px-8" class="px-8">
                                 <mat-label>Mobile</mat-label>
                                 <input matInput formControlName="mobile">
-                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">phone_android</mat-icon>
                                 <mat-error>Mobile is required!</mat-error>
                             </mat-form-field>
                         
@@ -121,15 +121,15 @@
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Notes</mat-label>
-                                <textarea matInput row='5' formControlName="notes" required>
+                                <textarea matInput matTextareaAutosize matAutosizeMinRows='5' matAutosizeMaxRows='20' formControlName="notes">
                                 </textarea>
-                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">event_note</mat-icon>
                                 <mat-error>Notes is required!</mat-error>
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep1.invalid" (click)="onModifySuccess()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep1.invalid" (click)="onModifyFirst()">
                                 Modify
                             </button>
                             <button mat-raised-button matStepperNext type="button" color="accent">
@@ -194,8 +194,8 @@
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             
                             <mat-radio-group formControlName="existingCustomer" aria-label="Select an option" appearance="outline" fxFlex="50" class="px-8">    
-                                <mat-radio-button appearance="outline" fxFlex="15" value="1" >Yes</mat-radio-button>
-                                <mat-radio-button appearance="outline" fxFlex="15" value="2">No</mat-radio-button>  
+                                <mat-radio-button appearance="outline" fxFlex="15" [value]="'Yes'" >Yes</mat-radio-button>
+                                <mat-radio-button appearance="outline" fxFlex="15" [value]="'No'">No</mat-radio-button>  
                             </mat-radio-group>
                         </div>
 
@@ -203,16 +203,16 @@
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Notes</mat-label>
-                                <textarea matInput row='5' formControlName="notes" required>
+                                <textarea matInput matTextareaAutosize matAutosizeMinRows='5' matAutosizeMaxRows='20' formControlName="notes">
                                 </textarea>
-                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">event_note</mat-icon>
                                 <mat-error>Notes is required!</mat-error>
                             </mat-form-field>
                         </div>
 
                                        
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep2.invalid" (click)="onModifySuccess()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep2.invalid" (click)="onModifySecond()">
                                 Modify
                             </button>
 
@@ -241,7 +241,6 @@
                             
                         </div>
                 
-                
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                 
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
@@ -265,21 +264,21 @@
                             <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                                 <mat-label>Employer Phone</mat-label>
                                 <input matInput formControlName="employerPhone" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
                                 <mat-error>Employer Phone is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                                 <mat-label>Time with this employer</mat-label>
                                 <input matInput formControlName="employerTime" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">access_time</mat-icon>
                                 <mat-error>Time with this employer is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="34" class="px-8">
                                 <mat-label>Total Weekly Income</mat-label>
                                 <input matInput formControlName="totalWeeklyIncome" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                                 <mat-error>Total Weekly Income is required!</mat-error>
                             </mat-form-field>
                 
@@ -297,7 +296,7 @@
                             <mat-form-field appearance="outline" fxFlex="100" class="px-8">
                                 <mat-label>Residential Status</mat-label>
                                 <input matInput formControlName="residentalStatus" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">shopping_cart</mat-icon>
                                 <mat-error>Residential Status is required!</mat-error>
                             </mat-form-field>
                 
@@ -308,14 +307,14 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Time you have lived at this address</mat-label>
                                 <input matInput formControlName="timeAtAdress" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">access_time</mat-icon>
                                 <mat-error>Time you have lived at this address is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Mortgage Amount</mat-label>
-                                <input matInput formControlName="MortgageAmount" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <input matInput formControlName="mortgageAmount" required>
+                                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                                 <mat-error>Mortgage Amount is required!</mat-error>
                             </mat-form-field>
                             
@@ -333,7 +332,7 @@
                             <mat-form-field appearance="outline" fxFlex="100" class="px-8">
                                 <mat-label>List your other loans/debts</mat-label>
                                 <input matInput formControlName="residentalStatus" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">shopping_cart</mat-icon>
                                 <mat-error>Residential Status is required!</mat-error>
                             </mat-form-field>
                 
@@ -344,7 +343,7 @@
                             <mat-form-field appearance="outline" fxFlex="100" class="px-8">
                                 <mat-label>List your other loans/debts</mat-label>
                                 <input matInput formControlName="loanList" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">shopping_cart</mat-icon>
                                 <mat-error>List your other loans/debts is required!</mat-error>
                             </mat-form-field>
                 
@@ -355,14 +354,14 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>The total amount/value of your other loans/debts</mat-label>
                                 <input matInput formControlName="loanTotalAmount" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                                 <mat-error>List your other loans/debts is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Total amount you repay weekly</mat-label>
                                 <input matInput formControlName="repayAmountWeekly" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                                 <mat-error>Total amount you repay weekly is required!</mat-error>
                             </mat-form-field>
                 
@@ -373,14 +372,14 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Weekly bills amount</mat-label>
                                 <input matInput formControlName="weeklyBillAmount" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                                 <mat-error>Weekly bills amount is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Weekly household</mat-label>
                                 <input matInput formControlName="weeklyHouseHold" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
                                 <mat-error>Weekly household is required!</mat-error>
                             </mat-form-field>
                 
@@ -390,15 +389,15 @@
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Notes</mat-label>
-                                <textarea matInput row='5' formControlName="notes" required>
+                                <textarea matInput matTextareaAutosize matAutosizeMinRows='5' matAutosizeMaxRows='20' formControlName="notes">
                                 </textarea>
-                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">event_note</mat-icon>
                                 <mat-error>Notes is required!</mat-error>
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep3.invalid" (click)="onModifySuccess()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep3.invalid" (click)="onModifyThird()">
                                 modify
                             </button>
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
@@ -431,7 +430,7 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Address</mat-label>
                                 <input matInput formControlName="address" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
                                 <mat-error>Address is required!</mat-error>
                             </mat-form-field>
                 
@@ -442,14 +441,14 @@
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Phone</mat-label>
                                 <input matInput formControlName="phone" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">phone</mat-icon>
                                 <mat-error>Phone is required!</mat-error>
                             </mat-form-field>
                 
                             <mat-form-field appearance="outline" fxFlex="50" class="px-8">
                                 <mat-label>Relationship</mat-label>
                                 <input matInput formControlName="relationship" required>
-                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">people</mat-icon>
                                 <mat-error>Relationship is required!</mat-error>
                             </mat-form-field>
                 
@@ -459,22 +458,19 @@
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                             <mat-form-field appearance="outline" fxFlex="100">
                                 <mat-label>Notes</mat-label>
-                                <textarea matInput row='5' formControlName="notes" required>
+                                <textarea matInput matTextareaAutosize matAutosizeMinRows='5' matAutosizeMaxRows='20' formControlName="notes">
                                 </textarea>
-                                <mat-icon matSuffix class="secondary-text">home</mat-icon>
+                                <mat-icon matSuffix class="secondary-text">event_note</mat-icon>
                                 <mat-error>Notes is required!</mat-error>
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep4.invalid" (click)="onModifySuccess()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep4.invalid" (click)="onModifyForth()">
                                 modify
                             </button>
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                                 Previous
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
-                                Next
                             </button>
                         </div>
                 
@@ -482,25 +478,6 @@
                 
                 </mat-step>
                 
-                <mat-step>
-
-                    <ng-template matStepLabel>Done</ng-template>
-
-                    <div class="h2 m-16" fxLayout="row" fxLayoutAlign="center center">
-                        Do you really want to modify this application info?
-                    </div>
-
-                    <div fxLayout="row" fxLayoutAlign="end center">
-                        <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
-                            Previous
-                        </button>
-                        <button mat-raised-button type="button" color="accent" (click)="finishHorizontalStepper()">
-                            Finish
-                        </button>
-                    </div>
-
-                </mat-step>
-
             </mat-horizontal-stepper>
             <!-- / HORIZONTAL STEPPER EXAMPLE -->
 

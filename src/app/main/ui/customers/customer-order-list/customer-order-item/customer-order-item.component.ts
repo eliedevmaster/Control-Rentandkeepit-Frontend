@@ -63,6 +63,7 @@ export class CustomerOrderItemComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+        localStorage.removeItem('order_meta');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -205,6 +206,7 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     editOrder(order): void
     {
+        localStorage.setItem('order_meta', JSON.stringify(order.post_meta));
         this._store.dispatch(new Go({path: ['/ui/customers/application-form/' + order.order_id], query: null, extras: null}));
     }
 
@@ -229,7 +231,6 @@ export class CustomerOrderItemComponent implements OnInit {
         });
 
     }
-
 
     /**
      * On selected change

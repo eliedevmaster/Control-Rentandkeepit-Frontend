@@ -17,7 +17,24 @@ export enum OrderActionTypes {
     SET_ORDER_STATUS = "[Order] SET_STATUS",
     SET_ORDER_STATUS_COMPLETE = "[Order] SET_STATUS_COMPLETE",
     SET_ORDER_STATUS_ERROR = "[Order] SET_STATUS_ERROR",
+
+    SAVE_ORDER_META_FIRST = '[Order] SAVE_ORDER_META_FIRST',
+    SAVE_ORDER_META_FIRST_COMPLETE = '[Order] SAVE_ORDER_META_FIRST_COMPLETE',
+    SAVE_ORDER_META_FIRST_ERROR = '[Order] SAVE_ORDER_META_FIRST_ERROR',
+
+    SAVE_ORDER_META_SECOND = '[Order] SAVE_ORDER_META_SECOND',
+    SAVE_ORDER_META_SECOND_COMPLETE = '[Order] SAVE_ORDER_META_SECOND_COMPLETE',
+    SAVE_ORDER_META_SECOND_ERROR = '[Order] SAVE_ORDER_META_SECOND_ERROR',
+
+    SAVE_ORDER_META_THIRD = '[Order] SAVE_ORDER_META_THIRD',
+    SAVE_ORDER_META_THIRD_COMPLETE = '[Order] SAVE_ORDER_META_THIRD_COMPLETE',
+    SAVE_ORDER_META_THIRD_ERROR = '[Order] SAVE_ORDER_META_THIRD_ERROR',
+    
+    SAVE_ORDER_META_FORTH = '[Order] SAVE_ORDER_META_FORTH',
+    SAVE_ORDER_META_FORTH_COMPLETE = '[Order] SAVE_ORDER_META_FORTH_COMPLETE',
+    SAVE_ORDER_META_FORTH_ERROR = '[Order] SAVE_ORDER_META_FORTH_ERROR',
 }
+
 
 export class AddOrder implements Action {
     readonly type = OrderActionTypes.ADD_ORDER;
@@ -75,6 +92,68 @@ export class SetOrderStatusError implements Action {
     constructor (public payload: {errorMessage : string}) {}
 }
 
+///////////
+export class SaveOrderMetaFirst implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FIRST;
+    constructor (public payload: {orderMetaFirst : any}) {}
+}
+
+export class SaveOrderMetaFirstComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FIRST_COMPLETE;
+}
+
+export class SaveOrderMetaFirstError implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FIRST_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
+
+
+///////////////////
+export class SaveOrderMetaSecond implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_SECOND;
+    constructor (public payload: {orderMetaSecond : any}) {}
+}
+
+export class SaveOrderMetaSecondComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_SECOND_COMPLETE;
+}
+
+export class SaveOrderMetaSecondError implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_SECOND_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
+
+///////////////////
+export class SaveOrderMetaThird implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_THIRD;
+    constructor (public payload: {orderMetaThird : any}) {}
+}
+
+export class SaveOrderMetaThirdComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_THIRD_COMPLETE;
+}
+
+export class SaveOrderMetaThirdError implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_THIRD_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
+
+/////////////////////
+export class SaveOrderMetaForth implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FORTH;
+    constructor (public payload: {orderMetaForth : any}) {}
+}
+
+export class SaveOrderMetaForthComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FORTH_COMPLETE;
+}
+
+export class SaveOrderMetaForthError implements Action {
+    readonly type = OrderActionTypes.SAVE_ORDER_META_FORTH_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
+
+
 export type OrderActions
  =  AddOrder
  | AddOrderComplete
@@ -87,4 +166,16 @@ export type OrderActions
  | SaveAgreementError
  | SetOrderStatus
  | SetOrderStatusComplete
- | SetOrderStatusError;
+ | SetOrderStatusError
+ | SaveOrderMetaFirst
+ | SaveOrderMetaFirstComplete
+ | SaveOrderMetaFirstError
+ | SaveOrderMetaSecond
+ | SaveOrderMetaSecondComplete
+ | SaveOrderMetaSecondError
+ | SaveOrderMetaThird
+ | SaveOrderMetaThirdComplete
+ | SaveOrderMetaThirdError
+ | SaveOrderMetaForth
+ | SaveOrderMetaForthComplete
+ | SaveOrderMetaForthError;

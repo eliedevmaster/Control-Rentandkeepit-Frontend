@@ -4,7 +4,10 @@ import { map, tap, switchMap, catchError } from 'rxjs/operators';
 import { AddOrder, AddOrderComplete, AddOrderError, OrderActionTypes,
         GetOrderList, GetOrderListComplete, GetOrderListError,
         SaveAgreementError, SaveAgreement, SaveAgreementComplete, 
-        SetOrderStatus, SetOrderStatusComplete, SetOrderStatusError,} from '../actions/order.action';
+        SetOrderStatus, SetOrderStatusComplete, SetOrderStatusError, SaveOrderMetaFirst, 
+        SaveOrderMetaForthComplete, SaveOrderMetaFirstError, SaveOrderMetaSecond, SaveOrderMetaSecondError, 
+        SaveOrderMetaFirstComplete, SaveOrderMetaSecondComplete, SaveOrderMetaThird, SaveOrderMetaThirdComplete, 
+        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError,} from '../actions/order.action';
 
 import { Router } from '@angular/router';
 
@@ -47,7 +50,6 @@ export class OrderEffects
         })
     );
 
-
     @Effect()
     oderList$ = this.actions$.pipe(
         ofType(OrderActionTypes.GET_ORDER_LIST),
@@ -59,7 +61,6 @@ export class OrderEffects
                     orderList.forEach(element => {
                         orderArray.push(element);
                     });
-
                     return new GetOrderListComplete({orderList : orderArray})
                 }),
                 catchError((error: Error) => {
@@ -104,5 +105,77 @@ export class OrderEffects
                 })
             );
         })
-    );    
+    );
+    
+    @Effect()
+    saveOrderMetaFirst$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_ORDER_META_FIRST),
+        map((action: SaveOrderMetaFirst) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.saveOrderMetaFirst(payload.orderMetaFirst)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    return new SaveOrderMetaFirstComplete();
+                }),
+                catchError((error: Error) => {
+                    return of(new SaveOrderMetaFirstError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
+    saveOrderMetaSecond$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_ORDER_META_SECOND),
+        map((action: SaveOrderMetaSecond) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.saveOrderMetaSecond(payload.orderMetaSecond)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    return new SaveOrderMetaSecondComplete();
+                }),
+                catchError((error: Error) => {
+                    return of(new SaveOrderMetaSecondError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+    
+    @Effect()
+    saveOrderMetaThird$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_ORDER_META_THIRD),
+        map((action: SaveOrderMetaThird) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.saveOrderMetaThird(payload.orderMetaThird)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    return new SaveOrderMetaThirdComplete();
+                }),
+                catchError((error: Error) => {
+                    return of(new SaveOrderMetaThirdError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
+    saveOrderMetaForth$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_ORDER_META_FORTH),
+        map((action: SaveOrderMetaForth) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.saveOrderMetaForth(payload.orderMetaForth)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    return new SaveOrderMetaForthComplete();
+                }),
+                catchError((error: Error) => {
+                    return of(new SaveOrderMetaForthError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
 }

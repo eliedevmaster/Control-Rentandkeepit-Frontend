@@ -7,11 +7,12 @@ import { catchError, map } from 'rxjs/operators';
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
 
-import { Back, SetOrderStatus } from 'app/store/actions';
-import { Store } from '@ngrx/store';
+
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
 
+import { Back, SetOrderStatus } from 'app/store/actions';
+import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
 

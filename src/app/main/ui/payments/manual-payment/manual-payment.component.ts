@@ -59,9 +59,9 @@ export class ManualPaymentComponent implements OnInit {
       // Reactive Form
       this.manualPaymentForm = this._formBuilder.group({
         customer           : ['', Validators.required],
-        amountPaid         : ['', Validators.required],
-        ampuntToPay        : ['', Validators.required],
-        paymentMethod      : ['']
+        amountToPay        : ['', Validators.required],
+        amountToReverse    : ['', Validators.required],
+        paymentMethod      : ['', Validators.required]
       });
       
       this.mapUserStateToModel();

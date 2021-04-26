@@ -12,7 +12,7 @@ import { State as AppState, getAuthState, getCustomerState, getProductState } fr
 import { User } from 'app/models/user';
 
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
-import {  MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomerService } from 'app/core/services/customer.service';
 import { OrderService } from 'app/core/services/order.service';
 
