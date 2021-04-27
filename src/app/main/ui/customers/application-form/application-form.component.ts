@@ -95,6 +95,7 @@ export class ApplicationFormComponent implements OnInit {
      */
     ngOnInit(): void
     {   
+        console.log("data : ", this.sharedOrderMeta);
         this.orderMeta = this.sharedOrderMeta;
         if(this.orderMeta != null && !this.flag ) {
             console.log('ddd :', this.orderMeta);
