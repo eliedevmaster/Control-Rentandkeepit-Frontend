@@ -250,12 +250,17 @@ export class GenerateFormComponent implements OnInit {
 
             this._store.dispatch(new AddCustomer({customer: payload}));
 
-            Swal.fire('Yes!', 'The agreement has successfully saved', 'success');
+            Swal.fire('Yes!', 'The agreement has successfully saved.', 'success');
         }
         
         this.enableFinaliseButton = true;
     } 
 
+    onSave() : void 
+    {
+        Swal.fire('Yes!', 'You saved successfully.', 'success');
+    }
+    
     onFinalise(): void
     {
         const orderedProdcuts = {

@@ -289,9 +289,21 @@
                     </button>
 
                     <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
-                    [disabled]="generateForm.invalid"  (click)="onFinalise()">                       
-                        <span >Next</span>
+                    [disabled]="generateForm.invalid"  (click)="onSave()">                       
+                        <span >Save</span>
                     </button>
+
+                    <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
+                    [disabled]="generateForm.invalid"  (click)="onFinalise()">                       
+                        <span >Finalise</span>
+                    </button>
+
+                    <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
+                    [disabled]="generateForm.invalid"  (click)="backPath()">                       
+                        <span >Exit</span>
+                    </button>
+
+                   
                 </div>
 
             </form>

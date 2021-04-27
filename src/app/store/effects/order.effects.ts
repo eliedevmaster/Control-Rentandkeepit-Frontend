@@ -97,7 +97,6 @@ export class OrderEffects
             return this.orderService.setOrderStatus(payload.orderStatus)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'This application has successfully declined', 'success');
                     return new SetOrderStatusComplete();
                 }),
                 catchError((error: Error) => {

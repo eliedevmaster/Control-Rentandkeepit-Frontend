@@ -65,7 +65,6 @@ export class CustomerOrderItemComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        localStorage.removeItem('order_meta');
     }
 
     get orderMeta(): any {
@@ -83,7 +82,8 @@ export class CustomerOrderItemComponent implements OnInit {
      * On init
      */
     ngOnInit(): void
-    {   
+    {
+
     } 
     ngAfterViewChecked(): void 
     {
