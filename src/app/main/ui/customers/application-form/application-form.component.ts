@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit , ViewEncapsulation, ElementRef, ViewChild
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject, of } from 'rxjs';  
+import { ChangeDetectorRef } from '@angular/core';
+
 import { catchError, map } from 'rxjs/operators';  
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { fuseAnimations } from '@fuse/animations';
@@ -44,7 +46,7 @@ export class ApplicationFormComponent implements OnInit {
 
     orderMeta: any;
     orderId : number;
-
+    flag: boolean = false;
     uploadedURL_1: string;
     uploadedURL_2: string;
 
@@ -67,6 +69,7 @@ export class ApplicationFormComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _orderService: OrderService,
         private _activatedRoute: ActivatedRoute,
+        private _cdref: ChangeDetectorRef,
         private _store: Store<AppState>,
 
     )
@@ -74,7 +77,7 @@ export class ApplicationFormComponent implements OnInit {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         this.orderMeta = JSON.parse(localStorage.getItem('order_meta'));
-        //console.log( "  asdf : ", this.orderMeta);
+        console.log( " asdf : ", this.orderMeta);
         this.orderId = this._activatedRoute.snapshot.params.orderId;
     }
 
@@ -94,68 +97,79 @@ export class ApplicationFormComponent implements OnInit {
      */
     ngOnInit(): void
     {
+        if(this.orderMeta != null && !this.flag ) {
+            console.log('ddd :', this.orderMeta);
+            this.horizontalStepperStep1 = this._formBuilder.group({
+                firstName               :   [this.getDataFromMeta('_billing_first_name'), Validators.required],
+                lastName                :   [this.getDataFromMeta('_billing_last_name'), Validators.required],
+                middleName              :   [this.getDataFromMeta('_billing_middle_name')],
+                email                   :   [this.getDataFromMeta('_billing_email'), Validators.required],
+                streetAddress           :   [this.getDataFromMeta('_billing_address_1'), Validators.required],
+                state                   :   [this.getDataFromMeta('_billing_state'), Validators.required], 
+                city                    :   [this.getDataFromMeta('_billing_city'), Validators.required],
+                postCode                :   [this.getDataFromMeta('_billing_postcode'), Validators.required],
+                phone                   :   [this.getDataFromMeta('_billing_phone'), Validators.required],
+                mobile                  :   [this.getDataFromMeta('_billing_mobile')],
+    
+                notes                   :   [''],
+            });
+    
+            this.horizontalStepperStep2 = this._formBuilder.group({
+                identificationType      :   [this.getDataFromMeta('id_type'), Validators.required],
+                idNumber                :   [this.getDataFromMeta('id_number'), Validators.required],
+                expiryDate              :   [new Date(this.getDataFromMeta('id_expiry_date')), Validators.required],
+                birthday                :   [new Date(this.getDataFromMeta('id_date_of_birth')), Validators.required],
+                existingCustomer        :   [this.getDataFromMeta('id_existing_customer'), Validators.required],
+    
+                notes                   :   [''],
+            });
+    
+            this.horizontalStepperStep3 = this._formBuilder.group({
+                //Income
+                employmentStatus        :   [this.getDataFromMeta('employment_status'), Validators.required],
+                employerName            :   [this.getDataFromMeta('employer_name'), Validators.required],
+                employerPhone           :   [this.getDataFromMeta('employer_phone'), Validators.required],
+                employerTime            :   [this.getDataFromMeta('employer_time'), Validators.required],
+                totalWeeklyIncome       :   [this.getDataFromMeta('_order_total'), Validators.required],
+            
+                //Residential Details
+                residentalStatus        :   [this.getDataFromMeta('residential_status'), Validators.required],
+                timeAtAdress            :   [this.getDataFromMeta('residential_time'), Validators.required],
+                mortgageAmount          :   [this.getDataFromMeta('owner_mortgage'), Validators.required],
+            
+                //Other Exprenses
+                loanList                :   [this.getDataFromMeta('debt_list'), Validators.required],
+                loanTotalAmount         :   [this.getDataFromMeta('debt_amount'), Validators.required],
+                repayAmountWeekly       :   [this.getDataFromMeta('debt_repayments'), Validators.required],
+                weeklyBillAmount        :   [this.getDataFromMeta('expenses_bills'), Validators.required],
+                weeklyHouseHold         :   [this.getDataFromMeta('expenses_household'), Validators.required],
+    
+                notes                   :   [''],
+            });
+            
+            this.horizontalStepperStep4 = this._formBuilder.group({
+                name                    :   [this.getDataFromMeta('referee_name'), Validators.required],
+                address                 :   [this.getDataFromMeta('referee_address'), Validators.required],
+                phone                   :   [this.getDataFromMeta('referee_phone'), Validators.required],
+                relationship            :   [this.getDataFromMeta('referee_relationship'), Validators.required],
+    
+                notes                   :   [''],
+            });
 
-        //this.getFileUrls();
+            this.flag = true;
 
-        // Horizontal Stepper form steps
-        this.horizontalStepperStep1 = this._formBuilder.group({
-            firstName               :   [this.getDataFromMeta('_billing_first_name'), Validators.required],
-            lastName                :   [this.getDataFromMeta('_billing_last_name'), Validators.required],
-            middleName              :   [this.getDataFromMeta('_billing_middle_name')],
-            email                   :   [this.getDataFromMeta('_billing_email'), Validators.required],
-            streetAddress           :   [this.getDataFromMeta('_billing_address_1'), Validators.required],
-            state                   :   [this.getDataFromMeta('_billing_state'), Validators.required], 
-            city                    :   [this.getDataFromMeta('_billing_city'), Validators.required],
-            postCode                :   [this.getDataFromMeta('_billing_postcode'), Validators.required],
-            phone                   :   [this.getDataFromMeta('_billing_phone'), Validators.required],
-            mobile                  :   [this.getDataFromMeta('_billing_mobile')],
-
-            notes                   :   [''],
-        });
-
-        this.horizontalStepperStep2 = this._formBuilder.group({
-            identificationType      :   [this.getDataFromMeta('id_type'), Validators.required],
-            idNumber                :   [this.getDataFromMeta('id_number'), Validators.required],
-            expiryDate              :   [new Date(this.getDataFromMeta('id_expiry_date')), Validators.required],
-            birthday                :   [new Date(this.getDataFromMeta('id_date_of_birth')), Validators.required],
-            existingCustomer        :   [this.getDataFromMeta('id_existing_customer'), Validators.required],
-
-            notes                   :   [''],
-        });
-
-        this.horizontalStepperStep3 = this._formBuilder.group({
-            //Income
-            employmentStatus        :   [this.getDataFromMeta('employment_status'), Validators.required],
-            employerName            :   [this.getDataFromMeta('employer_name'), Validators.required],
-            employerPhone           :   [this.getDataFromMeta('employer_phone'), Validators.required],
-            employerTime            :   [this.getDataFromMeta('employer_time'), Validators.required],
-            totalWeeklyIncome       :   [this.getDataFromMeta('_order_total'), Validators.required],
-        
-            //Residential Details
-            residentalStatus        :   [this.getDataFromMeta('residential_status'), Validators.required],
-            timeAtAdress            :   [this.getDataFromMeta('residential_time'), Validators.required],
-            mortgageAmount          :   [this.getDataFromMeta('owner_mortgage'), Validators.required],
-        
-            //Other Exprenses
-            loanList                :   [this.getDataFromMeta('debt_list'), Validators.required],
-            loanTotalAmount         :   [this.getDataFromMeta('debt_amount'), Validators.required],
-            repayAmountWeekly       :   [this.getDataFromMeta('debt_repayments'), Validators.required],
-            weeklyBillAmount        :   [this.getDataFromMeta('expenses_bills'), Validators.required],
-            weeklyHouseHold         :   [this.getDataFromMeta('expenses_household'), Validators.required],
-
-            notes                   :   [''],
-        });
-        
-        this.horizontalStepperStep4 = this._formBuilder.group({
-            name                    :   [this.getDataFromMeta('referee_name'), Validators.required],
-            address                 :   [this.getDataFromMeta('referee_address'), Validators.required],
-            phone                   :   [this.getDataFromMeta('referee_phone'), Validators.required],
-            relationship            :   [this.getDataFromMeta('referee_relationship'), Validators.required],
-
-            notes                   :   [''],
-        });
+         }
     }
 
+    /* ngAfterViewChecked(): void 
+    {    
+        
+        
+         // Horizontal Stepper form steps
+         this._cdref.detectChanges();
+
+         
+    }*/
 
     /**
      * On destroy
