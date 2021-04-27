@@ -156,12 +156,10 @@ export class ApplicationFormComponent implements OnInit {
 
     ngAfterViewChecked(): void 
     {    
-        console.log("data : ", this.sharedOrderMeta);
         if(this.orderMeta == null)
             this.orderMeta = this.sharedOrderMeta;
         if(this.orderMeta != null && this.flag == false)
         {
-            console.log('teststst');
             this.horizontalStepperStep1.controls['firstName'].setValue(this.getDataFromMeta('_billing_first_name'));
             this.horizontalStepperStep1.controls['lastName'].setValue(this.getDataFromMeta('_billing_last_name'));
             this.horizontalStepperStep1.controls['middleName'].setValue(this.getDataFromMeta('_billing_middle_name'));
@@ -222,6 +220,10 @@ export class ApplicationFormComponent implements OnInit {
     initValue(): void 
     {
 
+    }
+    back() : void 
+    {
+        this._store.dispatch(new Back());
     }
     onModifyFirst() : void 
     {
