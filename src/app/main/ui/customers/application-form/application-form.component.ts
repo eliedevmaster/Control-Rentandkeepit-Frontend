@@ -74,6 +74,7 @@ export class ApplicationFormComponent implements OnInit {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
         this.orderMeta = this.sharedOrderMeta;
+        //console.log( "  asdf : ", this.orderMeta);
         this.orderId = this._activatedRoute.snapshot.params.orderId;
     }
 
@@ -94,7 +95,7 @@ export class ApplicationFormComponent implements OnInit {
     ngOnInit(): void
     {
 
-        this.getFileUrls();
+        //this.getFileUrls();
 
         // Horizontal Stepper form steps
         this.horizontalStepperStep1 = this._formBuilder.group({
