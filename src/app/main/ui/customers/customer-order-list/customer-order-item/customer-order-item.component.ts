@@ -18,6 +18,7 @@ import { Go, SetOrderStatus, GetOrderList } from 'app/store/actions';
 import { CustomerOrderListService } from 'app/main/ui/customers/customer-order-list/customer-order-list.service';
 import { User } from 'app/models/user';
 import Swal from 'sweetalert2/dist/sweetalert2.js'; 
+import { OrderService } from 'app/core/services/order.service';
 
 
 @Component({
@@ -55,6 +56,7 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     constructor(
         private _customerOrderListService: CustomerOrderListService,
+        private _orderService: OrderService,
         private _cdref: ChangeDetectorRef,
         private _store: Store<AppState>,
         private _activatedRoute: ActivatedRoute,
@@ -66,6 +68,13 @@ export class CustomerOrderItemComponent implements OnInit {
         localStorage.removeItem('order_meta');
     }
 
+    get orderMeta(): any {
+        return this._orderService.orderMeta;
+    }
+
+    set orderMeta(value: any) {
+        this._orderService.orderMeta = value;
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -206,7 +215,8 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     editOrder(order): void
     {
-        localStorage.setItem('order_meta', JSON.stringify(order.post_meta));
+        //localStorage.setItem('order_meta', JSON.stringify(order.post_meta));
+        this.orderMeta = order.post_meta;
         this._store.dispatch(new Go({path: ['/ui/customers/application-form/' + order.order_id], query: null, extras: null}));
     }
 

@@ -12,7 +12,7 @@ import { AuthService } from '../services/auth.service';
 export class OrderService {
 
   orderInfo : any;
-
+  orderMeta : any;
   constructor(private http: HttpClient, private authService: AuthService) { }
 
   addOrder(param: any, customer_id: number) : Observable<any>

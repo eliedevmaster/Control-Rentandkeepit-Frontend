@@ -16,6 +16,7 @@ import { User } from 'app/models/user';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
+import { OrderService } from 'app/core/services/order.service';
 
 export const MY_FORMATS = {
     parse: {
@@ -44,6 +45,9 @@ export class ApplicationFormComponent implements OnInit {
     orderMeta: any;
     orderId : number;
 
+    uploadedURL_1: string;
+    uploadedURL_2: string;
+
     // Horizontal Stepper
     horizontalStepperStep1: FormGroup;
     horizontalStepperStep2: FormGroup;
@@ -61,6 +65,7 @@ export class ApplicationFormComponent implements OnInit {
      */
     constructor(
         private _formBuilder: FormBuilder,
+        private _orderService: OrderService,
         private _activatedRoute: ActivatedRoute,
         private _store: Store<AppState>,
 
@@ -68,11 +73,17 @@ export class ApplicationFormComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        this.orderMeta = JSON.parse(localStorage.getItem('order_meta'));
+        this.orderMeta = this.sharedOrderMeta;
         this.orderId = this._activatedRoute.snapshot.params.orderId;
-        console.log(this.orderMeta);
     }
 
+    get sharedOrderMeta(): any {
+        return this._orderService.orderMeta;
+    }
+
+    set sharedOrderMeta(value: any) {
+        this._orderService.orderMeta = value;
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
@@ -82,6 +93,8 @@ export class ApplicationFormComponent implements OnInit {
      */
     ngOnInit(): void
     {
+
+        this.getFileUrls();
 
         // Horizontal Stepper form steps
         this.horizontalStepperStep1 = this._formBuilder.group({
@@ -261,6 +274,34 @@ export class ApplicationFormComponent implements OnInit {
             return emptyStr;
         } 
         return data[0].meta_value;
+    }
+
+    getFileUrls() : void 
+    {
+        let data: any = this.orderMeta.filter(x => x.meta_key == 'expenses_electricity' || x.meta_key == 'expenses_phone');
+        console.log('ddd : ', data);
+        if(data.length == 0) {
+            this.uploadedURL_1 = '#';
+            this.uploadedURL_2 = '#';
+            return;
+        }
+
+        else if(data.lenght == 1) {
+            let fileInfo: any = JSON.parse(data[0].meta_value);
+            this.uploadedURL_1 = fileInfo.url; 
+            console.log('1 : ',  fileInfo);
+        }
+
+        else {
+            let fileInfo: any = JSON.parse(data[0].meta_value);
+            this.uploadedURL_1 = fileInfo.url; 
+
+            fileInfo = JSON.parse(data[1].meta_value);
+            this.uploadedURL_2 = fileInfo.url;
+
+            console.log('2 : ',  fileInfo);
+
+        }
     }
 
     onModifySuccess(): void 
