@@ -44,7 +44,7 @@ export const MY_FORMATS = {
 })
 export class ApplicationFormComponent implements OnInit {
 
-    orderMeta: any;
+    orderMeta: any = null;
     orderId : number;
     flag: boolean = false;
     uploadedURL_1: string;
@@ -96,8 +96,6 @@ export class ApplicationFormComponent implements OnInit {
     ngOnInit(): void
     {   
        
-        if(this.orderMeta != null && !this.flag ) {
-            console.log('ddd :', this.orderMeta);
             this.horizontalStepperStep1 = this._formBuilder.group({
                 firstName               :   [this.getDataFromMeta('_billing_first_name'), Validators.required],
                 lastName                :   [this.getDataFromMeta('_billing_last_name'), Validators.required],
@@ -154,22 +152,58 @@ export class ApplicationFormComponent implements OnInit {
     
                 notes                   :   [''],
             });
-
-            this.flag = true;
-
-         }
     }
 
-     ngAfterViewChecked(): void 
+    ngAfterViewChecked(): void 
     {    
-        
         console.log("data : ", this.sharedOrderMeta);
-        this.orderMeta = this.sharedOrderMeta;
-         // Horizontal Stepper form steps
-         this._cdref.detectChanges();
+        if(this.orderMeta == null)
+            this.orderMeta = this.sharedOrderMeta;
+        if(this.orderMeta != null && this.flag == false)
+        {
+            console.log('teststst');
+            this.horizontalStepperStep1.controls['firstName'].setValue(this.getDataFromMeta('_billing_first_name'));
+            this.horizontalStepperStep1.controls['lastName'].setValue(this.getDataFromMeta('_billing_last_name'));
+            this.horizontalStepperStep1.controls['middleName'].setValue(this.getDataFromMeta('_billing_middle_name'));
+            this.horizontalStepperStep1.controls['email'].setValue(this.getDataFromMeta('_billing_email'));
+            this.horizontalStepperStep1.controls['streetAddress'].setValue(this.getDataFromMeta('_billing_address_1'));
+            this.horizontalStepperStep1.controls['state'].setValue(this.getDataFromMeta('_billing_state'));
+            this.horizontalStepperStep1.controls['city'].setValue(this.getDataFromMeta('_billing_city'));
+            this.horizontalStepperStep1.controls['postCode'].setValue(this.getDataFromMeta('_billing_postcode'));
+            this.horizontalStepperStep1.controls['phone'].setValue(this.getDataFromMeta('_billing_phone'));
+            this.horizontalStepperStep1.controls['mobile'].setValue(this.getDataFromMeta('_billing_mobile'));
+
+            this.horizontalStepperStep2.controls['identificationType'].setValue(this.getDataFromMeta('id_type'));
+            this.horizontalStepperStep2.controls['idNumber'].setValue(this.getDataFromMeta('id_number'));
+            this.horizontalStepperStep2.controls['expiryDate'].setValue(this.getDataFromMeta('id_expiry_date'));
+            this.horizontalStepperStep2.controls['birthday'].setValue(this.getDataFromMeta('id_date_of_birth'));
+            this.horizontalStepperStep2.controls['existingCustomer'].setValue(this.getDataFromMeta('id_existing_customer'));
+            
+            this.horizontalStepperStep3.controls['employmentStatus'].setValue(this.getDataFromMeta('employment_status'));
+            this.horizontalStepperStep3.controls['employerName'].setValue(this.getDataFromMeta('employer_name'));
+            this.horizontalStepperStep3.controls['employerPhone'].setValue(this.getDataFromMeta('employer_phone'));
+            this.horizontalStepperStep3.controls['employerTime'].setValue(this.getDataFromMeta('employer_time'));
+            this.horizontalStepperStep3.controls['totalWeeklyIncome'].setValue(this.getDataFromMeta('_order_total'));
+            this.horizontalStepperStep3.controls['residentalStatus'].setValue(this.getDataFromMeta('residential_status'));
+            this.horizontalStepperStep3.controls['timeAtAdress'].setValue(this.getDataFromMeta('residential_time'));
+            this.horizontalStepperStep3.controls['mortgageAmount'].setValue(this.getDataFromMeta('owner_mortgage'));
+            this.horizontalStepperStep3.controls['loanList'].setValue(this.getDataFromMeta('debt_list'));
+            this.horizontalStepperStep3.controls['loanTotalAmount'].setValue(this.getDataFromMeta('debt_amount'));
+            this.horizontalStepperStep3.controls['repayAmountWeekly'].setValue(this.getDataFromMeta('debt_repayments'));
+            this.horizontalStepperStep3.controls['weeklyBillAmount'].setValue(this.getDataFromMeta('expenses_bills'));
+            this.horizontalStepperStep3.controls['weeklyHouseHold'].setValue(this.getDataFromMeta('expenses_household'));
+
+            this.horizontalStepperStep4.controls['name'].setValue(this.getDataFromMeta('referee_name'));
+            this.horizontalStepperStep4.controls['address'].setValue(this.getDataFromMeta('referee_address'));
+            this.horizontalStepperStep4.controls['phone'].setValue(this.getDataFromMeta('referee_phone'));
+            this.horizontalStepperStep4.controls['relationship'].setValue(this.getDataFromMeta('referee_relationship'));
+            this.flag = true;
+        }
+        this._cdref.detectChanges();
 
          
     }
+
 
     /**
      * On destroy
@@ -185,6 +219,10 @@ export class ApplicationFormComponent implements OnInit {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    initValue(): void 
+    {
+
+    }
     onModifyFirst() : void 
     {
         let notes = this.horizontalStepperStep1.value['notes'];
