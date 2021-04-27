@@ -76,8 +76,6 @@ export class ApplicationFormComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        this.orderMeta = JSON.parse(localStorage.getItem('order_meta'));
-        console.log( " asdf : ", this.orderMeta);
         this.orderId = this._activatedRoute.snapshot.params.orderId;
     }
 
@@ -96,7 +94,8 @@ export class ApplicationFormComponent implements OnInit {
      * On init
      */
     ngOnInit(): void
-    {
+    {   
+        this.orderMeta = this.sharedOrderMeta;
         if(this.orderMeta != null && !this.flag ) {
             console.log('ddd :', this.orderMeta);
             this.horizontalStepperStep1 = this._formBuilder.group({
@@ -280,14 +279,16 @@ export class ApplicationFormComponent implements OnInit {
     }
 
     getDataFromMeta(metaKey: string): string 
-    {  
+    {              
+        let emptyStr: string = '';
+        if(this.orderMeta == null)
+            return emptyStr;
+        
         let data: any = this.orderMeta.filter(x => x.meta_key == metaKey);
 
         if(data.length == 0)
-        {   
-            let emptyStr: string = '';
             return emptyStr;
-        } 
+
         return data[0].meta_value;
     }
 
