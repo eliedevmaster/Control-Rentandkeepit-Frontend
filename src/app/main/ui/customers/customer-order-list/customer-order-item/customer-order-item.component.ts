@@ -84,7 +84,7 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     ngOnInit(): void
     {   
-        localStorage.removeItem('order');
+        localStorage.removeItem('order_meta');
     } 
     ngAfterViewChecked(): void 
     {
@@ -215,7 +215,7 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     editOrder(order): void
     {
-        //localStorage.setItem('order_meta', JSON.stringify(order.post_meta));
+        localStorage.setItem('order_meta', JSON.stringify(order.post_meta));
         this.orderMeta = order.post_meta;
         this._store.dispatch(new Go({path: ['/ui/customers/application-form/' + order.order_id], query: null, extras: null}));
     }

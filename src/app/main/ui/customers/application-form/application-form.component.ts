@@ -73,7 +73,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-        this.orderMeta = this.sharedOrderMeta;
+        this.orderMeta = JSON.parse(localStorage.getItem('order_meta'));
         //console.log( "  asdf : ", this.orderMeta);
         this.orderId = this._activatedRoute.snapshot.params.orderId;
     }
@@ -266,7 +266,7 @@ export class ApplicationFormComponent implements OnInit {
     }
 
     getDataFromMeta(metaKey: string): string 
-    {
+    {  
         let data: any = this.orderMeta.filter(x => x.meta_key == metaKey);
 
         if(data.length == 0)
