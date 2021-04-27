@@ -95,8 +95,7 @@ export class ApplicationFormComponent implements OnInit {
      */
     ngOnInit(): void
     {   
-        console.log("data : ", this.sharedOrderMeta);
-        this.orderMeta = this.sharedOrderMeta;
+       
         if(this.orderMeta != null && !this.flag ) {
             console.log('ddd :', this.orderMeta);
             this.horizontalStepperStep1 = this._formBuilder.group({
@@ -161,15 +160,16 @@ export class ApplicationFormComponent implements OnInit {
          }
     }
 
-    /* ngAfterViewChecked(): void 
+     ngAfterViewChecked(): void 
     {    
         
-        
+        console.log("data : ", this.sharedOrderMeta);
+        this.orderMeta = this.sharedOrderMeta;
          // Horizontal Stepper form steps
          this._cdref.detectChanges();
 
          
-    }*/
+    }
 
     /**
      * On destroy
