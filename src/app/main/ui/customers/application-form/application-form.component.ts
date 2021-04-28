@@ -9,7 +9,7 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
 
-import { Back, SaveOrderMetaFirst, SaveOrderMetaSecond, SaveOrderMetaThird, SaveOrderMetaForth } from 'app/store/actions';
+import { Back, SaveOrderMetaFirst, SaveOrderMetaSecond, SaveOrderMetaThird, SaveOrderMetaForth, SetOrderStatus } from 'app/store/actions';
 
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
@@ -224,6 +224,11 @@ export class ApplicationFormComponent implements OnInit {
     back() : void 
     {
         this._store.dispatch(new Back());
+        const payload = {
+            order_id  : this.orderId,
+            type      : 4
+          }
+          this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
     }
     onModifyFirst() : void 
     {
