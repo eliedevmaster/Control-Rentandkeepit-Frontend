@@ -110,10 +110,7 @@ export class CustomerOrderListService {
                                 }
 
                                 if ( this.filterBy === 'unprocessed' ) {
-                                    let mergeList_1: any[] = FuseUtils.filterArrayByString(this.orderList, 'wc-processing');
-                                    let mergeList_2: any[] = FuseUtils.filterArrayByString(this.orderList, 'wc-processing_1');
-
-                                    this.orderList = mergeList_1.concat(mergeList_2);
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-processing');
                                 }
 
                                 if ( this.filterBy === 'approved') {
