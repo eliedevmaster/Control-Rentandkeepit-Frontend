@@ -167,7 +167,7 @@
                 
                         <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
                 
-                            <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+                            <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                                 <mat-label>Expiry Date</mat-label>
                                 <input matInput [matDatepicker]="picker" formControlName="expiryDate" required>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -175,12 +175,19 @@
                                 <mat-error>Expiry Date is required!</mat-error>
                             </mat-form-field>
                         
-                            <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+                            <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                                 <mat-label>Date of Birth</mat-label>
-                                <input matInput [matDatepicker]="picker1" formControlName="birthday" required>
+                                <input matInput [matDatepicker]="picker1" formControlName="birthday" (dateChange)="onAge()" required>
                                 <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
                                 <mat-datepicker #picker1></mat-datepicker>
                                 <mat-error>Date of Birth is required!</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                                <mat-label>Age</mat-label>
+                                <input matInput formControlName="age" readonly>
+                                <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
+                                <mat-error>Age is required!</mat-error>
                             </mat-form-field>
                         
                         </div>

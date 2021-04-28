@@ -116,6 +116,7 @@ export class ApplicationFormComponent implements OnInit {
                 idNumber                :   [this.getDataFromMeta('id_number'), Validators.required],
                 expiryDate              :   [new Date(this.getDataFromMeta('id_expiry_date')), Validators.required],
                 birthday                :   [new Date(this.getDataFromMeta('id_date_of_birth')), Validators.required],
+                age                     :   ['', Validators.required],
                 existingCustomer        :   [this.getDataFromMeta('id_existing_customer'), Validators.required],
     
                 notes                   :   [''],
@@ -324,6 +325,15 @@ export class ApplicationFormComponent implements OnInit {
         this._store.dispatch(new SaveOrderMetaForth({ orderMetaForth : payload }));
     }
 
+    onAge() : void
+    {
+        let date = new Date(this.horizontalStepperStep2.value['birthday']);
+        let timeDiff = Math.abs(Date.now() - date.getTime());
+        let age = Math.floor((timeDiff / (1000 * 3600 * 24))/365.25);
+
+        this.horizontalStepperStep2.controls['age'].setValue(age);
+
+    }
     getDataFromMeta(metaKey: string): string 
     {              
         let emptyStr: string = '';
