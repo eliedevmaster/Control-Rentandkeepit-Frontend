@@ -129,10 +129,7 @@
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep1.invalid" (click)="onModifyFirst()">
-                                Modify
-                            </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
+                            <button mat-raised-button matStepperNext type="button" [disabled]="horizontalStepperStep1.invalid" color="accent" (click)="onModifyFirst()">
                                 Next
                             </button>
                         </div>
@@ -219,14 +216,11 @@
 
                                        
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep2.invalid" (click)="onModifySecond()">
-                                Modify
-                            </button>
 
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                                 Previous
                             </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
+                            <button mat-raised-button matStepperNext [disabled]="horizontalStepperStep2.invalid" (click)="onModifySecond()" type="button" color="accent">
                                 Next
                             </button>
                         </div>
@@ -414,13 +408,10 @@
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep3.invalid" (click)="onModifyThird()">
-                                modify
-                            </button>
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                                 Previous
                             </button>
-                            <button mat-raised-button matStepperNext type="button" color="accent">
+                            <button mat-raised-button matStepperNext type="button" color="accent" [disabled]="horizontalStepperStep3.invalid" (click)="onModifyThird()">
                                 Next
                             </button>
                         </div>
@@ -483,13 +474,13 @@
                         </div>
 
                         <div fxLayout="row" fxLayoutAlign="end center">
-                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep4.invalid" (click)="onModifyForth()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" >
                                 modify
                             </button>
                             <button class="mr-8" mat-raised-button matStepperPrevious type="button" color="accent">
                                 Previous
                             </button>
-                            <button class="mr-8" mat-raised-button type="button" color="accent" (click)="back()">
+                            <button class="mr-8" mat-raised-button type="button" color="accent" [disabled]="horizontalStepperStep4.invalid" (click)="onModifyForth()">
                                 Finish
                             </button>
                         </div>

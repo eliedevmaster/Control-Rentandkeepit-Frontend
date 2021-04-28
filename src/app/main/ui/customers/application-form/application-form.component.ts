@@ -174,8 +174,9 @@ export class ApplicationFormComponent implements OnInit {
 
             this.horizontalStepperStep2.controls['identificationType'].setValue(this.getDataFromMeta('id_type'));
             this.horizontalStepperStep2.controls['idNumber'].setValue(this.getDataFromMeta('id_number'));
-            this.horizontalStepperStep2.controls['expiryDate'].setValue(this.getDataFromMeta('id_expiry_date'));
-            this.horizontalStepperStep2.controls['birthday'].setValue(this.getDataFromMeta('id_date_of_birth'));
+            this.horizontalStepperStep2.controls['expiryDate'].setValue(new Date(this.getDataFromMeta('id_expiry_date')));
+            this.horizontalStepperStep2.controls['birthday'].setValue(new Date(this.getDataFromMeta('id_date_of_birth')));
+            this.onAge();
             this.horizontalStepperStep2.controls['existingCustomer'].setValue(this.getDataFromMeta('id_existing_customer'));
             
             this.horizontalStepperStep3.controls['employmentStatus'].setValue(this.getDataFromMeta('employment_status'));
@@ -222,6 +223,7 @@ export class ApplicationFormComponent implements OnInit {
     {
 
     }
+
     back() : void 
     {
         this._store.dispatch(new Back());
@@ -235,7 +237,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep1.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', 'Please give the resons to modify.', 'error');
+            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -260,7 +262,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep2.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', 'Please give the resons to modify.', 'error');
+            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -282,7 +284,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep3.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', 'Please give the resons to modify.', 'error');
+            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -310,7 +312,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep4.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', 'Please give the resons to modify.', 'error');
+            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -323,6 +325,7 @@ export class ApplicationFormComponent implements OnInit {
         }
 
         this._store.dispatch(new SaveOrderMetaForth({ orderMetaForth : payload }));
+        this.back();
     }
 
     onAge() : void
@@ -334,6 +337,7 @@ export class ApplicationFormComponent implements OnInit {
         this.horizontalStepperStep2.controls['age'].setValue(age);
 
     }
+
     getDataFromMeta(metaKey: string): string 
     {              
         let emptyStr: string = '';
@@ -344,8 +348,27 @@ export class ApplicationFormComponent implements OnInit {
 
         if(data.length == 0)
             return emptyStr;
-
+        
+        if(metaKey == 'id_date_of_birth' || metaKey == 'id_expiry_date') {
+            console.log('string : ', data[0].meta_value);
+            console.log('date : ', new Date(this.setDataAsISO(data[0].meta_value)));
+            return this.setDataAsISO(data[0].meta_value);
+        }
+            
         return data[0].meta_value;
+    }
+
+    setDataAsISO (dateStr : string) : string 
+    {   
+        console.log('ISO: ', dateStr);
+        //var res = str.split(" ");
+        if(dateStr.includes("/")) {
+            let strTemp = dateStr.split('/');
+            let dateISO = strTemp[2] + '-' + strTemp[1] + '-' + strTemp[0];
+            console.log('test : ', dateISO);
+            return dateISO;
+        }
+        return dateStr;
     }
 
     getFileUrls() : void 
