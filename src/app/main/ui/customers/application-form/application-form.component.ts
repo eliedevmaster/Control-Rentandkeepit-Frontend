@@ -350,22 +350,19 @@ export class ApplicationFormComponent implements OnInit {
             return emptyStr;
         
         if(metaKey == 'id_date_of_birth' || metaKey == 'id_expiry_date') {
-            console.log('string : ', data[0].meta_value);
-            console.log('date : ', new Date(this.setDataAsISO(data[0].meta_value)));
+  
             return this.setDataAsISO(data[0].meta_value);
         }
-            
+        
         return data[0].meta_value;
     }
 
     setDataAsISO (dateStr : string) : string 
     {   
-        console.log('ISO: ', dateStr);
         //var res = str.split(" ");
         if(dateStr.includes("/")) {
             let strTemp = dateStr.split('/');
             let dateISO = strTemp[2] + '-' + strTemp[1] + '-' + strTemp[0];
-            console.log('test : ', dateISO);
             return dateISO;
         }
         return dateStr;
