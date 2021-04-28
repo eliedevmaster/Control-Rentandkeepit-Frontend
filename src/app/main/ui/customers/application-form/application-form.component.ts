@@ -237,7 +237,6 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep1.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -262,7 +261,6 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep2.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -284,7 +282,6 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep3.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
             return;
         }
 
@@ -312,7 +309,7 @@ export class ApplicationFormComponent implements OnInit {
     {
         let notes = this.horizontalStepperStep4.value['notes'];
         if(notes == '') {
-            Swal.fire('Ooops', "You didn't modify the data.<br>To modify it, please give me the reason.", 'warning');
+            this.back();
             return;
         }
 

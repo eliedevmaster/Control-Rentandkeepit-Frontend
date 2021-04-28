@@ -114,7 +114,7 @@ export class OrderEffects
             return this.orderService.saveOrderMetaFirst(payload.orderMetaFirst)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    //Swal.fire('Yes!', 'You saved successfully', 'success');
                     return new SaveOrderMetaFirstComplete();
                 }),
                 catchError((error: Error) => {
@@ -132,7 +132,7 @@ export class OrderEffects
             return this.orderService.saveOrderMetaSecond(payload.orderMetaSecond)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    //Swal.fire('Yes!', 'You saved successfully', 'success');
                     return new SaveOrderMetaSecondComplete();
                 }),
                 catchError((error: Error) => {
@@ -150,7 +150,7 @@ export class OrderEffects
             return this.orderService.saveOrderMetaThird(payload.orderMetaThird)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    //Swal.fire('Yes!', 'You saved successfully', 'success');
                     return new SaveOrderMetaThirdComplete();
                 }),
                 catchError((error: Error) => {
@@ -168,7 +168,7 @@ export class OrderEffects
             return this.orderService.saveOrderMetaForth(payload.orderMetaForth)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'You saved successfully', 'success');
+                    //Swal.fire('Yes!', 'You saved successfully', 'success');
                     return new SaveOrderMetaForthComplete();
                 }),
                 catchError((error: Error) => {
