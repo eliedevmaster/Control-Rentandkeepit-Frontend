@@ -90,6 +90,11 @@
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let customer">
             <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="sendEmail(customer)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(customer.id)">star</mat-icon>-->
+                    <mat-icon class="red-fg">mail</mat-icon>
+                </button>
+
                 <button mat-icon-button (click)="$event.stopPropagation();toggleStar(customer.id)" aria-label="Toggle star">
                     <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(customer.id)">star</mat-icon>-->
                     <mat-icon class="amber-fg">star</mat-icon>

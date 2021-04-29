@@ -164,6 +164,11 @@ export class CustomerItemComponent implements OnInit {
         this._store.dispatch(new Go({path: ['/ui/customers/customer-form/' + customer.id + '/' + customerName], query: null, extras: null}));
 
     }
+    sendEmail(customer) : void
+    {
+        localStorage.setItem('customer', JSON.stringify(customer));
+        this._store.dispatch(new Go({path: ['/ui/customers/send-email/' + customer.id], query: null, extras: null}));
+    }
     /**
      * Delete Contact
      */

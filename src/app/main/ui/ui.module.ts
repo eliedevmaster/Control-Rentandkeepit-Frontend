@@ -30,6 +30,7 @@ import { CentrepayBulkUploadModule } from 'app/main/ui/payments/centrepay-bulk-u
 import { EziDebitBulkUploadModule } from 'app/main/ui/payments/ezi-debit-bulk-upload/ezi-debit-bulk-upload.module';
 import { ManualPaymentModule } from 'app/main/ui/payments/manual-payment/manual-payment.module';
 import { ApplicationFormModule } from 'app/main/ui/customers/application-form/application-form.module';
+import { SendEmailModule } from 'app/main/ui/customers/customer-list/send-email/send-email.module';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -87,7 +88,7 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         CentrepayBulkUploadModule,
         EziDebitBulkUploadModule,
         ManualPaymentModule,
-        
+        SendEmailModule,
         /************************* */
 
         UIAngularMaterialModule,
