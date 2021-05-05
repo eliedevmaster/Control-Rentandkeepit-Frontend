@@ -185,7 +185,10 @@ export class CustomerOrderItemComponent implements OnInit {
     showDate(date: string): string 
     {
         let displayDate: string = new Date(date).toISOString().substring(0, 10);
-        return displayDate;
+        let dateTmp : any = displayDate.split('-');
+
+        let result: string = dateTmp[2] + '/' + dateTmp[1] + '/' + dateTmp[0];
+        return result;
     }
 
     showTotalAmount(order: any): number 
@@ -277,11 +280,9 @@ export class CustomerOrderItemComponent implements OnInit {
     *
     * @param {OrderListService} _customerOrderListService
     */
-    constructor(
-    private _customerOrderListService: CustomerOrderListService
-    )
+    constructor( private _customerOrderListService: CustomerOrderListService )
     {
-    super();
+        super();
     }
 
     /**
@@ -290,7 +291,7 @@ export class CustomerOrderItemComponent implements OnInit {
     */
     connect(): Observable<any[]>
     {
-    return this._customerOrderListService.onSelectedOrderListChanged;
+        return this._customerOrderListService.onSelectedOrderListChanged;
     }
 
     /**

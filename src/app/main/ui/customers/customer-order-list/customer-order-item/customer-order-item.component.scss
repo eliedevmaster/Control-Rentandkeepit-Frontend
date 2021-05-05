@@ -19,6 +19,11 @@ app-customer-order-item {
             flex: 0 1 200px;
         }
 
+        .mat-column-numItemSold {
+            flex: 0 1 64px;
+            padding-left: 18px;
+        }
+
         .mat-column-status {
             flex: 0 1 130px;
         }
