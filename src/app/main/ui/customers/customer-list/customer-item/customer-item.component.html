@@ -25,7 +25,7 @@
         <mat-header-cell *matHeaderCellDef>Last Active</mat-header-cell>
         <mat-cell *matCellDef="let customer">
             <p *ngIf="customer.date_last_active != ''" class="text-truncate font-weight-600">
-                {{customer.date_last_active}}
+                {{showDate(customer.date_last_active)}}
             </p>
             <p *ngIf="customer.date_last_active == ''" class="text-truncate font-weight-600">
                 -

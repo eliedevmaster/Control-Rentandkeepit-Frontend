@@ -191,7 +191,14 @@ export class CustomerItemComponent implements OnInit {
 
     }
 
-    
+    showDate(date: string): string 
+    {
+        let displayDate: string = new Date(date).toISOString().substring(0, 10);
+        let dateTmp : any = displayDate.split('-');
+
+        let result: string = dateTmp[2] + '/' + dateTmp[1] + '/' + dateTmp[0];
+        return result;
+    }
     /**
      * On selected change
      *
@@ -220,35 +227,35 @@ export class CustomerItemComponent implements OnInit {
 
         this._customerListService.updateUserData(this.user);*/
     }
-  }
+}
 
-  export class FilesDataSource extends DataSource<any>
-  {
-  /**
-   * Constructor
-   *
-   * @param {CustomerListService} _customerListService
-   */
-  constructor(
-      private _customerListService: CustomerListService
-  )
-  {
-      super();
-  }
+    export class FilesDataSource extends DataSource<any>
+    {
+    /**
+     * Constructor
+     *
+     * @param {CustomerListService} _customerListService
+     */
+    constructor(
+        private _customerListService: CustomerListService
+    )
+    {
+        super();
+    }
 
-  /**
-   * Connect function called by the table to retrieve one stream containing the data to render.
-   * @returns {Observable<any[]>}
-   */
-  connect(): Observable<any[]>
-  {
-      return this._customerListService.onSelectedCustomerListChanged;
-  }
+    /**
+     * Connect function called by the table to retrieve one stream containing the data to render.
+     * @returns {Observable<any[]>}
+     */
+    connect(): Observable<any[]>
+    {
+        return this._customerListService.onSelectedCustomerListChanged;
+    }
 
-  /**
-   * Disconnect
-   */
-  disconnect(): void
-  {
-  }
+    /**
+     * Disconnect
+     */
+    disconnect(): void
+    {
+    }
 }
