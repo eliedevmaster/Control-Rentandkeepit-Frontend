@@ -7,9 +7,9 @@ import * as _ from 'lodash';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 
-import { Login, Go, GetCurrentCompany, GetCurrentCollaborator, 
-         GetCurrentInstructor, GetCollaboratorListForMe, GetInstructorListForMe,
-         GetPermissionList } from 'app/store/actions';
+import { Login, Go, 
+         GetYearsForReport,
+         GetRevenueForReport} from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState, getCompanyState } from 'app/store/reducers';
 
@@ -102,6 +102,9 @@ export class LoginComponent implements OnInit
             if(state.isAuthenticated) {
 
                 this.isAuthenticated = state.isAuthenticated;
+                //this._store.dispatch(new GetYearsForReport());
+                //this._store.dispatch(new GetRevenueForReport());
+
                 this._store.dispatch(new Go({path: ['/apps/dashboards/analytics'], query: null, extras: null}));   
                     
             }

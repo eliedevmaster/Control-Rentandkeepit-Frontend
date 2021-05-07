@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { parseI18nMeta } from '@angular/compiler/src/render3/view/i18n/meta';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment as env } from '../../../environments/environment';
@@ -125,8 +126,37 @@ export class OrderService {
         referee_address             : param.referee_address,
         referee_phone               : param.referee_phone,
         referee_relationship        : param.referee_relationship,
-    }
+      }
       return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }
 
+  saveProfit(param : any) : Observable<any> 
+  {
+      const url = `${env.backendBaseUrl}/api/orders/agreement/profit`;
+      const body = {
+        customer_id                 : param.customer_id,
+        order_id                    : param.order_id,
+        rental_amount_total         : param.rental_amount_total,
+        profit_total                : param.profit_total,
+        profit_per_week             : param.profit_per_week,
+        profit_per_fortnight        : param.profit_per_fortnight,
+        profit_per_month            : param.profit_per_month,
+        revenue_per_month           : param.revenue_per_month,
+      }
+
+      return this.http.post(url, body, {headers: this.authService.authHeaders()});
+  }
+
+  getYearsForReport() : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/orders/report/years`;
+    return this.http.get(url, {headers: this.authService.authHeaders()});
+  }
+
+  getRevenueForReport() : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/orders/report/revenue`;
+    return this.http.get(url, {headers: this.authService.authHeaders()});
+  }
+  
 }

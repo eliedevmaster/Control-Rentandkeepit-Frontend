@@ -9,31 +9,53 @@
                 <span class="h5 secondary-text">Total Revenue per month</span>
             </div>
             <div fxLayout="row" fxLayoutAlign="start center">
-                <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="widget1SelectedYear = '2016'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2016'}">
-                    2016
+                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                     (click)="onClick(year)"
+                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
+                    {{year.year}}
                 </div>
-                <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="widget1SelectedYear = '2017'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2017'}">
-                    2017
-                </div>
-                <div class="py-8 px-12 border-radius-2 line-height-1 cursor-pointer"
-                     (click)="widget1SelectedYear = '2018'"
-                     [ngClass]="{'blue-700': widget1SelectedYear === '2018'}">
-                    2018
+ 
+            </div>
+        </div>
+
+        <div class="position-relative h-200 pb-16 blue-600">
+            <canvas baseChart
+                    [datasets]="widgets.revenue.datasets[widget1SelectedYear]"
+                    [labels]="widgets.revenue.labels"
+                    [colors]="widgets.revenue.colors"
+                    [options]="widgets.revenue.options"
+                    [chartType]="widgets.revenue.chartType">
+            </canvas>
+        </div>
+
+    </div>
+
+    <br>
+
+    <div class="main-widget">
+
+        <div class="position-relative p-24 blue-600"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <span class="h2">Profit</span>
+                <span class="h5 secondary-text">Total Profit per month</span>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                     (click)="onClick(year)"
+                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
+                    {{year.year}}
                 </div>
             </div>
         </div>
 
-        <div class="position-relative h-256 pb-16 blue-600">
+        <div class="position-relative h-200 pb-16 blue-600">
             <canvas baseChart
-                    [datasets]="widgets.widget1.datasets[widget1SelectedYear]"
-                    [labels]="widgets.widget1.labels"
-                    [colors]="widgets.widget1.colors"
-                    [options]="widgets.widget1.options"
-                    [chartType]="widgets.widget1.chartType">
+                    [datasets]="widgets.profit.datasets[widget1SelectedYear]"
+                    [labels]="widgets.profit.labels"
+                    [colors]="widgets.profit.colors"
+                    [options]="widgets.profit.options"
+                    [chartType]="widgets.profit.chartType">
             </canvas>
         </div>
 

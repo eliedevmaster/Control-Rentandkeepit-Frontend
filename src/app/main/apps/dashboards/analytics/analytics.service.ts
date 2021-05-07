@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Store } from '@ngrx/store';
+
+import { State as AppState, getAuthState, getOrderState } from 'app/store/reducers';
 import { Observable } from 'rxjs';
 
 @Injectable()
@@ -14,11 +17,11 @@ export class AnalyticsDashboardService implements Resolve<any>
      * @param {HttpClient} _httpClient
      */
     constructor(
-        private _httpClient: HttpClient
+        private _httpClient: HttpClient,
+        private _store: Store<AppState>,
     )
     {
     }
-
     /**
      * Resolver
      *
@@ -52,8 +55,20 @@ export class AnalyticsDashboardService implements Resolve<any>
             this._httpClient.get('api/analytics-dashboard-widgets')
                 .subscribe((response: any) => {
                     this.widgets = response;
-                    resolve(response);
+                    this.getOrderState().subscribe(state => {
+                        if(state.revenueList != null) {
+                            this.widgets['revenue']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['revenue']));
+                            this.widgets['profit']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['profit']));
+                        }
+                    });
+                    
+                    resolve(this.widgets);
                 }, reject);
         });
+    }
+
+    getOrderState() 
+    {
+        return this._store.select(getOrderState);
     }
 }

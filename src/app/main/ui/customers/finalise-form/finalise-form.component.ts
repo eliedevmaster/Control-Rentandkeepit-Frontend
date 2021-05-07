@@ -11,7 +11,7 @@ import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
 
-import { Back, SetOrderStatus } from 'app/store/actions';
+import { Back, SaveProfit, SetOrderStatus } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState, getCustomerState, getProductState } from 'app/store/reducers';
 import { User } from 'app/models/user';
@@ -67,6 +67,8 @@ export class FinaliseFormComponent implements OnInit
     installmentWeekAmount: number;
     installmentFortnightAmount: number;
     installmentMonthAmount: number;
+
+    revenuePerMonth : number;
 
     @ViewChild("fileUpload", {static: false}) fileUpload: ElementRef;files  = [];
 
@@ -141,6 +143,20 @@ export class FinaliseFormComponent implements OnInit
         type      : 3
       }
       this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
+
+      const payload_profit = {
+        customer_id                 : this.customerId,
+        order_id                    : this.productInfo.order_id,
+        rental_amount_total         : this.finaliseForm.value['totalAmount'],
+        profit_total                : this.totalProfit,
+        profit_per_week             : this.installmentWeekAmount,
+        profit_per_fortnight        : this.installmentFortnightAmount,
+        profit_per_month            : this.installmentMonthAmount,
+
+        revenue_per_month           : this.revenuePerMonth,
+      } 
+
+      this._store.dispatch(new SaveProfit({profit : payload_profit}));
    }
 
    onChange() : void 
@@ -155,6 +171,7 @@ export class FinaliseFormComponent implements OnInit
         this.installmentWeekAmount = Number((this.installmentFortnightAmount / 2).toFixed(2));
       }
       this.installmentMonthAmount = Number((this.totalProfit / Number(this.productInfo.termLength)).toFixed(2));
+      this.revenuePerMonth = Number((this.totalAmount / Number(this.productInfo.termLength)).toFixed(2));
    }
 
    setInitValue() : void

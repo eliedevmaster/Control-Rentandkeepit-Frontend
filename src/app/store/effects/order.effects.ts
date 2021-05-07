@@ -7,7 +7,7 @@ import { AddOrder, AddOrderComplete, AddOrderError, OrderActionTypes,
         SetOrderStatus, SetOrderStatusComplete, SetOrderStatusError, SaveOrderMetaFirst, 
         SaveOrderMetaForthComplete, SaveOrderMetaFirstError, SaveOrderMetaSecond, SaveOrderMetaSecondError, 
         SaveOrderMetaFirstComplete, SaveOrderMetaSecondComplete, SaveOrderMetaThird, SaveOrderMetaThirdComplete, 
-        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError,} from '../actions/order.action';
+        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, SaveProfit, SaveProfitComplete, SaveProfitError, GetYearsForReportComplete, GetYearsForReportError, GetReveneForReportComplete, GetRevenueForReportError,} from '../actions/order.action';
 
 import { Router } from '@angular/router';
 
@@ -71,6 +71,38 @@ export class OrderEffects
     );
 
     @Effect()
+    yearsForReport$ = this.actions$.pipe(
+        ofType(OrderActionTypes.GET_YEARS_FOR_REPORT),
+        switchMap(() => {
+            return this.orderService.getYearsForReport()
+                .pipe(
+                map((years) => {
+                    return new GetYearsForReportComplete({years : years})
+                }),
+                catchError((error: Error) => {
+                    return of(new GetYearsForReportError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
+    reveneListForReport$ = this.actions$.pipe(
+        ofType(OrderActionTypes.GET_REVENUE_FOR_REPORT),
+        switchMap(() => {
+            return this.orderService.getRevenueForReport()
+                .pipe(
+                map((revenueList) => {
+                    return new GetReveneForReportComplete({revenueList : revenueList});
+                }),
+                catchError((error: Error) => {
+                    return of(new GetRevenueForReportError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
     saveAgreement$ = this.actions$.pipe(
         ofType(OrderActionTypes.SAVE_AGREEMENT),
         map((action: SaveAgreement) => action.payload),
@@ -84,6 +116,25 @@ export class OrderEffects
                 catchError((error: Error) => {
                     Swal.fire('Ooops!', 'The agreement has invailed', 'error');
                     return of(new SaveAgreementError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+    
+    @Effect()
+    saveProfit$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_PROFIT),
+        map((action: SaveProfit) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.saveProfit(payload.profit)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'The profits has successfully saved', 'success');
+                    return new SaveProfitComplete();
+                }),
+                catchError((error: Error) => {
+                    Swal.fire('Ooops!', 'The profits has invailed', 'error');
+                    return of(new SaveProfitError({ errorMessage: error.message }));
                 })
             );
         })

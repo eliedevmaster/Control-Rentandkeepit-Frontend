@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
-import { Go, Back, SaveAgreement, AddCustomer } from 'app/store/actions';
+import { Go, Back, SaveAgreement, AddCustomer, GetYearsForReport, GetRevenueForReport } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 
-import { State as AppState, getAuthState } from 'app/store/reducers';
+import { State as AppState, getAuthState, getOrderState } from 'app/store/reducers';
 import { fuseAnimations } from '@fuse/animations';
 import { User } from 'app/models/user';
 
@@ -21,7 +21,10 @@ export class AnalyticsDashboardComponent implements OnInit
 {
     user: User;
     widgets: any;
-    widget1SelectedYear = '2016';
+    years : any;
+    revenue: any;
+
+    widget1SelectedYear = '2020';
     widget5SelectedDay = 'today';
 
     /**
@@ -34,9 +37,12 @@ export class AnalyticsDashboardComponent implements OnInit
         private _store: Store<AppState>,
     )
     {
+        this._store.dispatch(new GetYearsForReport());
+        this._store.dispatch(new GetRevenueForReport());
         // Register the custom chart.js plugin
         this._registerCustomChartJSPlugin();
         this.mapUserStateToModel();
+        this.mapRevenueStateToModel();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -50,6 +56,7 @@ export class AnalyticsDashboardComponent implements OnInit
     {
         // Get the widgets from the service
         this.widgets = this._analyticsDashboardService.widgets;
+        console.log(this.widgets);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -61,6 +68,11 @@ export class AnalyticsDashboardComponent implements OnInit
         this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list'], query: null, extras: null}));
 
     }
+    onClick(year : any) 
+    {
+        this.widget1SelectedYear = year.year
+        console.log(this.widgets);
+    }
 
     mapUserStateToModel(): void
     {
@@ -70,9 +82,24 @@ export class AnalyticsDashboardComponent implements OnInit
             }
         });
     }
+    mapRevenueStateToModel() : void
+    {
+        this.getOrderState().subscribe(state => {
+            if(state.years != null) {
+                this.years = state.years;
+                this.widget1SelectedYear = this.years[0].year;
+            }
+        });
+
+    }
     getAuthState() 
     {
         return this._store.select(getAuthState);
+    }
+
+    getOrderState() 
+    {
+        return this._store.select(getOrderState);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,9 +112,11 @@ export class AnalyticsDashboardComponent implements OnInit
     private _registerCustomChartJSPlugin(): void
     {
         (window as any).Chart.plugins.register({
+            
             afterDatasetsDraw: function(chart, easing): any {
                 // Only activate the plugin if it's made available
                 // in the options
+
                 if (
                     !chart.options.plugins.xLabelsOnTop ||
                     (chart.options.plugins.xLabelsOnTop && chart.options.plugins.xLabelsOnTop.active === false)
@@ -113,7 +142,7 @@ export class AnalyticsDashboardComponent implements OnInit
                             ctx.font = (window as any).Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
                             // Just naively convert to string for now
-                            const dataString = '$' + dataset.data[index].toString();
+                            const dataString = '$' + (dataset.data[index] * 500).toString();
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';

@@ -10,10 +10,22 @@ export enum OrderActionTypes {
     GET_ORDER_LIST_COMPLETE = '[Order] GET_ORDER_LIST_COMPLETE',
     GET_ORDER_LIST_ERROR = '[Order] GET_ORDER_LIST_ERROR',
 
+    GET_YEARS_FOR_REPORT = '[Order] GET_YEARS',
+    GET_YEARS_FOR_REPORT_COMPLETE = '[Order] GET_YEARS_FOR_REPORT_COMPLETE',
+    GET_YEARS_FOR_REPORT_ERROR = '[Order] GET_YEARS_FOR_REPORT_ERROR',
+
+    GET_REVENUE_FOR_REPORT = '[Order] GET_REVENUE_FOR_REPORT',
+    GET_REVENUE_FOR_REPORT_COMPLETE = '[Order] GET_REVENUE_FOR_REPORT_COMPLETE',
+    GET_REVENUE_FOR_REPORT_ERROR = '[Order] GET_REVENUE_FOR_REPORT_ERROR',
+    
     SAVE_AGREEMENT = '[Order] SAVE_AGREEMENT',
     SAVE_AGREEMENT_COMPLETE = '[Order] SAVE_AGREEMENT_COMPLETE',
     SAVE_AGREEMENT_ERROR = '[Order] SAVE_AGREEMENT_ERROR',
 
+    SAVE_PROFIT = '[Order] SAVE_PROFIT',
+    SAVE_PROFIT_COMPLETE = '[Order] SAVE_PROFIT_COMPLETE',
+    SAVE_PROFIT_ERROR = '[Order] SAVE_PROFIT_ERROR',
+    
     SET_ORDER_STATUS = "[Order] SET_STATUS",
     SET_ORDER_STATUS_COMPLETE = "[Order] SET_STATUS_COMPLETE",
     SET_ORDER_STATUS_ERROR = "[Order] SET_STATUS_ERROR",
@@ -34,7 +46,6 @@ export enum OrderActionTypes {
     SAVE_ORDER_META_FORTH_COMPLETE = '[Order] SAVE_ORDER_META_FORTH_COMPLETE',
     SAVE_ORDER_META_FORTH_ERROR = '[Order] SAVE_ORDER_META_FORTH_ERROR',
 }
-
 
 export class AddOrder implements Action {
     readonly type = OrderActionTypes.ADD_ORDER;
@@ -64,6 +75,33 @@ export class GetOrderListError implements Action {
     constructor(public payload: {errorMessage: string}) {}
 }
 
+export class GetYearsForReport implements Action {
+    readonly type = OrderActionTypes.GET_YEARS_FOR_REPORT;
+}
+
+export class GetYearsForReportComplete implements Action {
+    readonly type = OrderActionTypes.GET_YEARS_FOR_REPORT_COMPLETE;
+    constructor(public payload : {years : any}) {}
+}
+
+export class GetYearsForReportError implements Action {
+    readonly type = OrderActionTypes.GET_YEARS_FOR_REPORT_ERROR;
+    constructor(public payload : {errorMessage : string}) {}
+}
+
+export class GetRevenueForReport implements Action {
+    readonly type = OrderActionTypes.GET_REVENUE_FOR_REPORT;
+}
+
+export class GetReveneForReportComplete implements Action {
+    readonly type = OrderActionTypes.GET_REVENUE_FOR_REPORT_COMPLETE;
+    constructor (public payload : {revenueList : any}) {}
+}
+export class GetRevenueForReportError implements Action {
+    readonly type = OrderActionTypes.GET_REVENUE_FOR_REPORT_ERROR;
+    constructor (public payload : {errorMessage : string}) {}
+}
+
 export class SaveAgreement implements Action {
     readonly type = OrderActionTypes.SAVE_AGREEMENT;
     constructor (public payload: {agreement: any}) {}
@@ -77,6 +115,21 @@ export class SaveAgreementError implements Action {
     readonly type = OrderActionTypes.SAVE_AGREEMENT_ERROR;
     constructor (public payload: {errorMessage: any}) {}
 }
+
+export class SaveProfit implements Action {
+    readonly type = OrderActionTypes.SAVE_PROFIT;
+    constructor (public payload: {profit: any}) {}
+}
+
+export class SaveProfitComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_PROFIT_COMPLETE;
+}
+
+export class SaveProfitError implements Action {
+    readonly type = OrderActionTypes.SAVE_PROFIT_ERROR;
+    constructor (public payload: {errorMessage: any}) {}
+}
+
 
 export class SetOrderStatus implements Action {
     readonly type = OrderActionTypes.SET_ORDER_STATUS;
@@ -161,9 +214,18 @@ export type OrderActions
  | GetOrderList
  | GetOrderListComplete
  | GetOrderListError
+ | GetYearsForReport
+ | GetYearsForReportComplete
+ | GetYearsForReportError
+ | GetRevenueForReport
+ | GetReveneForReportComplete
+ | GetRevenueForReportError
  | SaveAgreement
  | SaveAgreementComplete
  | SaveAgreementError
+ | SaveProfit
+ | SaveProfitComplete
+ | SaveProfitError
  | SetOrderStatus
  | SetOrderStatusComplete
  | SetOrderStatusError
