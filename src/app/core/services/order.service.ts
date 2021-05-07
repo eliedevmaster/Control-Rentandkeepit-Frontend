@@ -24,7 +24,6 @@ export class OrderService {
       total_sales         : param.total_sales,
       customer_id         : customer_id,
     }
-
     
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }
@@ -42,6 +41,10 @@ export class OrderService {
         customer_id       : param.customer_id,
         order_id          : param.order_id,
         meta_key          : param.meta_key,
+        term_length       : param.term_length,
+        start_date_day    : param.start_date_day,
+        start_date_month  : param.start_date_month,
+        start_date_year   : param.start_date_year,
     }
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }

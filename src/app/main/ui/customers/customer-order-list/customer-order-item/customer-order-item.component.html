@@ -20,7 +20,7 @@
 
     <!-- Name Column -->
     <ng-container matColumnDef="startDate">
-        <mat-header-cell *matHeaderCellDef>Start date</mat-header-cell>
+        <mat-header-cell *matHeaderCellDef>Date of Application</mat-header-cell>
         <mat-cell *matCellDef="let order">
             <p class="text-truncate font-weight-600">
                 {{showDate(order.date_created_gmt)}}</p>
@@ -51,6 +51,13 @@
         </mat-cell>
     </ng-container>
     <!-- Name Column -->
+
+    <ng-container matColumnDef="allocate">
+        <mat-header-cell *matHeaderCellDef>Allocate To</mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <p class="text-truncate font-weight-600">HO</p>
+        </mat-cell>
+    </ng-container>
     
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
@@ -62,7 +69,7 @@
             <p *ngIf="order.status == 'wc-finalised'" class="status text-truncate h6 p-4 status" [ngClass]="'blue-grey'">&nbsp;Finalised&nbsp;</p>
         </mat-cell>
     </ng-container>
-      
+
     <!-- Buttons Column -->
     <ng-container matColumnDef="action1">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>

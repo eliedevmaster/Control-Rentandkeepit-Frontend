@@ -39,7 +39,7 @@ export class CustomerOrderItemComponent implements OnInit {
     orderList: any[];
     user: User;
     dataSource: MatTableDataSource<any> | null;
-    displayedColumns = ['checkbox', 'customerName',  'startDate', 'numItemSold', 'termLength', 'status', 'action1', 'action2'];
+    displayedColumns = ['checkbox', 'customerName',  'startDate', 'numItemSold', 'termLength', 'status', 'allocate', 'action1', 'action2'];
     selectedOrderList: any[];
     checkboxes: {};
     dialogRef: any;

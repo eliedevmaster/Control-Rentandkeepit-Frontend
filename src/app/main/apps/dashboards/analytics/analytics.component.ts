@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
+import { Go, Back, SaveAgreement, AddCustomer } from 'app/store/actions';
+import { Store } from '@ngrx/store';
+
+import { State as AppState, getAuthState } from 'app/store/reducers';
 import { fuseAnimations } from '@fuse/animations';
+import { User } from 'app/models/user';
 
 import { AnalyticsDashboardService } from 'app/main/apps/dashboards/analytics/analytics.service';
 
@@ -11,8 +16,10 @@ import { AnalyticsDashboardService } from 'app/main/apps/dashboards/analytics/an
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
+
 export class AnalyticsDashboardComponent implements OnInit
 {
+    user: User;
     widgets: any;
     widget1SelectedYear = '2016';
     widget5SelectedDay = 'today';
@@ -23,11 +30,13 @@ export class AnalyticsDashboardComponent implements OnInit
      * @param {AnalyticsDashboardService} _analyticsDashboardService
      */
     constructor(
-        private _analyticsDashboardService: AnalyticsDashboardService
+        private _analyticsDashboardService: AnalyticsDashboardService,
+        private _store: Store<AppState>,
     )
     {
         // Register the custom chart.js plugin
         this._registerCustomChartJSPlugin();
+        this.mapUserStateToModel();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -41,6 +50,29 @@ export class AnalyticsDashboardComponent implements OnInit
     {
         // Get the widgets from the service
         this.widgets = this._analyticsDashboardService.widgets;
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // ------------------------------------------------------------------------------------------------------
+
+    goToApplcation() : void
+    {
+        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list'], query: null, extras: null}));
+
+    }
+
+    mapUserStateToModel(): void
+    {
+        this.getAuthState().subscribe(state => {
+            if(state.user != null) {
+                this.user = new User(state.user);
+            }
+        });
+    }
+    getAuthState() 
+    {
+        return this._store.select(getAuthState);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -81,7 +113,7 @@ export class AnalyticsDashboardComponent implements OnInit
                             ctx.font = (window as any).Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
                             // Just naively convert to string for now
-                            const dataString = dataset.data[index].toString() + 'k';
+                            const dataString = '$' + dataset.data[index].toString();
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';

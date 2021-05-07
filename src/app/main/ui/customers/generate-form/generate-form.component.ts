@@ -60,7 +60,9 @@ export class GenerateFormComponent implements OnInit {
     displayProducts: string[] = [];
 
     order: any;
-
+    
+    refKey : string;
+    startDate : Date;
     enableFinaliseButton: boolean = false;
 
     headImage: any;
@@ -173,7 +175,7 @@ export class GenerateFormComponent implements OnInit {
             eachRepayment += element;
         });
 
-        let startDate = new Date(this.generateForm.value['startDate']);
+        this.startDate = new Date(this.generateForm.value['startDate']);
 
         let products: string = '';
         
@@ -185,17 +187,18 @@ export class GenerateFormComponent implements OnInit {
         let firstPaymentDate = new Date(this.generateForm.value['firstPaymentDate']);
         let firstPaymentDateString: string = firstPaymentDate.getDate().toString() + '-' + (firstPaymentDate.getMonth() + 1).toString() + '-' + firstPaymentDate.getFullYear().toString()
 
+        this.refKey = this.makeId();
         const param = {
-            refKey              : this.makeId(),
+            refKey              : this.refKey,
             customerName        : this.generateForm.value['firstName'] + ' ' + this.generateForm.value['lastName'],
             address             : this.generateForm.value['address'] + ', ' + this.generateForm.value['city'] + ', ' + this.generateForm.value['state'] + ', ' + this.generateForm.value['postCode'],
             phoneNumber         : this.generateForm.value['phoneNumber'],
             postCode            : this.generateForm.value['postCode'],
             products            : productText,
             term                : this.generateForm.value['termLength'] == 1 ? '12 months' : '24 months',
-            startDate_day       : startDate.getDate().toString(),
-            startDate_month     : startDate.toLocaleString('default', { month: 'long' }),
-            startDate_year      : startDate.getFullYear().toString(),
+            startDate_day       : this.startDate.getDate().toString(),
+            startDate_month     : this.startDate.toLocaleString('default', { month: 'long' }),
+            startDate_year      : this.startDate.getFullYear().toString(),
             eachRepayment       : eachRepayment,
             firstPaymentDate    : firstPaymentDateString, 
             frequency           : this.generateForm.value['freqeuncyRepayment'] == 52 ? 'Weekly' : 'Fortnightly',
@@ -219,13 +222,20 @@ export class GenerateFormComponent implements OnInit {
                                                                   + param.leaseNumber + '/'
                                                                   + param.totalAmount;       
         
+    } 
 
+    onSave() : void 
+    {
         if(this.customerId != 0) 
         {
             const payload = {
-                customer_id : this.customerId,
-                order_id : this.order.order_id,
-                meta_key : param.refKey,
+                customer_id         : this.customerId,
+                order_id            : this.order.order_id,
+                meta_key            : this.refKey,
+                term_length         : this.generateForm.value['termLength'],
+                start_date_day      : this.startDate.getDate().toString(),
+                start_date_month    : this.startDate.getMonth() + 1,
+                start_date_year     : this.startDate.getFullYear().toString(),
             }
             
             this._store.dispatch(new SaveAgreement({agreement : payload}));
@@ -240,29 +250,20 @@ export class GenerateFormComponent implements OnInit {
                 postcode   : this.generateForm.value['postCode'],
                 state      : this.generateForm.value['state'],
             }
-            
-            /*const order = {
-                start_date: new Date(this.generateForm.value['startDate']),
-                num_items_sold : this.products.length,
-                total_sales : eachRepayment
-            }
-            this.orderInfo = order;*/
 
             this._store.dispatch(new AddCustomer({customer: payload}));
 
             Swal.fire('Yes!', 'The agreement has successfully saved.', 'success');
         }
-        
         this.enableFinaliseButton = true;
-    } 
 
-    onSave() : void 
-    {
-        Swal.fire('Yes!', 'You saved successfully.', 'success');
     }
     
     onFinalise(): void
-    {
+    {   
+        if(this.enableFinaliseButton == false)
+            return;
+
         const orderedProdcuts = {
             order_id    : this.order.order_id,
             products    : this.products,

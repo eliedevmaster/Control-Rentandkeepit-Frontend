@@ -6,7 +6,7 @@ export class AnalyticsDashboardDb
             datasets : {
                 '2016': [
                     {
-                        label: 'Sales',
+                        label: 'Revenue',
                         data : [1.9, 3, 3.4, 2.2, 2.9, 3.9, 2.5, 3.8, 4.1, 3.8, 3.2, 2.9],
                         fill : 'start'
 
@@ -14,7 +14,7 @@ export class AnalyticsDashboardDb
                 ],
                 '2017': [
                     {
-                        label: 'Sales',
+                        label: 'Revenue',
                         data : [2.2, 2.9, 3.9, 2.5, 3.8, 3.2, 2.9, 1.9, 3, 3.4, 4.1, 3.8],
                         fill : 'start'
 
@@ -22,8 +22,8 @@ export class AnalyticsDashboardDb
                 ],
                 '2018': [
                     {
-                        label: 'Sales',
-                        data : [3.9, 2.5, 3.8, 4.1, 1.9, 3, 3.8, 3.2, 2.9, 3.4, 2.2, 2.9],
+                        label: 'Revenue',
+                        data : [0, 1.5, 3.8, 4.1, 1.9, 3, 3.8, 3.2, 2.9, 3.4, 2.2, 2.9],
                         fill : 'start'
 
                     }
@@ -107,11 +107,11 @@ export class AnalyticsDashboardDb
             chartType : 'bar',
             datasets  : [
                 {
-                    label: 'Conversion',
+                    label: 'Revenue per week',
                     data : [221, 428, 492, 471, 413, 344, 294]
                 }
             ],
-            labels    : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            labels    : ['Week 1', 'Week 2', 'Week 3', 'Week 4',],
             colors    : [
                 {
                     borderColor    : '#42a5f5',
@@ -158,12 +158,12 @@ export class AnalyticsDashboardDb
             chartType  : 'line',
             datasets   : [
                 {
-                    label: 'Impression',
+                    label: 'Revenue per week',
                     data : [67000, 54000, 82000, 57000, 72000, 57000, 87000, 72000, 89000, 98700, 112000, 136000, 110000, 149000, 98000],
                     fill : false
                 }
             ],
-            labels     : ['Jan 1', 'Jan 2', 'Jan 3', 'Jan 4', 'Jan 5', 'Jan 6', 'Jan 7', 'Jan 8', 'Jan 9', 'Jan 10', 'Jan 11', 'Jan 12', 'Jan 13', 'Jan 14', 'Jan 15'],
+            labels     : ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
             colors     : [
                 {
                     borderColor: '#5c84f1'
@@ -217,26 +217,37 @@ export class AnalyticsDashboardDb
                 value   : 882,
                 ofTarget: -9
             },
-            chartType: 'bar',
+            chartType: 'line',
             datasets : [
                 {
-                    label: 'Visits',
-                    data : [432, 428, 327, 363, 456, 267, 231]
+                    label: 'Revenue per week',
+                    data : [432, 428, 327, 363, 456, 267, 231, 300,  350, 330, 500, 600],
+                    fill : false
                 }
             ],
-            labels   : ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+            labels   : ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Week 11', 'Week 12'],
             colors   : [
                 {
                     borderColor    : '#f44336',
-                    backgroundColor: '#f44336'
                 }
             ],
-            options  : {
+            options    : {
                 spanGaps           : false,
                 legend             : {
                     display: false
                 },
                 maintainAspectRatio: false,
+                elements           : {
+                    point: {
+                        radius          : 2,
+                        borderWidth     : 1,
+                        hoverRadius     : 2,
+                        hoverBorderWidth: 1
+                    },
+                    line : {
+                        tension: 0
+                    }
+                },
                 layout             : {
                     padding: {
                         top   : 24,
@@ -255,8 +266,8 @@ export class AnalyticsDashboardDb
                         {
                             display: false,
                             ticks  : {
-                                min: 150,
-                                max: 500
+                                // min: 100,
+                                // max: 500
                             }
                         }
                     ]
@@ -572,27 +583,27 @@ export class AnalyticsDashboardDb
         widget9: {
             rows: [
                 {
-                    title     : 'Holiday Travel',
+                    title     : 'Dmitry Vodniy',
                     clicks    : 3621,
                     conversion: 90
                 },
                 {
-                    title     : 'Get Away Deals',
+                    title     : 'Joshua Fairfall',
                     clicks    : 703,
                     conversion: 7
                 },
                 {
-                    title     : 'Airfare',
+                    title     : 'Andrey Mesik',
                     clicks    : 532,
                     conversion: 0
                 },
                 {
-                    title     : 'Vacation',
+                    title     : 'Customer 1',
                     clicks    : 201,
                     conversion: 8
                 },
                 {
-                    title     : 'Hotels',
+                    title     : 'Customer 2',
                     clicks    : 94,
                     conversion: 4
                 }

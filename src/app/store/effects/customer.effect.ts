@@ -80,7 +80,7 @@ export class CustomerEffects
         return this.customerService.addCustomer(payload.customer)
             .pipe(
             map((customer) => {
-
+              
                 return new AddCustomerComplete()
             }),
             catchError((error: Error) => {
