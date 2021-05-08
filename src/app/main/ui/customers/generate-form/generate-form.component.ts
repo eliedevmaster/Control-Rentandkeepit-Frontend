@@ -17,6 +17,7 @@ import { CustomerService } from 'app/core/services/customer.service';
 import { OrderService } from 'app/core/services/order.service';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 export const MY_FORMATS = {
     parse: {
@@ -64,6 +65,9 @@ export class GenerateFormComponent implements OnInit {
     refKey : string;
     startDate : Date;
     enableFinaliseButton: boolean = false;
+
+    isSave : Boolean = false;
+    isFinalise : Boolean = false;
 
     headImage: any;
     // Private
@@ -220,8 +224,9 @@ export class GenerateFormComponent implements OnInit {
                                                                   + param.firstPaymentDate + '/'
                                                                   + param.frequency + '/'
                                                                   + param.leaseNumber + '/'
-                                                                  + param.totalAmount;       
+                                                                  + param.totalAmount;
         
+        this.isSave = true;
     } 
 
     onSave() : void 
@@ -240,6 +245,7 @@ export class GenerateFormComponent implements OnInit {
             }
             
             this._store.dispatch(new SaveAgreement({agreement : payload}));
+            this.isFinalise = true;
         }
             
         else  {

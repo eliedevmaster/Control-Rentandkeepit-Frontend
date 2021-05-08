@@ -289,12 +289,12 @@
                     </button>
 
                     <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
-                    [disabled]="generateForm.invalid"  (click)="onSave()">                       
+                    [disabled]="generateForm.invalid || !isSave"  (click)="onSave()">                       
                         <span >Save</span>
                     </button>
 
                     <button mat-raised-button color="accent" class="submit-button" aria-label="Finalise" style="margin-left: 20px;"
-                    [disabled]="generateForm.invalid"  (click)="onFinalise()">                       
+                    [disabled]="generateForm.invalid || !isFinalise"  (click)="onFinalise()">                       
                         <span >Finalise</span>
                     </button>
 

@@ -129,11 +129,9 @@ export class OrderEffects
             return this.orderService.saveProfit(payload.profit)
                 .pipe(
                 map((state) => {
-                    Swal.fire('Yes!', 'The profits has successfully saved', 'success');
                     return new SaveProfitComplete();
                 }),
                 catchError((error: Error) => {
-                    Swal.fire('Ooops!', 'The profits has invailed', 'error');
                     return of(new SaveProfitError({ errorMessage: error.message }));
                 })
             );
