@@ -62,7 +62,7 @@ export class AnalyticsDashboardService implements Resolve<any>
                 .subscribe((response: any) => {
                     this.widgets = response;
                     this.getOrderState().subscribe(state => {
-                        if(state.revenueList != null) {
+                        if(state.revenueList != null && state.revenueList['revenue'] != null && state.revenueList['profit'] != null) {
                             this.widgets['revenue']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['revenue']));
                             this.widgets['profit']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['profit']));
 

@@ -22,7 +22,7 @@ export class AnalyticsDashboardComponent implements OnInit
 {
     user: User;
     widgets: any;
-    years : any;
+    years : any = null;
     revenue: any;
 
     next30 : any = null;
@@ -105,7 +105,7 @@ export class AnalyticsDashboardComponent implements OnInit
     mapRevenueStateToModel() : void
     {
         this.getOrderState().subscribe(state => {
-            if(state.years != null) {
+            if(state.years != null && state.years.length != 0) {
                 this.years = state.years;
                 this.widget1SelectedYear = this.years[0].year;
             }

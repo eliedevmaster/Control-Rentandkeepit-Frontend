@@ -40,7 +40,7 @@
                 <span class="h2">Profit</span>
                 <span class="h5 secondary-text">Total Profit per month</span>
             </div>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div fxLayout="row" *ngIf="years != null" fxLayoutAlign="start center">
                 <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
                      (click)="onClick(year)"
                      [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
