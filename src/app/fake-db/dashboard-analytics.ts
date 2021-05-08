@@ -66,7 +66,7 @@ export class AnalyticsDashboardDb
                             ticks  : {
                                 min     : 0,
                                 max     : 15,
-                                stepSize: 0.5
+                                stepSize: 0.2
                             }
                         }
                     ]
@@ -146,7 +146,7 @@ export class AnalyticsDashboardDb
                             ticks  : {
                                 min     : 0,
                                 max     : 15,
-                                stepSize: 0.5
+                                stepSize: 0.2
                             }
                         }
                     ]

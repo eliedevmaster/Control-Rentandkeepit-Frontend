@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
-import { Go, Back, SaveAgreement, AddCustomer, GetYearsForReport, GetRevenueForReport } from 'app/store/actions';
+import { Go, Back, SaveAgreement, AddCustomer, GetYearsForReport, GetRevenueForReport, GetOrderList } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 
 import { State as AppState, getAuthState, getOrderState } from 'app/store/reducers';
@@ -24,6 +25,11 @@ export class AnalyticsDashboardComponent implements OnInit
     years : any;
     revenue: any;
 
+    next30 : any = null;
+    next60 : any = null;
+    next90 : any = null;
+
+    orderList : any = null;
     widget1SelectedYear = '2020';
     widget5SelectedDay = 'today';
 
@@ -35,10 +41,13 @@ export class AnalyticsDashboardComponent implements OnInit
     constructor(
         private _analyticsDashboardService: AnalyticsDashboardService,
         private _store: Store<AppState>,
+        private _cdref: ChangeDetectorRef,
     )
     {
         this._store.dispatch(new GetYearsForReport());
         this._store.dispatch(new GetRevenueForReport());
+        this._store.dispatch(new GetOrderList());
+
         // Register the custom chart.js plugin
         this._registerCustomChartJSPlugin();
         this.mapUserStateToModel();
@@ -56,9 +65,20 @@ export class AnalyticsDashboardComponent implements OnInit
     {
         // Get the widgets from the service
         this.widgets = this._analyticsDashboardService.widgets;
-        console.log(this.widgets);
     }
 
+    ngAfterViewChecked(): void 
+    {   
+        if(this.next30 != null && this.next60 != null && this.next90 != null && this.orderList.length === 5)
+            return;
+        this.next30 = this._analyticsDashboardService.next30;
+        this.next60 = this._analyticsDashboardService.next60;
+        this.next90 = this._analyticsDashboardService.next90;
+
+        this.orderList = this._analyticsDashboardService.orderList;
+        //console.log(this.orderList);
+        this._cdref.detectChanges();
+    }
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // ------------------------------------------------------------------------------------------------------
@@ -142,7 +162,7 @@ export class AnalyticsDashboardComponent implements OnInit
                             ctx.font = (window as any).Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
 
                             // Just naively convert to string for now
-                            const dataString = '$' + (dataset.data[index] * 500).toString();
+                            const dataString = '$' + ((dataset.data[index] * 500).toFixed(2)).toString();
 
                             // Make sure alignment settings are correct
                             ctx.textAlign = 'center';

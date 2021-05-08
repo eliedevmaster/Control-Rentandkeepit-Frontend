@@ -5,12 +5,18 @@ import { Store } from '@ngrx/store';
 
 import { State as AppState, getAuthState, getOrderState } from 'app/store/reducers';
 import { Observable } from 'rxjs';
+import { ComingSoonModule } from 'app/main/pages/coming-soon/coming-soon.module';
 
 @Injectable()
 export class AnalyticsDashboardService implements Resolve<any>
 {
     widgets: any[];
+    next30: any;
+    next60: any;
+    next90: any;
 
+    orderList : any[] = [];
+    
     /**
      * Constructor
      *
@@ -59,7 +65,19 @@ export class AnalyticsDashboardService implements Resolve<any>
                         if(state.revenueList != null) {
                             this.widgets['revenue']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['revenue']));
                             this.widgets['profit']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['profit']));
+
+                            this.next30 = JSON.parse(JSON.stringify(state.revenueList['next30'][0]));
+                            this.next60 = JSON.parse(JSON.stringify(state.revenueList['next60'][0]));
+                            this.next90 = JSON.parse(JSON.stringify(state.revenueList['next90'][0]));
                         }
+                        if(state.orderList != null) {
+                            let orderListTemp : any = state.orderList;
+                            orderListTemp = orderListTemp.filter(x => x.status === 'wc-processing');
+                            this.orderList = orderListTemp.slice(0, 5);
+                            //console.log('orderList : ', this.orderList);
+                        }
+                        
+
                     });
                     
                     resolve(this.widgets);
