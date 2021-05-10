@@ -153,7 +153,7 @@ export class CustomerOrderItemComponent implements OnInit {
 
     generatePaperWork(order: any) : void 
     {   
-       let customerName = order.customer.first_name + ' ' + order.customer.last_name;
+        let customerName = order.customer.first_name + ' ' + order.customer.last_name;
         localStorage.setItem('order', JSON.stringify(order));
         this._store.dispatch(new Go({path: ['/ui/customers/generate-form/' + order.customer.customer_id + '/' + customerName], query: null, extras: null}));
     }

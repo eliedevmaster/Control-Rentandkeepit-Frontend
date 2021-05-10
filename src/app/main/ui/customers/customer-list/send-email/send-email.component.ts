@@ -89,8 +89,8 @@ export class SendEmailComponent implements OnInit {
     
     let payload = {
       email                : this.customer.email,
-      subject              : this.emailForm.value['postCode'],
-      message              : this.emailForm.value['city'],
+      subject              : this.emailForm.value['subject'],
+      message              : this.emailForm.value['message'],
     }
     Swal.fire('Yes', "You have sent email successfully.", 'success');
     //this._store.dispatch(new UpdateCustomer({ customer : payload }));

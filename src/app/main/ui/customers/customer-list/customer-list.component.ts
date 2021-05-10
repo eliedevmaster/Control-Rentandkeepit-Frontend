@@ -55,7 +55,6 @@ export class CustomerListComponent implements OnInit {
       this._unsubscribeAll = new Subject();
       this.mapUserStateToModel();
       this._store.dispatch(new GetCustomerList());
-
   }
 
 

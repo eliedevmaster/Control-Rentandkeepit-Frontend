@@ -31,6 +31,7 @@ import { EziDebitBulkUploadModule } from 'app/main/ui/payments/ezi-debit-bulk-up
 import { ManualPaymentModule } from 'app/main/ui/payments/manual-payment/manual-payment.module';
 import { ApplicationFormModule } from 'app/main/ui/customers/application-form/application-form.module';
 import { SendEmailModule } from 'app/main/ui/customers/customer-list/send-email/send-email.module';
+import { TimeShiftModule } from 'app/main/ui/time-shift/time-shift.module';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -89,6 +90,8 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         EziDebitBulkUploadModule,
         ManualPaymentModule,
         SendEmailModule,
+        TimeShiftModule,
+
         /************************* */
 
         UIAngularMaterialModule,

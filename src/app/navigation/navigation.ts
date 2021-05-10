@@ -74,7 +74,7 @@ export const navigation: FuseNavigation[] = [
         title: 'Time Shift',
         type : 'item',
         icon : 'access_time',
-        url  : '/ui/customers1/customer-order-list',
+        url  : '/ui/time-shift',
     },
     
    /* //

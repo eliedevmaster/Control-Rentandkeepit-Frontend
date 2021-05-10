@@ -17,14 +17,13 @@ import { CustomerService } from 'app/core/services/customer.service';
 import { OrderService } from 'app/core/services/order.service';
 
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 export const MY_FORMATS = {
     parse: {
         dateInput: 'LL'
     },
     display: {
-        dateInput: 'DD-MM-YYYY',
+        dateInput: 'DD/MM/YYYY',
         monthYearLabel: 'YYYY',
         dateA11yLabel: 'LL',
         monthYearA11yLabel: 'YYYY'
