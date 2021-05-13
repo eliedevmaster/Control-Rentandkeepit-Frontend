@@ -6,8 +6,6 @@ import { Subject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';  
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
-
-
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
 

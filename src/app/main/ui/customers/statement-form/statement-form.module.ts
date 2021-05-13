@@ -50,17 +50,17 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 import {OverlayModule} from '@angular/cdk/overlay';
 
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FinaliseFormComponent } from './finalise-form.component';
+import { StatementFormComponent } from './statement-form.component';
 
 const routes: Routes = [
   {
-      path     : 'customers/finalise-form/:customerId/:customerName',
-      component: FinaliseFormComponent  
+      path     : 'customers/statement-form',
+      component: StatementFormComponent  
   }
 ];
 
 @NgModule({
-  declarations: [FinaliseFormComponent],
+  declarations: [StatementFormComponent],
   imports: [
     RouterModule.forChild(routes),
     MatButtonModule,
@@ -116,8 +116,8 @@ const routes: Routes = [
     PortalModule,
     ScrollingModule,
     MomentDateModule,
-    
     FuseSharedModule,
+
   ]
 })
-export class FinaliseFormModule { }
+export class StatementFormModule { }

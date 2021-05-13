@@ -76,6 +76,14 @@ export const navigation: FuseNavigation[] = [
         icon : 'access_time',
         url  : '/ui/time-shift',
     },
+
+    {
+        id   : 'statement',
+        title: 'Statement',
+        type : 'item',
+        icon : 'access_time',
+        url  : '/ui/customers/statement-form',
+    },
     
    /* //
     {
