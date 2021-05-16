@@ -22,6 +22,10 @@ export enum OrderActionTypes {
     SAVE_AGREEMENT_COMPLETE = '[Order] SAVE_AGREEMENT_COMPLETE',
     SAVE_AGREEMENT_ERROR = '[Order] SAVE_AGREEMENT_ERROR',
 
+    SAVE_PAYMENT_MANUAL = '[Order] SAVE_PAYMENT_MANUAL',
+    SAVE_PAYMENT_MANUAL_COMPLETE = '[Order] SAVE_PAYMENT_MANUAL_COMPLETE',
+    SAVE_PAYMENT_MANUAL_ERROR = '[Order] SAVE_PAYMENT_MANUAL_ERROR',
+    
     SAVE_PROFIT = '[Order] SAVE_PROFIT',
     SAVE_PROFIT_COMPLETE = '[Order] SAVE_PROFIT_COMPLETE',
     SAVE_PROFIT_ERROR = '[Order] SAVE_PROFIT_ERROR',
@@ -114,6 +118,20 @@ export class SaveAgreementComplete implements Action {
 export class SaveAgreementError implements Action {
     readonly type = OrderActionTypes.SAVE_AGREEMENT_ERROR;
     constructor (public payload: {errorMessage: any}) {}
+}
+
+export class SavePaymentManual implements Action {
+    readonly type = OrderActionTypes.SAVE_PAYMENT_MANUAL;
+    constructor (public payload : {paymentData : any}) {}
+}
+
+export class SavePaymentManualComplete implements Action {
+    readonly type = OrderActionTypes.SAVE_PAYMENT_MANUAL_COMPLETE;
+}
+
+export class SavePaymentManualError implements Action {
+    readonly type = OrderActionTypes.SAVE_PAYMENT_MANUAL_ERROR;
+    constructor (public payload : {errorMessage : string}) {}
 }
 
 export class SaveProfit implements Action {
@@ -223,6 +241,9 @@ export type OrderActions
  | SaveAgreement
  | SaveAgreementComplete
  | SaveAgreementError
+ | SavePaymentManual
+ | SavePaymentManualComplete
+ | SavePaymentManualError
  | SaveProfit
  | SaveProfitComplete
  | SaveProfitError

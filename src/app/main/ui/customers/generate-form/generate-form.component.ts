@@ -241,6 +241,7 @@ export class GenerateFormComponent implements OnInit {
                 start_date_month    : this.startDate.getMonth() + 1,
                 start_date_year     : this.startDate.getFullYear().toString(),
                 start_date          : this.startDate.toISOString().substring(0, 10),
+                rental_amount_total : this.generateForm.value['totalAmount'],
             }
             
             this._store.dispatch(new SaveAgreement({agreement : payload}));

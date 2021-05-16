@@ -39,14 +39,29 @@ export class OrderService {
   {
     const url = `${env.backendBaseUrl}/api/orders/agreement`;
     const body = {
-        customer_id       : param.customer_id,
-        order_id          : param.order_id,
-        meta_key          : param.meta_key,
-        term_length       : param.term_length,
-        start_date_day    : param.start_date_day,
-        start_date_month  : param.start_date_month,
-        start_date_year   : param.start_date_year,
-        start_date        : param.start_date,
+        customer_id         : param.customer_id,
+        order_id            : param.order_id,
+        meta_key            : param.meta_key,
+        term_length         : param.term_length,
+        start_date_day      : param.start_date_day,
+        start_date_month    : param.start_date_month,
+        start_date_year     : param.start_date_year,
+        start_date          : param.start_date,
+        rental_amount_total : param.rental_amount_total,
+    }
+    return this.http.post(url, body, {headers: this.authService.authHeaders()});
+  }
+
+  savePaymentHistory(param : any) 
+  {
+    const url = `${env.backendBaseUrl}/api/orders/payment/manual`;
+    const body = {
+      customer_id         : param.customer_id,
+      order_id            : param.order_id,
+      date                : param.date,
+      paid_amount         : param.paid_amount,
+      refund              : param.refund,
+      payment_method      : param.payment_method,
     }
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }

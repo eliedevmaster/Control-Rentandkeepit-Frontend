@@ -78,9 +78,10 @@ export class StatementFormComponent implements OnInit {
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
   // -----------------------------------------------------------------------------------------------------
-  onConfirm(): void
+  onGenerate(): void
   {
-    window.location.href =  `${env.backendBaseUrl}/statement/2`;
+    let customerId = this.statementForm.value['customer'];
+    window.location.href =  `${env.backendBaseUrl}/statement/` + customerId;
   } 
 
   backPath(): void 

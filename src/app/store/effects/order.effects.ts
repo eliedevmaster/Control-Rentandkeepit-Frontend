@@ -7,7 +7,7 @@ import { AddOrder, AddOrderComplete, AddOrderError, OrderActionTypes,
         SetOrderStatus, SetOrderStatusComplete, SetOrderStatusError, SaveOrderMetaFirst, 
         SaveOrderMetaForthComplete, SaveOrderMetaFirstError, SaveOrderMetaSecond, SaveOrderMetaSecondError, 
         SaveOrderMetaFirstComplete, SaveOrderMetaSecondComplete, SaveOrderMetaThird, SaveOrderMetaThirdComplete, 
-        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, SaveProfit, SaveProfitComplete, SaveProfitError, GetYearsForReportComplete, GetYearsForReportError, GetReveneForReportComplete, GetRevenueForReportError,} from '../actions/order.action';
+        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, SaveProfit, SaveProfitComplete, SaveProfitError, GetYearsForReportComplete, GetYearsForReportError, GetReveneForReportComplete, GetRevenueForReportError, SavePaymentManualError, SavePaymentManual, SavePaymentManualComplete,} from '../actions/order.action';
 
 import { Router } from '@angular/router';
 
@@ -116,6 +116,25 @@ export class OrderEffects
                 catchError((error: Error) => {
                     Swal.fire('Ooops!', 'The agreement has invailed', 'error');
                     return of(new SaveAgreementError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
+    savePaymentManual$ = this.actions$.pipe(
+        ofType(OrderActionTypes.SAVE_PAYMENT_MANUAL),
+        map((action: SavePaymentManual) => action.payload),
+        switchMap((payload) => {
+            return this.orderService.savePaymentHistory(payload.paymentData)
+                .pipe(
+                map((state) => {
+                    Swal.fire('Yes!', 'The payment has successfully saved', 'success');
+                    return new SavePaymentManualComplete();
+                }),
+                catchError((error: Error) => {
+                    Swal.fire('Ooops!', 'The payment information has invailed', 'error');
+                    return of(new SavePaymentManualError({ errorMessage: error.message }));
                 })
             );
         })

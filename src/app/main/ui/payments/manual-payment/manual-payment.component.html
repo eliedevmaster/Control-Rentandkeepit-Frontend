@@ -28,9 +28,9 @@
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                    <mat-form-field appearance="outline" fxFlex="100" class="px-4">
+                    <mat-form-field appearance="outline" fxFlex="50" class="px-4">
                         <mat-label>Customer</mat-label>
-                        <mat-select formControlName="customer" required>
+                        <mat-select formControlName="customer" (selectionChange)="onChangeCustomer($event)" required>
                             <mat-option *ngFor="let customer of customerList"  [value]="customer.customer_id">
                                 {{ customer.first_name }} {{customer.last_name}}
                             </mat-option>
@@ -38,12 +38,37 @@
                         <mat-icon matSuffix class="secondary-text">account_circle</mat-icon>
                         <mat-error>Customer is required!</mat-error>
                     </mat-form-field>
-
                 </div>
                 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
- 
-                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
+
+                    <mat-form-field appearance="outline" fxFlex="100" class="px-8">
+                        <mat-label>Agreement</mat-label>
+                        <mat-select formControlName="agreement" required>
+                            <mat-option *ngIf="!existAgreements" [value]="'no'">
+                                <span>No approved or finalised agreements</span>
+                            </mat-option>
+                            <mat-option *ngFor="let agreement of agreementListForCustomer" [value]="agreement.order_id">
+                                <span>{{showAgreemetName(agreement)}}</span>
+                            </mat-option>
+                        </mat-select>
+                        <mat-icon matSuffix class="secondary-text">shopping_cart</mat-icon>
+                        <mat-error>Customer is required!</mat-error>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
+                    
+                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
+                        <mat-label>Date to pay</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="paidDate" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error>Date to pay is required!</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" fxFlex="33" class="px-8">
                         <mat-label>Amount to pay</mat-label>
                         <input matInput type="number" formControlName="amountToPay">
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
@@ -52,12 +77,12 @@
                         </mat-error>
                     </mat-form-field>
 
-                    <mat-form-field appearance="outline" fxFlex="50" class="px-8">
-                        <mat-label>Amount to reverse</mat-label>
-                        <input matInput type="number" formControlName="amountToReverse">
+                    <mat-form-field appearance="outline" fxFlex="34" class="px-8">
+                        <mat-label>Refund</mat-label>
+                        <input matInput type="number" formControlName="refund">
                         <mat-icon matSuffix class="secondary-text">attach_money</mat-icon>
                         <mat-error>
-                            Amount to reverse is required
+                            Refund is required
                         </mat-error>
                     </mat-form-field>
     

@@ -5,7 +5,7 @@ import { Subject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';  
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
-import { Back, GetCustomerList } from 'app/store/actions';
+import { Back, GetCustomerList, SavePaymentManual } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
@@ -28,6 +28,8 @@ export class ManualPaymentComponent implements OnInit {
   manualPaymentForm: FormGroup;
   user: User;
   customerList: any[] = [];
+  agreementListForCustomer: any;
+  existAgreements : boolean = true;
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -58,10 +60,12 @@ export class ManualPaymentComponent implements OnInit {
   {
       // Reactive Form
       this.manualPaymentForm = this._formBuilder.group({
-        customer           : ['', Validators.required],
-        amountToPay        : ['', Validators.required],
-        amountToReverse    : ['', Validators.required],
-        paymentMethod      : ['', Validators.required]
+        customer            : ['', Validators.required],
+        agreement           : ['', Validators.required],
+        amountToPay         : [0, Validators.required],
+        refund              : [0, Validators.required],
+        paidDate            : ['', Validators.required],
+        paymentMethod       : ['', Validators.required]
       });
       
       this.mapUserStateToModel();
@@ -83,13 +87,45 @@ export class ManualPaymentComponent implements OnInit {
   // -----------------------------------------------------------------------------------------------------
   onConfirm(): void
   {
-    Swal.fire('Yes!', 'Confirm', 'success');
+    const payload = {
+      customer_id    : this.manualPaymentForm.value['customer'],
+      order_id       : this.manualPaymentForm.value['agreement'],
+      date           : this.manualPaymentForm.value['paidDate'].toISOString().substring(0, 10),
+      paid_amount    : this.manualPaymentForm.value['amountToPay'],
+      refund         : this.manualPaymentForm.value['refund'],
+      payment_method : this.manualPaymentForm.value['paymentMethod'],
+    }
+
+    this._store.dispatch(new SavePaymentManual({paymentData : payload}));
   } 
 
   backPath(): void 
   {
     this._store.dispatch(new Back());
   }
+
+  onChangeCustomer($event) : void
+  {
+    let customer = this.customerList.filter(x => x.customer_id === $event.value);
+    console.log(customer[0].orders);
+    let orders = customer[0].orders.filter(x => x.status == "wc-approved" || x.status == 'wc-finalised');
+    this.agreementListForCustomer = orders;
+    if(this.agreementListForCustomer.length == 0)
+      this.existAgreements = false;
+    else
+      this.existAgreements = true;
+    console.log(this.agreementListForCustomer);
+  }
+
+  showAgreemetName(order: any) : string
+  {  
+      let name: string  = '';
+      order.order_items.forEach(element => {
+        name += element.order_item_name + ',  ';
+      });
+      return name;
+  } 
+
 
   mapUserStateToModel(): void
   {

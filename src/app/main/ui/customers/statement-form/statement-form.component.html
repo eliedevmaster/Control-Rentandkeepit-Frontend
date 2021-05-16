@@ -28,7 +28,7 @@
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
-                    <mat-form-field appearance="outline" fxFlex="100" class="px-4">
+                    <mat-form-field appearance="outline" fxFlex="60" class="px-8">
                         <mat-label>Customer</mat-label>
                         <mat-select formControlName="customer" required>
                             <mat-option *ngFor="let customer of customerList"  [value]="customer.customer_id">
@@ -39,16 +39,18 @@
                         <mat-error>Customer is required!</mat-error>
                     </mat-form-field>
 
-                </div>
-                
-                <div fxLayout="row" fxLayoutAlign="end center" fxFlex="1 0 auto">
+                    <div fxLayout="row" fxLayoutAlign="end center" fxFlex="40" class="px-8">
                     
-                    <button mat-raised-button class="submit-button" color="accent"
-                        aria-label="RESET MY PASSWORD" [disabled]="statementForm.invalid" (click)="onConfirm()">
-                        Confirm
-                    </button>
+                        <button mat-raised-button class="submit-button" color="accent"
+                            aria-label="RESET MY PASSWORD" [disabled]="statementForm.invalid" (click)="onGenerate()">
+                            Generate Statement
+                        </button>
+    
+                    </div>
 
                 </div>
+                
+               
                 
             </form>
 

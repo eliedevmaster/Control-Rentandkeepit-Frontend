@@ -1,21 +1,13 @@
 import { FuseNavigation } from '@fuse/types';
 
 export const navigation: FuseNavigation[] = [
-    
+
     {
-        
-        id      : 'dashboard',
-        title   : 'Dashboard',
-        type    : 'collapsable',
-        icon     : 'dashboard',
-        children: [
-            {
-                id   : 'analytics',
-                title: 'Analytics',
-                type : 'item',
-                url  : '/apps/dashboards/analytics'
-            },
-        ]
+        id   : 'dashboard',
+        title: 'Home Page',
+        type : 'item',
+        icon : 'dashboard',
+        url  : '/apps/dashboards/analytics',
     },
 
     {
@@ -70,6 +62,14 @@ export const navigation: FuseNavigation[] = [
     },
 
     {
+        id   : 'statement',
+        title: 'Generate Customer Statement',
+        type : 'item',
+        icon : 'picture_as_pdf',
+        url  : '/ui/customers/statement-form',
+    },
+    
+    {
         id   : 'time-shift',
         title: 'Time Shift',
         type : 'item',
@@ -77,14 +77,7 @@ export const navigation: FuseNavigation[] = [
         url  : '/ui/time-shift',
     },
 
-    {
-        id   : 'statement',
-        title: 'Statement',
-        type : 'item',
-        icon : 'access_time',
-        url  : '/ui/customers/statement-form',
-    },
-    
+   
    /* //
     {
         id       : 'applications',
