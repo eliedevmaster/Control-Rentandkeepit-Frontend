@@ -63,6 +63,7 @@ export class GenerateFormComponent implements OnInit {
     
     refKey : string;
     startDate : Date;
+    instalmentAmount : number;
     enableFinaliseButton: boolean = false;
 
     isSave : Boolean = false;
@@ -178,6 +179,7 @@ export class GenerateFormComponent implements OnInit {
             eachRepayment += element;
         });
 
+        this.instalmentAmount = eachRepayment;
         this.startDate = new Date(this.generateForm.value['startDate']);
 
         let products: string = '';
@@ -242,6 +244,7 @@ export class GenerateFormComponent implements OnInit {
                 start_date_year     : this.startDate.getFullYear().toString(),
                 start_date          : this.startDate.toISOString().substring(0, 10),
                 rental_amount_total : this.generateForm.value['totalAmount'],
+                instalment_amount   : this.instalmentAmount,
             }
             
             this._store.dispatch(new SaveAgreement({agreement : payload}));

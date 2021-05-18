@@ -48,6 +48,7 @@ export class OrderService {
         start_date_year     : param.start_date_year,
         start_date          : param.start_date,
         rental_amount_total : param.rental_amount_total,
+        instalment_amount   : param.instalment_amount,
     }
     return this.http.post(url, body, {headers: this.authService.authHeaders()});
   }
