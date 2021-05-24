@@ -96,7 +96,9 @@ export class EziDebitBulkUploadComponent implements OnInit {
 
   uploadFile(file) {  
     const formData = new FormData();  
-    formData.append('file', file.data);  
+    formData.append('file', file.data);
+    formData.append('category', 'payment-2');
+  
     file.inProgress = true;  
     this._fileUploadService.upload(formData).pipe(  
       map(event => {  

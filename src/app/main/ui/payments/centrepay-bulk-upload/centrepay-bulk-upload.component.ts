@@ -98,7 +98,9 @@ export class CentrepayBulkUploadComponent implements OnInit {
 
   uploadFile(file) {  
     const formData = new FormData();  
-    formData.append('file', file.data);  
+    formData.append('file', file.data);
+    formData.append('category', 'payment-1');
+
     file.inProgress = true;  
     this._fileUploadService.upload(formData).pipe(  
       map(event => {  
@@ -131,6 +133,7 @@ export class CentrepayBulkUploadComponent implements OnInit {
   onClick() {  
       const fileUpload = this.fileUpload.nativeElement;
       fileUpload.onchange = () => {  
+        this.files = [];
         for (let index = 0; index < fileUpload.files.length; index++)  
         {  
             const file = fileUpload.files[index];

@@ -123,7 +123,9 @@ export class CustomerFormComponent implements OnInit {
 
   uploadFile(file) {  
     const formData = new FormData();  
-    formData.append('file', file.data);  
+    formData.append('file', file.data);
+    formData.append('category', 'customer');
+      
     file.inProgress = true;  
     this._fileUploadService.upload(formData).pipe(  
       map(event => {  
