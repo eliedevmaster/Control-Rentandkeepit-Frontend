@@ -130,7 +130,8 @@ export class EziDebitBulkUploadComponent implements OnInit {
 
   onClick() {  
       const fileUpload = this.fileUpload.nativeElement;
-      fileUpload.onchange = () => {  
+      fileUpload.onchange = () => {
+        this.files = [];  
         for (let index = 0; index < fileUpload.files.length; index++)  
         {  
             const file = fileUpload.files[index];
