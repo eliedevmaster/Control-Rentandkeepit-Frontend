@@ -67,6 +67,7 @@ export class CustomerFormComponent implements OnInit {
         firstName         : ['', Validators.required],
         lastName          : ['', Validators.required],
         email             : ['', Validators.required],
+        address            : ['', Validators.required],
         state             : ['', Validators.required],
         postCode          : ['', Validators.required],
         city              : ['', Validators.required], 
@@ -97,6 +98,7 @@ export class CustomerFormComponent implements OnInit {
       first_name        : this.customerForm.value['firstName'],
       last_name         : this.customerForm.value['lastName'],
       email             : this.customerForm.value['email'],
+      address           : this.customerForm.value['address'],
       state             : this.customerForm.value['state'], 
       postcode          : this.customerForm.value['postCode'],
       city              : this.customerForm.value['city'],
@@ -111,6 +113,7 @@ export class CustomerFormComponent implements OnInit {
     this.customerForm.controls['firstName'].setValue(customer.first_name);
     this.customerForm.controls['lastName'].setValue(customer.last_name);
     this.customerForm.controls['email'].setValue(customer.email);
+    this.customerForm.controls['address'].setValue(customer.address);
     this.customerForm.controls['state'].setValue(customer.state);
     this.customerForm.controls['postCode'].setValue(customer.postcode);
     this.customerForm.controls['city'].setValue(customer.city);

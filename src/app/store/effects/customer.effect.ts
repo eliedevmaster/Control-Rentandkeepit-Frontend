@@ -42,6 +42,7 @@ export class CustomerEffects
                 customerList.forEach(element => {
                     customerArray.push(element);
                 });
+                console.log('customerArray : ', customerArray);
                 return new GetCustomerListComplete({customerList : customerList})
             }),
               catchError((error: Error) => {

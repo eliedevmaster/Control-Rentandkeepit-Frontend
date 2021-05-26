@@ -19,7 +19,6 @@ export enum CustomerActionTypes {
     UPDATE_CUSTOMER_ERROR = '[Customer] UPDATE_CUSTOMER_ERROR',
 
    
-
     DOWN_LOAD_DOCX = '[Cusotmer] DOWN_LOAD_DOCX',
     DOWN_LOAD_DOCX_COMPLETE = '[Cusotmer] DOWN_LOAD_DOCX_COMPLETE',
 

@@ -158,7 +158,8 @@ export class CustomerItemComponent implements OnInit {
     }
 
     editCustomer(customer) : void 
-    {
+    {   
+        console.log("dd : ", customer);
         localStorage.setItem('customer', JSON.stringify(customer));
         let customerName = customer.first_name + ' ' + customer.last_name
         this._store.dispatch(new Go({path: ['/ui/customers/customer-form/' + customer.id + '/' + customerName], query: null, extras: null}));
