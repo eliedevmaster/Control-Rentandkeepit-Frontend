@@ -27,114 +27,119 @@ import Swal from 'sweetalert2';
 })
 export class CustomerOrderListComponent implements OnInit {
 
-  dialogRef: any;
-  hasSelectedOrders: boolean;
-  searchInput: FormControl;
-  user: User;
-  customerId: number;
-  customerName: string;
-  
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    dialogRef: any;
+    hasSelectedOrders: boolean;
+    searchInput: FormControl;
+    user: User;
+    status: string;
+    
+    // Private
+    private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {OrderListService} _customerOrderListService
-   * @param {FuseSidebarService} _fuseSidebarService
-   * @param {MatDialog} _matDialog
-   */
-  constructor(
-      private _customerOrderListService: CustomerOrderListService,
-      private _fuseSidebarService: FuseSidebarService,
-      private _store: Store<AppState>,
-      private _activatedRoute: ActivatedRoute,
-  )
-  {
-      // Set the defaults
-      this.searchInput = new FormControl('');
+    /**
+     * Constructor
+     *
+     * @param {OrderListService} _customerOrderListService
+     * @param {FuseSidebarService} _fuseSidebarService
+     * @param {MatDialog} _matDialog
+     */
+    constructor(
+        private _customerOrderListService: CustomerOrderListService,
+        private _fuseSidebarService: FuseSidebarService,
+        private _store: Store<AppState>,
+        private _activatedRoute: ActivatedRoute,
+    )
+    {
+        // Set the defaults
+        this.searchInput = new FormControl('');
 
-      // Set the private defaults
-      this._unsubscribeAll = new Subject();
-      this.mapUserStateToModel();
-      this.customerId = this._activatedRoute.snapshot.params.customerId;
-      this.customerName = this._activatedRoute.snapshot.params.customerName;
-      this._store.dispatch(new GetOrderList());
-  }
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
+        this.mapUserStateToModel();
+        
+        this._store.dispatch(new GetOrderList());
+    }
 
 
-  // -----------------------------------------------------------------------------------------------------
-  // @ Lifecycle hooks
-  // -----------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
 
-  /**
-   * On init
-   */
-  ngOnInit(): void
-  {
-      this._customerOrderListService.onSelectedOrderListChanged
-          .pipe(takeUntil(this._unsubscribeAll))
-          .subscribe(selectedOrders => {
-              this.hasSelectedOrders = selectedOrders.length > 0;
-          });
+    /**
+     * On init
+     */
+    ngOnInit(): void
+    {
 
-      this.searchInput.valueChanges
-          .pipe(
-              takeUntil(this._unsubscribeAll),
-              debounceTime(300),
-              distinctUntilChanged()
-          )
-          .subscribe(searchText => {
-              this._customerOrderListService.onSearchTextChanged.next(searchText);
-          });
-  }
+        this._customerOrderListService.onSelectedOrderListChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(selectedOrders => {
+                this.hasSelectedOrders = selectedOrders.length > 0;
+            });
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void
-  {
-      // Reset the search
-      this._customerOrderListService.onSearchTextChanged.next('');
+        this.searchInput.valueChanges
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                debounceTime(300),
+                distinctUntilChanged()
+            )
+            .subscribe(searchText => {
+                this._customerOrderListService.onSearchTextChanged.next(searchText);
+            });
+    }
 
-      // Unsubscribe from all subscriptions
-      this._unsubscribeAll.next();
-      this._unsubscribeAll.complete();
-  }
-// -----------------------------------------------------------------------------------------------------
-  // @ Public methods
-  // -----------------------------------------------------------------------------------------------------
+    ngAfterViewChecked(): void 
+    {
+        this.status = this._activatedRoute.snapshot.params.status;
+        let filterBy = this.status;
+        this._customerOrderListService.onFilterChanged.next(filterBy);
+    }
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void
+    {
+        // Reset the search
+        this._customerOrderListService.onSearchTextChanged.next('');
 
-  /**
-   * New contact
-   */
-  newOrder(): void
-  {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
 
-  }
+    /**
+     * New contact
+     */
+    newOrder(): void
+    {
 
-  /**
-   * Toggle the sidebar
-   *
-   * @param name
-   */
-  toggleSidebar(name): void
-  {
-      this._fuseSidebarService.getSidebar(name).toggleOpen();
-  }
+    }
 
-  mapUserStateToModel(): void
-  {
-      this.getAuthState().subscribe(state => {
-          if(state.user != null) {
-              this.user = new User(state.user);
-          }
-      });
-  }
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void
+    {
+        this._fuseSidebarService.getSidebar(name).toggleOpen();
+    }
 
-  getAuthState()
-  {
-      return this._store.select(getAuthState);
-  }
+    mapUserStateToModel(): void
+    {
+        this.getAuthState().subscribe(state => {
+            if(state.user != null) {
+                this.user = new User(state.user);
+            }
+        });
+    }
+
+    getAuthState()
+    {
+        return this._store.select(getAuthState);
+    }
 
 }

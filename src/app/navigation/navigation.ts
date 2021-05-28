@@ -11,6 +11,46 @@ export const navigation: FuseNavigation[] = [
     },
 
     {
+        id   : 'Agreement',
+        title: 'Customer Lease Agreements',
+        type : 'collapsable',
+        icon : 'shopping_cart',
+        children: [
+            {
+                id   : 'unprocessed',
+                title: 'Unprocessed',
+                type : 'item',
+                url  : '/ui/customers/customer-order-list/unprocessed'
+            },
+            {
+                id   : 'active',
+                title: 'Active',
+                type : 'item',
+                url  : '/ui/customers/customer-order-list/active'
+            },
+            {
+                id   : 'declined',
+                title: 'Declined',
+                type : 'item',
+                url  : '/ui/customers/customer-order-list/declined'
+            },
+            {
+                id   : 'finished',
+                title: 'Finished',
+                type : 'item',
+                url  : '/ui/customers/customer-order-list/finished'
+            },
+
+            {
+                id   : 'default',
+                title: 'Defaulted',
+                type : 'item',
+                url  : '/ui/customers/customer-order-list/defaulted'
+            },
+        ]
+    },
+
+    {
         id   : 'manual-generate',
         title: 'Generic Lease Agreement',
         type : 'item',
@@ -26,13 +66,7 @@ export const navigation: FuseNavigation[] = [
         url  : '/ui/customers/customer-list',
     },
 
-    {
-        id   : 'applications',
-        title: 'Customer Lease Agreements',
-        type : 'item',
-        icon : 'shopping_cart',
-        url  : '/ui/customers/customer-order-list',
-    },
+   
    
     {
         id   : 'payment',

@@ -24,7 +24,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 
 const routes: Routes = [
   {
-      path     : 'customers/customer-order-list',
+      path     : 'customers/customer-order-list/:status',
       component: CustomerOrderListComponent,
       resolve  : {
           instructors: CustomerOrderListService

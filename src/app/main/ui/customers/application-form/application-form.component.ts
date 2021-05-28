@@ -230,8 +230,8 @@ export class ApplicationFormComponent implements OnInit {
         const payload = {
             order_id  : this.orderId,
             type      : 4
-          }
-          this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
+        }
+        //this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
     }
     onModifyFirst() : void 
     {

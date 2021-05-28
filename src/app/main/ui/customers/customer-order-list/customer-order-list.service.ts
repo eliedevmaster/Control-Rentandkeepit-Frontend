@@ -113,16 +113,16 @@ export class CustomerOrderListService {
                                     this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-processing');
                                 }
 
-                                if ( this.filterBy === 'approved') {
-                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-approved');
+                                if ( this.filterBy === 'active') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-active');
                                 }
 
                                 if ( this.filterBy === 'declined') {
                                     this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-declined');
                                 }
 
-                                if ( this.filterBy === 'finalised') {
-                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-finalised');
+                                if ( this.filterBy === 'finished') {
+                                    this.orderList = FuseUtils.filterArrayByString(this.orderList, 'wc-finished');
                                 }
 
                                 this.onOrdersChanged.next(this.orderList);

@@ -35,7 +35,6 @@ export class CustomerOrderItemComponent implements OnInit {
 
     willLoad: boolean = true;
     orderListLength: number = 0;
-
     orderList: any[];
     user: User;
     dataSource: MatTableDataSource<any> | null;
@@ -83,10 +82,11 @@ export class CustomerOrderItemComponent implements OnInit {
      */
     ngOnInit(): void
     {
-
+        
     } 
     ngAfterViewChecked(): void 
-    {
+    {   
+        
         //if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
         //    return;
         
