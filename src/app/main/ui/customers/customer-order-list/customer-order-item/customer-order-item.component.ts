@@ -38,7 +38,7 @@ export class CustomerOrderItemComponent implements OnInit {
     orderList: any[];
     user: User;
     dataSource: MatTableDataSource<any> | null;
-    displayedColumns = ['checkbox', 'customerName',  'startDate', 'numItemSold', 'termLength', 'status', 'allocate', 'action1', 'action2'];
+    displayedColumns = ['checkbox', 'customerName',  'startDate', 'numItemSold', 'termLength', 'status', 'allocate', 'action1', 'action2', 'action3'];
     selectedOrderList: any[];
     checkboxes: {};
     dialogRef: any;
@@ -157,6 +157,7 @@ export class CustomerOrderItemComponent implements OnInit {
         localStorage.setItem('order', JSON.stringify(order));
         this._store.dispatch(new Go({path: ['/ui/customers/generate-form/' + order.customer.customer_id + '/' + customerName], query: null, extras: null}));
     }
+
     decline(order: any) : void
     {   
         const payload = {
@@ -175,12 +176,39 @@ export class CustomerOrderItemComponent implements OnInit {
                 if (result.value) {
                     this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
                     this._store.dispatch(new GetOrderList());
+                    Swal.fire('Yes!', 'This application is diclined', 'success');
                 } 
                 else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire('Cancelled', 'This application is safe', 'error');
                 }
             });
+    }
+
+    finished(order: any) : void
+    {
+        const payload = {
+            order_id : order.order_id,
+            type : 4, // finished.
         }
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You will finish this application!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, finish it!',
+            cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.value) {
+                    this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
+                    this._store.dispatch(new GetOrderList());
+                    Swal.fire('Yes!', 'This application is finished', 'success');
+                } 
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire('Cancelled', 'This application is safe', 'error');
+                }
+            });
+    }
 
     showDate(date: string): string 
     {

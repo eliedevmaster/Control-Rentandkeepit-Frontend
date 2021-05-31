@@ -77,10 +77,16 @@
             
             <div *ngIf="order.status == 'wc-processing' || order.status == 'wc-processing_1'" >
                 <button mat-icon-button (click)="generatePaperWork(order)" aria-label="Toggle star">
-                    <mat-icon style="color:green;">check_circle</mat-icon>
-                    <span style="color:green;">Approved</span>
+                    <mat-icon style="color:rgb(37, 37, 153);">check_circle</mat-icon>
+                    <span style="color:rgb(37, 37, 153);">Approved</span>
                 </button>
-                
+            </div>
+
+            <div *ngIf="order.status == 'wc-active'" >
+                <button mat-icon-button (click)="finished(order)" aria-label="Toggle star">
+                    <mat-icon style="color:green;">check_circle</mat-icon>
+                    <span style="color:green;">Finished</span>
+                </button>
             </div>
         </mat-cell>
     </ng-container>
@@ -88,22 +94,38 @@
     <ng-container matColumnDef="action2">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <div *ngIf="order.status == 'wc-processing' || order.status == 'wc-processing_1'">
-                
+            <div *ngIf="order.status == 'wc-processing' || order.status == 'wc-processing_1'">               
                 <button mat-icon-button (click)="decline(order)" aria-label="Toggle star">
                     <mat-icon style="color: red;">cancel</mat-icon>
                     <span style="color: red;">Declined</span>
                 </button>
-                
             </div>
-
         </mat-cell>
     </ng-container>
 
+
+    <ng-container matColumnDef="action3">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let order">
+            <div *ngIf="order.status == 'wc-processing' || order.status == 'wc-processing_1'">               
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="editOrder(order)">
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit Order</span>
+                    </button>
+                </mat-menu>
+            </div>
+        </mat-cell>
+    </ng-container>
+    
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let order; columns: displayedColumns;"
              class="contact"
-             (click)="editOrder(order)"
              [ngClass]="{'accent-50':checkboxes[order.id]}"
              [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>

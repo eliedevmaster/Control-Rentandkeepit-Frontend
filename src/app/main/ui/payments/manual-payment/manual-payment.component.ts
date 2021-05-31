@@ -108,7 +108,7 @@ export class ManualPaymentComponent implements OnInit {
   {
     let customer = this.customerList.filter(x => x.customer_id === $event.value);
     console.log(customer[0].orders);
-    let orders = customer[0].orders.filter(x => x.status == "wc-approved" || x.status == 'wc-finalised');
+    let orders = customer[0].orders.filter(x => x.status == "wc-processing_1");
     this.agreementListForCustomer = orders;
     if(this.agreementListForCustomer.length == 0)
       this.existAgreements = false;
@@ -125,7 +125,6 @@ export class ManualPaymentComponent implements OnInit {
       });
       return name;
   } 
-
 
   mapUserStateToModel(): void
   {
