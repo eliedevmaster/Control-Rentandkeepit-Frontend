@@ -14,6 +14,7 @@ export class AnalyticsDashboardService implements Resolve<any>
     next30: any;
     next60: any;
     next90: any;
+    totalOutstanding: any;
 
     orderList : any[] = [];
     
@@ -66,9 +67,12 @@ export class AnalyticsDashboardService implements Resolve<any>
                             this.widgets['revenue']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['revenue']));
                             this.widgets['profit']['datasets'] = JSON.parse(JSON.stringify(state.revenueList['profit']));
 
+                            
                             this.next30 = JSON.parse(JSON.stringify(state.revenueList['next30'][0]));
                             this.next60 = JSON.parse(JSON.stringify(state.revenueList['next60'][0]));
                             this.next90 = JSON.parse(JSON.stringify(state.revenueList['next90'][0]));
+                            this.totalOutstanding = JSON.parse(JSON.stringify(state.revenueList['total_outstanding'][0]));
+                            //console.log('test', this.totalOutstanding);
                         }
                         if(state.orderList != null) {
                             let orderListTemp : any = state.orderList;

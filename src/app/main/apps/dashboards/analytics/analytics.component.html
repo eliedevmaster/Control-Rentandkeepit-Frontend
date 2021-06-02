@@ -1,36 +1,45 @@
 <div id="dashboard-analytics" class="page-layout blank">
 
     <div class="content">
-        <div>
+        <div style="width: 100%;">
 
-            <div fxLayout="row wrap" fxLayout.gt-md="column">
+            <div fxLayout="row wrap" fxLayout.gt-md="column" style="width: 100%;">
 
                 <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
 
-                    <div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'">
+                    <!--<div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'" >
                         &nbsp;Unprocessed applications
-                    </div>
+                    </div>-->
 
-                    <div class="fuse-card">
+                    <div class="message-box info">
+                        New aplications...
+                    </div><br>
 
-                        <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="application-table">
+
+                        <!--<div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
                             <div class="h1 pr-16">New applications : 5</div>
-
-                        </div>
+                        </div>-->
 
                         <table class="simple clickable">
                             <thead>
                                 <tr>
                                     <th>Customer</th>
+                                    <th>Order Date</th>
+                                    <th>Status</th>
                                     <th class="text-right">Click</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let order of orderList">
                                     <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+                                    <td>{{showDate(order.date_created_gmt)}}</td>
+                                    <td>            
+                                        <p class="status text-truncate h6 p-4 status" style="width: 100px;" [ngClass]="'orange'">&nbsp;Unproeccessed&nbsp;</p>
+                                    </td>
                                     <td class="text-right">
                                         <button mat-icon-button (click)="goToApplcation()">
-                                            <mat-icon class="secondary-text s-24 red-fg">fiber_new</mat-icon>
+                                            <mat-icon class="secondary-text s-40 green-fg">fiber_new</mat-icon>
                                         </button>
                                     </td>
                                 </tr>
@@ -65,9 +74,9 @@
                  fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
 
                 <!-- Widget 2 -->
-                <div class="widget" fxFlex="100" fxFlex.gt-sm="33">
+                <div class="widget" fxFlex="100" fxFlex.gt-sm="25">
 
-                    <div class="fuse-card auto-width mb-32" [ngClass.gt-sm]="'mb-0 mr-32'">
+                    <div class="fuse-card auto-width mb-32" [ngClass.gt-sm]="'mb-0 mr-32'" style="border-color: cadetblue;">
 
                         <div class="p-16 pb-0" fxLayout="row wrap" fxLayoutAlign="start end">
 
@@ -100,9 +109,9 @@
                 <!-- / Widget 2 -->
 
                 <!-- Widget 3 -->
-                <div class="widget" fxFlex="100" fxFlex.gt-sm="34">
+                <div class="widget" fxFlex="100" fxFlex.gt-sm="25">
 
-                    <div class="fuse-card auto-width mb-32" [ngClass.gt-sm]="'mb-0 mr-32'">
+                    <div class="fuse-card auto-width mb-32" [ngClass.gt-sm]="'mb-0 mr-32'" style="border-color: cadetblue;">
 
                         <div class="p-16 pb-0" fxLayout="row wrap" fxLayoutAlign="start end">
 
@@ -132,9 +141,9 @@
                 <!-- / Widget 3 -->
 
                 <!-- Widget 4 -->
-                <div class="widget" fxFlex="100" fxFlex.gt-sm="33">
+                <div class="widget" fxFlex="100" fxFlex.gt-sm="25">
 
-                    <div class="fuse-card auto-width">
+                    <div class="fuse-card auto-width mb-32" [ngClass.gt-sm]="'mb-0 mr-32'" style="border-color: cadetblue;">
 
                         <div class="p-16 pb-0" fxLayout="row wrap" fxLayoutAlign="start end">
 
@@ -163,12 +172,37 @@
                 </div>
                 <!-- / Widget 4 -->
 
+                <!--active revenue-->
+                <div class="widget" fxFlex="100" fxFlex.gt-sm="25">
+
+                    <div class="fuse-card auto-width" style="border-color: cadetblue;">
+
+                        <div class="p-16 pb-0" fxLayout="row wrap" fxLayoutAlign="start end">
+                            <br>
+                            
+                            <div class="pr-16">
+                                <div class="h3 secondary-text">Total Outstanding</div>
+                                <div *ngIf="next60 != null" class="font-size-50 red-fg font-weight-300 line-height-1 mt-8">
+                                    ${{(totalOutstanding.total_amount * 100 / 100).toFixed(2)}}
+                                </div>
+                            </div>
+                            
+                            <br>
+
+                    
+                        </div>
+
+                        <div class="h-40 p-16 w-100-p">
+                           
+                        </div>
+                    </div>
+
+                </div>
+           
             </div>
 
         </div>
-
         
-
     </div>
 
     <div class="main-widget">

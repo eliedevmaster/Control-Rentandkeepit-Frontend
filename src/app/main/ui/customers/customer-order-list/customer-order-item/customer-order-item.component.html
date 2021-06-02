@@ -62,11 +62,11 @@
     <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
         <mat-cell *matCellDef="let order">
-            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'primary-100'">&nbsp;Unproeccessed&nbsp;</p>
+            <p *ngIf="order.status == 'wc-processing'" class="status text-truncate h6 p-4 status" [ngClass]="'orange'">&nbsp;Unproeccessed&nbsp;</p>
             <p *ngIf="order.status == 'wc-processing_1'" class="status text-truncate h6 p-4 status" [ngClass]="'light-green'">&nbsp;Processing&nbsp;</p>
             <p *ngIf="order.status == 'wc-active'" class="status text-truncate h6 p-4 status" [ngClass]="'green-500'">&nbsp;Active&nbsp;</p>
             <p *ngIf="order.status == 'wc-declined'" class="status text-truncate h6 p-4 status" [ngClass]="'warn-500'">&nbsp;Declined&nbsp;</p>
-            <p *ngIf="order.status == 'wc-finished'" class="status text-truncate h6 p-4 status" [ngClass]="'blue-grey'">&nbsp;Finished&nbsp;</p>
+            <p *ngIf="order.status == 'wc-finished'" class="status text-truncate h6 p-4 status" [ngClass]="'blue'">&nbsp;Finished&nbsp;</p>
         </mat-cell>
     </ng-container>
 

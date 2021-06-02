@@ -13,6 +13,13 @@
         padding: 32px;
         min-width: 0;
 
+        .application-table {
+            border-width: 1px;
+            border-color: green;
+            border-radius: 8px;
+            border-style: solid;
+        }
+        
         @include media-breakpoint('lt-lg') {
             flex-direction: column;
         }
@@ -32,9 +39,9 @@
         .right {
             display: flex;
             flex: 0 0 auto;
-            width: 320px;
+            width: 100%;
             min-width: 320px;
-            max-width: 320px;
+            max-width: 100%;
 
             @include media-breakpoint('lt-lg') {
                 flex: 1 0 100%;
@@ -44,8 +51,10 @@
                 max-width: none;
             }
 
-            .fuse-card {
 
+            .fuse-card {
+                //width: 100%;
+                max-width: 100% !important;
                 @include media-breakpoint('lt-lg') {
                     width: 100%;
                     min-width: 0;

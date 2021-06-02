@@ -28,6 +28,8 @@ export class AnalyticsDashboardComponent implements OnInit
     next30 : any = null;
     next60 : any = null;
     next90 : any = null;
+    totalOutstanding : any = null;
+
 
     orderList : any = null;
     widget1SelectedYear = '2020';
@@ -69,12 +71,13 @@ export class AnalyticsDashboardComponent implements OnInit
 
     ngAfterViewChecked(): void 
     {   
-        if(this.next30 != null && this.next60 != null && this.next90 != null && this.orderList.length === 5)
+        if(this.next30 != null && this.next60 != null && this.next90 != null && this.totalOutstanding != null && this.orderList.length === 5)
             return;
         this.next30 = this._analyticsDashboardService.next30;
         this.next60 = this._analyticsDashboardService.next60;
         this.next90 = this._analyticsDashboardService.next90;
-
+        this.totalOutstanding = this._analyticsDashboardService.totalOutstanding;
+        
         this.orderList = this._analyticsDashboardService.orderList;
         //console.log(this.orderList);
         this._cdref.detectChanges();
@@ -85,9 +88,19 @@ export class AnalyticsDashboardComponent implements OnInit
 
     goToApplcation() : void
     {
-        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list'], query: null, extras: null}));
+        this._store.dispatch(new Go({path: ['/ui/customers/customer-order-list/unprocessed'], query: null, extras: null}));
 
     }
+
+    showDate(date: string): string 
+    {
+        let displayDate: string = new Date(date).toISOString().substring(0, 10);
+        let dateTmp : any = displayDate.split('-');
+
+        let result: string = dateTmp[2] + '/' + dateTmp[1] + '/' + dateTmp[0];
+        return result;
+    }
+    
     onClick(year : any) 
     {
         this.widget1SelectedYear = year.year
