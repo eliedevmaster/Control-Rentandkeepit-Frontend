@@ -1,72 +1,64 @@
 <div id="dashboard-analytics" class="page-layout blank">
 
-    <div class="main-widget">
+    <div class="content">
+        <div>
 
-        <div class="position-relative p-24 blue-600"
-             fxLayout="row" fxLayoutAlign="space-between center">
-            <div fxLayout="column" fxLayoutAlign="start start">
-                <span class="h2">Revenue</span>
-                <span class="h5 secondary-text">Total Revenue per month</span>
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="onClick(year)"
-                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
-                    {{year.year}}
+            <div fxLayout="row wrap" fxLayout.gt-md="column">
+
+                <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+
+                    <div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'">
+                        &nbsp;Unprocessed applications
+                    </div>
+
+                    <div class="fuse-card">
+
+                        <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="h1 pr-16">New applications : 5</div>
+
+                        </div>
+
+                        <table class="simple clickable">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th class="text-right">Click</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let order of orderList">
+                                    <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
+                                    <td class="text-right">
+                                        <button mat-icon-button (click)="goToApplcation()">
+                                            <mat-icon class="secondary-text s-24 red-fg">fiber_new</mat-icon>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="card-divider full-width"></div>
+
+                        <div class="p-8 pt-16" fxLayout="row" fxLayoutAlign="start center">
+                            <button mat-button color="accent" (click)="goToApplcation()">GO TO APPLICATIONS</button>
+                        </div>
+
+                    </div>
+
                 </div>
- 
+                <!-- / widget 9 -->
+
             </div>
-        </div>
 
-        <div class="position-relative h-200 pb-16 blue-600">
-            <canvas baseChart
-                    [datasets]="widgets.revenue.datasets[widget1SelectedYear]"
-                    [labels]="widgets.revenue.labels"
-                    [colors]="widgets.revenue.colors"
-                    [options]="widgets.revenue.options"
-                    [chartType]="widgets.revenue.chartType">
-            </canvas>
         </div>
-
     </div>
-
-    <br>
-
-    <div class="main-widget">
-
-        <div class="position-relative p-24 blue-600"
-             fxLayout="row" fxLayoutAlign="space-between center">
-            <div fxLayout="column" fxLayoutAlign="start start">
-                <span class="h2">Profit</span>
-                <span class="h5 secondary-text">Total Profit per month</span>
-            </div>
-            <div fxLayout="row" *ngIf="years != null" fxLayoutAlign="start center">
-                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                     (click)="onClick(year)"
-                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
-                    {{year.year}}
-                </div>
-            </div>
-        </div>
-
-        <div class="position-relative h-200 pb-16 blue-600">
-            <canvas baseChart
-                    [datasets]="widgets.profit.datasets[widget1SelectedYear]"
-                    [labels]="widgets.profit.labels"
-                    [colors]="widgets.profit.colors"
-                    [options]="widgets.profit.options"
-                    [chartType]="widgets.profit.chartType">
-            </canvas>
-        </div>
-
-    </div>
-
     <div class="content">
 
-        <div class="left mr-lg-32">
+        
+        <div class="mr-lg-32">
 
             <div class="pb-24 font-size-18 font-weight-300">
-                Reveues?
+                Revenues
             </div>
 
             <div fxLayout="column" fxLayoutAlign="start"
@@ -173,323 +165,70 @@
 
             </div>
 
-            <!-- Widget 5 -->
-            <!--<div class="pt-48 pb-24 font-size-18 font-weight-300">
-                How many pages your users visit?
-            </div>
-
-            <div class="fuse-card auto-width">
-
-                <div class="position-relative p-24"
-                     fxLayout="row" fxLayoutAlign="space-between center">
-                    <div fxLayout="column" fxLayoutAlign="start start">
-                        <span class="h2">Visitors & Page views</span>
-                    </div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                             (click)="widget5SelectedDay = 'yesterday'"
-                             [ngClass]="{'accent': widget5SelectedDay === 'yesterday'}">
-                            Yesterday
-                        </div>
-                        <div class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
-                             (click)="widget5SelectedDay = 'today'"
-                             [ngClass]="{'accent': widget5SelectedDay === 'today'}">
-                            Today
-                        </div>
-                    </div>
-                </div>
-
-                <div class="position-relative h-368 pb-16">
-                    <canvas baseChart
-                            [datasets]="widgets.widget5.datasets[widget5SelectedDay]"
-                            [labels]="widgets.widget5.labels"
-                            [colors]="widgets.widget5.colors"
-                            [options]="widgets.widget5.options"
-                            [chartType]="widgets.widget5.chartType">
-                    </canvas>
-                </div>
-
-            </div>-->
-            <!-- / Widget 5 -->
-
-            <!-- Widget 6 -->
-            <!--<div class="pt-48 pb-24 font-size-18 font-weight-300">
-                Where are your users?
-            </div>
-
-            <div class="fuse-card auto-width p-16">
-
-                <agm-map class="h-640 w-100-p"
-                         [minZoom]="2"
-                         [maxZoom]="2"
-                         [fullscreenControl]="false"
-                         [rotateControl]="false"
-                         [zoomControl]="false"
-                         [scaleControl]="false"
-                         [streetViewControl]="false"
-                         [scrollwheel]="false"
-                         [styles]="widgets.widget6.styles">
-                    <agm-marker
-                        *ngFor="let marker of widgets.widget6.markers"
-                        [latitude]="marker.lat"
-                        [longitude]="marker.lng">
-
-                        <agm-info-window>
-                            <strong>{{marker.label}}</strong>
-                        </agm-info-window>
-
-                    </agm-marker>
-                </agm-map>
-
-            </div>-->
-            <!-- / Widget 6 -->
-
         </div>
 
-        <div class="right">
+        
 
-            <div fxLayout="row wrap" fxLayout.gt-md="column">
+    </div>
 
-                <!-- Widget 7 -->
-                <!--<div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
+    <div class="main-widget">
 
-                    <div class="pb-24 font-size-18 font-weight-300">
-                        &nbsp;Unprocessed applications
-                    </div>
-
-                    <div class="fuse-card">
-
-                        <div class="p-16">
-                            <div class="h1 font-weight-300">Sessions by device</div>
-                        </div>
-
-                        <div class="h-200">
-                            <ngx-charts-pie-chart
-                                *fuseIfOnDom
-                                [scheme]="widgets.widget7.scheme"
-                                [results]="widgets.widget7.devices"
-                                [doughnut]="true">
-                            </ngx-charts-pie-chart>
-                        </div>
-
-                        <div class="p-16" fxLayout="row" fxLayoutAlign="center center">
-
-                            <div class="px-16" fxLayout="column" fxLayoutAlign="start center"
-                                 *ngFor="let device of widgets.widget7.devices">
-
-                                <div class="h4 secondary-text">{{device.name}}</div>
-                                <div class="h2 font-weight-300 py-8">{{device.value}}%</div>
-
-                                <div fxLayout="row" fxLayoutAlign="center center">
-                                    <mat-icon class="s-18 pr-4 red-fg"
-                                              *ngIf="device.change < 0">
-                                        arrow_downward
-                                    </mat-icon>
-
-                                    <mat-icon class="s-18 pr-4 green-fg"
-                                              *ngIf="device.change > 0">
-                                        arrow_upward
-                                    </mat-icon>
-
-                                    <div class="h5 red-fg"
-                                         [ngClass]="{'red-fg': device.change < 0, 'green-fg': device.change > 0}">
-                                        {{device.change}}%
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="card-divider mb-0"></div>
-
-                        <div class="px-16" fxLayout="row" fxLayoutAlign="space-between center">
-                            <mat-form-field>
-                                <mat-select class="simplified" value="7days">
-                                    <mat-option value="today">Today</mat-option>
-                                    <mat-option value="yesterday">Yesterday</mat-option>
-                                    <mat-option value="7days">Last 7 days</mat-option>
-                                    <mat-option value="28days">Last 28 days</mat-option>
-                                    <mat-option value="90days">Last 90 days</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-
-                            <button mat-button color="accent">OVERVIEW</button>
-                        </div>
-
-                    </div>
-
-                </div>-->
-                <!-- / Widget 7 -->
-
-                <!-- Widget 8 -->
-                <!--<div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
-
-                    <div class="pb-24 font-size-18 font-weight-300">
-                        How are your sales?
-                    </div>
-
-                    <div class="fuse-card">
-
-                        <div class="light-blue-600">
-
-                            <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
-                                <div class="pr-16">
-                                    <div class="h1 font-weight-300">Sales</div>
-                                    <div class="h5 secondary-text">Lifetime sum of your sales</div>
-                                </div>
-
-                                <div>
-                                    <button mat-icon-button [matMenuTriggerFor]="card19Menu" aria-label="more">
-                                        <mat-icon>more_vert</mat-icon>
-                                    </button>
-
-                                    <mat-menu #card19Menu="matMenu">
-                                        <button mat-menu-item>
-                                            <mat-icon>trending_up</mat-icon>
-                                            <span>Trend</span>
-                                        </button>
-                                        <button mat-menu-item>
-                                            <mat-icon>history</mat-icon>
-                                            <span>History</span>
-                                        </button>
-                                        <button mat-menu-item>
-                                            <mat-icon>notifications_off</mat-icon>
-                                            <span>Disable alerts</span>
-                                        </button>
-                                    </mat-menu>
-                                </div>
-                            </div>
-
-                            <div class="p-16 pt-8" fxLayout="row" fxLayoutAlign="space-between end">
-                                <div class="font-size-48 font-weight-300 line-height-1">{{widgets.widget8.today}}</div>
-                                <div fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon *ngIf="widgets.widget8.change.value > 0">trending_up</mat-icon>
-                                    <mat-icon *ngIf="widgets.widget8.change.value < 0">trending_down</mat-icon>
-                                    <div class="ml-8">{{widgets.widget8.change.value}}
-                                        ({{widgets.widget8.change.percentage}}%)
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <mat-tab-group backgroundColor="accent">
-                            <mat-tab label="1DAY">
-                                <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
-                                    </ngx-charts-line-chart>
-                                </div>
-                            </mat-tab>
-
-                            <mat-tab label="1WEEK">
-                                <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
-                                    </ngx-charts-line-chart>
-                                </div>
-                            </mat-tab>
-
-                            <mat-tab label="1MONTH">
-                                <div class="h-200 my-16">
-                                    <ngx-charts-line-chart
-                                        *fuseIfOnDom
-                                        [scheme]="widgets.widget8.scheme"
-                                        [results]="widgets.widget8.data"
-                                        [xAxis]="false"
-                                        [yAxis]="true"
-                                        [yScaleMin]="widgets.widget8.dataMin"
-                                        [yScaleMax]="widgets.widget8.dataMax">
-                                    </ngx-charts-line-chart>
-                                </div>
-                            </mat-tab>
-                        </mat-tab-group>
-
-                    </div>
-
-                </div>-->
-
-                <!-- / Widget 8 -->
-
-                <!-- Widget 9 -->
-                <div class="mb-48" [ngClass.lt-lg]="'mr-32'" [ngClass.xs]="'mr-0'">
-
-                    <div class="pb-24 font-size-18 font-weight-300" [ngClass.lt-lg]="'pt-0'">
-                        &nbsp;Unprocessed applications
-                    </div>
-
-                    <div class="fuse-card">
-
-                        <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="h1 pr-16">New applications : 5</div>
-
-                            <!--<div>
-                                <button mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
-                                    <mat-icon>more_vert</mat-icon>
-                                </button>
-
-                                <mat-menu #card20Menu="matMenu">
-                                    <button fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                                        <mat-icon color="accent">check_box</mat-icon>
-                                        <span>Show Clicks</span>
-                                    </button>
-                                    <button fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                                        <mat-icon color="accent">check_box</mat-icon>
-                                        <span>Show Conversion</span>
-                                    </button>
-                                    <button fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
-                                        <mat-icon>check_box_outline_blank</mat-icon>
-                                        <span>Show CPC</span>
-                                    </button>
-                                </mat-menu>
-                            </div>-->
-                        </div>
-
-                        <table class="simple clickable">
-                            <thead>
-                                <tr>
-                                    <th>Customer</th>
-                                    <th class="text-right">Click</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let order of orderList">
-                                    <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
-                                    <td class="text-right">
-                                        <button mat-icon-button (click)="goToApplcation()">
-                                            <mat-icon class="secondary-text s-24 red-fg">fiber_new</mat-icon>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                        <div class="card-divider full-width"></div>
-
-                        <div class="p-8 pt-16" fxLayout="row" fxLayoutAlign="start center">
-                            <button mat-button color="accent" (click)="goToApplcation()">GO TO APPLICATIONS</button>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- / widget 9 -->
-
+        <div class="position-relative p-24 blue-600"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <span class="h2">Revenue</span>
+                <span class="h5 secondary-text">Total Revenue per month</span>
             </div>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                     (click)="onClick(year)"
+                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
+                    {{year.year}}
+                </div>
+ 
+            </div>
+        </div>
 
+        <div class="position-relative h-200 pb-16 blue-600">
+            <canvas baseChart
+                    [datasets]="widgets.revenue.datasets[widget1SelectedYear]"
+                    [labels]="widgets.revenue.labels"
+                    [colors]="widgets.revenue.colors"
+                    [options]="widgets.revenue.options"
+                    [chartType]="widgets.revenue.chartType">
+            </canvas>
+        </div>
+
+    </div>
+
+    <br>
+
+
+    <div class="main-widget">
+
+        <div class="position-relative p-24 blue-600"
+             fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="column" fxLayoutAlign="start start">
+                <span class="h2">Profit</span>
+                <span class="h5 secondary-text">Total Profit per month</span>
+            </div>
+            <div fxLayout="row" *ngIf="years != null" fxLayoutAlign="start center">
+                <div *ngFor="let year of years" class="py-8 px-12 border-radius-2 line-height-1 mr-8 cursor-pointer"
+                     (click)="onClick(year)"
+                     [ngClass]="{'blue-700': widget1SelectedYear === year.year}">
+                    {{year.year}}
+                </div>
+            </div>
+        </div>
+
+        <div class="position-relative h-200 pb-16 blue-600">
+            <canvas baseChart
+                    [datasets]="widgets.profit.datasets[widget1SelectedYear]"
+                    [labels]="widgets.profit.labels"
+                    [colors]="widgets.profit.colors"
+                    [options]="widgets.profit.options"
+                    [chartType]="widgets.profit.chartType">
+            </canvas>
         </div>
 
     </div>
