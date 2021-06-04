@@ -12,14 +12,14 @@
                     </div>-->
 
                     <div class="message-box info">
-                        New aplications...
+                        Aplications
                     </div><br>
 
                     <div class="application-table">
 
-                        <!--<div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
-                            <div class="h1 pr-16">New applications : 5</div>
-                        </div>-->
+                        <div class="p-16" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="h1 pr-16"></div>
+                        </div>
 
                         <table class="simple clickable">
                             <thead>
@@ -35,7 +35,7 @@
                                     <td>{{order.customer.first_name}} {{order.customer.last_name}}</td>
                                     <td>{{showDate(order.date_created_gmt)}}</td>
                                     <td>            
-                                        <p class="status text-truncate h6 p-4 status" style="width: 100px;" [ngClass]="'orange'">&nbsp;Unproeccessed&nbsp;</p>
+                                        <p class="status text-truncate h6 p-4 status" style="width: 87px;" [ngClass]="'orange'">&nbsp;Unprocessed&nbsp;</p>
                                     </td>
                                     <td class="text-right">
                                         <button mat-icon-button (click)="goToApplcation()">
@@ -63,12 +63,15 @@
     </div>
     <div class="content">
 
-        
         <div class="mr-lg-32">
 
-            <div class="pb-24 font-size-18 font-weight-300">
-                Revenues
-            </div>
+            <div class="message-box info">
+                Revenue
+            </div><br>
+
+            <!--<div class="pb-24 font-size-18 font-weight-300">
+                <h3 style="color:rgb(43, 96, 194)">Revenue</h3>
+            </div>-->
 
             <div fxLayout="column" fxLayoutAlign="start"
                  fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start start">
@@ -178,17 +181,22 @@
                     <div class="fuse-card auto-width" style="border-color: cadetblue;">
 
                         <div class="p-16 pb-0" fxLayout="row wrap" fxLayoutAlign="start end">
-                            <br>
                             
                             <div class="pr-16">
-                                <div class="h3 secondary-text">Total Outstanding</div>
-                                <div *ngIf="next60 != null" class="font-size-50 red-fg font-weight-300 line-height-1 mt-8">
+                                <div class="h3 secondary-text">Total Outstanding</div><br>
+                                <div *ngIf="totalOutstanding != null" class="font-size-50 red-fg font-weight-300 line-height-1 mt-8">
                                     ${{(totalOutstanding.total_amount * 100 / 100).toFixed(2)}}
                                 </div>
                             </div>
                             
-                            <br>
-
+                            <div class="py-4 font-size-16" fxLayout="row" fxLayoutAlign="start center" style="margin-top: 20px;">
+                                <div fxFlex="row" fxLayoutAlign="start center" class="green-fg">
+                                    <mat-icon class="green-fg mr-4">trending_up</mat-icon>
+                                    <span *ngIf="totalOutstanding != null">${{(totalOutstanding.total_profit * 100 / 100).toFixed(2)}}</span>
+                                </div>
+                               
+                                <div class="ml-4 text-nowrap">of profit</div>
+                            </div>
                     
                         </div>
 
