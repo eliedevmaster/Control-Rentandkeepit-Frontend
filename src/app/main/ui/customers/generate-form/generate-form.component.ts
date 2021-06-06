@@ -266,16 +266,18 @@ export class GenerateFormComponent implements OnInit {
             Swal.fire('Yes!', 'The agreement has successfully saved.', 'success');
         }
         this.enableFinaliseButton = true;
+        this.isFinalise = true;
 
     }
     
     onFinalise(): void
-    {   
+    {     
+        console.log(this.enableFinaliseButton);
         if(this.enableFinaliseButton == false)
             return;
 
         const orderedProdcuts = {
-            order_id    : this.order.order_id,
+            order_id    : this.order != null ? this.order.order_id : 0,
             products    : this.products,
             costs       : this.costs,
             leaseNumber : this.generateForm.value['leaseNumber'],
