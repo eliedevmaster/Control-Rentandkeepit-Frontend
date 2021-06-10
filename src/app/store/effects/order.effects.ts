@@ -8,6 +8,9 @@ import { AddOrder, AddOrderComplete, AddOrderError, OrderActionTypes,
         SaveOrderMetaForthComplete, SaveOrderMetaFirstError, SaveOrderMetaSecond, SaveOrderMetaSecondError, 
         SaveOrderMetaFirstComplete, SaveOrderMetaSecondComplete, SaveOrderMetaThird, SaveOrderMetaThirdComplete, 
         SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, SaveProfit, SaveProfitComplete, SaveProfitError, GetYearsForReportComplete, GetYearsForReportError, GetReveneForReportComplete, GetRevenueForReportError, SavePaymentManualError, SavePaymentManual, SavePaymentManualComplete,} from '../actions/order.action';
+import { Go } from 'app/store/actions';
+import { Store } from '@ngrx/store';
+import { State as AppState} from 'app/store/reducers';
 
 import { Router } from '@angular/router';
 
@@ -27,7 +30,8 @@ export class OrderEffects
     constructor(
         private actions$: Actions,
         private router: Router,
-        private orderService: OrderService 
+        private orderService: OrderService,
+        private _store: Store<AppState>, 
     )
     {
     }
@@ -148,6 +152,9 @@ export class OrderEffects
             return this.orderService.saveProfit(payload.profit)
                 .pipe(
                 map((state) => {
+                    Swal.fire('Yes!', 'You have finalised the lease successfully.', 'success');
+                    this._store.dispatch(new Go({path: ['/apps/dashboards/analytics'], query: null, extras: null}));
+
                     return new SaveProfitComplete();
                 }),
                 catchError((error: Error) => {

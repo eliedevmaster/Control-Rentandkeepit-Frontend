@@ -17,7 +17,6 @@ import { User } from 'app/models/user';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { CustomerService } from 'app/core/services/customer.service';
-import Swal from 'sweetalert2/dist/sweetalert2.js';  
 
 export const MY_FORMATS = {
   parse: {
@@ -135,7 +134,7 @@ export class FinaliseFormComponent implements OnInit
    
    onFinalise() : void 
    {
-      Swal.fire('Yes!', 'You have finalised the lease successfully.', 'success');
+      
       const payload = {
         order_id  : this.productInfo.order_id,
         type      : 3

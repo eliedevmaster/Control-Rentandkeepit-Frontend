@@ -6,7 +6,7 @@ import { CustomerActionTypes, GetCustomerList,
         GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
         UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
         AddCustomer, AddCustomerComplete, AddCustomerError } from '../actions/customer.action';
-
+        
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
