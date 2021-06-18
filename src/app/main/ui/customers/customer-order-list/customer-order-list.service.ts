@@ -102,7 +102,8 @@ export class CustomerOrderListService {
                             else {
                                 this.orderList = [];
                                 state.orderList.forEach(element => {
-                                    this.orderList.push(element);
+                                    if(element.status != "wc-trash")
+                                        this.orderList.push(element);
                                 });
 
                                 if ( this.searchText && this.searchText !== '' ) {
