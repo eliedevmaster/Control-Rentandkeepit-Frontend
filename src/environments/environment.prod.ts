@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     hmr       : false,
-    backendBaseUrl: 'http://127.0.0.1:8000',
+    backendBaseUrl: 'http://controlbackend.rentandkeepit.com.au',
     oAuthClientID: 2,
     oAuthClientSecret: 'ExZMftTCvXqCDtWEXCRZrEX7hDdN4F8wg7GIkgJF'
 };
