@@ -11,7 +11,8 @@
                 <span class="secondary-text" *ngIf="isMe == 1">My Profile</span>
 
             </div>
-            <div class="h1 mt-16">Create User</div>
+            <div class="h1 mt-16" *ngIf="isMe == 0">Create User</div>
+            <div class="h1 mt-16" *ngIf="isMe == 1">My Profile</div>
         </div>
     </div>
     <!-- / HEADER -->
@@ -24,9 +25,8 @@
             <form class="mat-card mat-elevation-z4 p-24 mr-24" fxLayout="column" fxLayoutAlign="start"
                   fxFlex="1 0 auto" name="form" [formGroup]="userForm" >
 
-                  <div class="h2 mb-24">
-                    User Form
-                </div>
+                  <div class="h2 mb-24" *ngIf="isMe == 0">User Form</div>
+                  <div class="h2 mb-24" *ngIf="isMe == 1">My Profile</div>
 
                 <div fxLayout="row" fxLayoutAlign="start center" fxFlex="1 0 auto">
 
