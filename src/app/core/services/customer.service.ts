@@ -65,4 +65,40 @@ export class CustomerService {
     const url = `${env.backendBaseUrl}/api/customers/download`;
     return this.http.get(url, {headers: this.authService.authHeaders()});  
   }
+
+  getUserList() : Observable<any> 
+  {
+    const url = `${env.backendBaseUrl}/api/users`;
+    return this.http.get(url, {headers: this.authService.authHeaders()});
+  }
+
+  createUser(param: any) : Observable<any> 
+  {
+
+    const url = `${env.backendBaseUrl}/api/users`;
+    const body = {
+      name                  : param.name,
+      email                 : param.email,
+      password              : param.password,
+      password_confirmation : param.password_confirmation,
+      role_id           : 1,
+    }
+    return this.http.post(url, body, {headers: this.authService.authHeaders()});
+  }
+
+  updateUser(param: any) : Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/users/` + param.id;
+    const body = {
+      name                  : param.name,
+      email                 : param.email,
+    }
+    return this.http.put(url, body, {headers: this.authService.authHeaders()});    
+  }
+
+  deleteUser(param: number) : Observable<any> 
+  {
+    const url = `${env.backendBaseUrl}/api/users/` + param;
+    return this.http.get(url, {headers: this.authService.authHeaders()});     
+  }
 }

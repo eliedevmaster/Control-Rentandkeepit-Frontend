@@ -14,11 +14,10 @@ export enum AuthActionTypes {
   RESET_PASSWORD_COMPLETE = '[Auth] RESET_PASSWORD_COMPLETE',
   RESET_PASSWORD_ERROR = '[Auth] RESET_PASSWORD_ERROR',
 
-  GET_USER_LIST = '[Auth] GET_USER_LIST',
-  GET_USER_LIST_COMPLETE = '[Auth] GET_USER_LIST_COMPLETE',
-  GET_USER_LSIT_ERROR = '[Auth] GET_USER_LSIT_ERROR',
-
   SET_ACTIVE = '[Auth] SET_ACTIVE',
+
+  GET_CURRENT_USER = '[Auth] GET_CURRENT_USER',
+  GET_CURRENT_USER_COMPLETE = '[Auth] GET_CURRENT_USER_COMPLETE',
 
   LOGOUT = '[Auth] LOGOUT'
 }
@@ -30,7 +29,7 @@ export class Login implements Action {
 
 export class LoginComplete implements Action {
   readonly type = AuthActionTypes.LOGIN_COMPLETE;
-  constructor(public payload: { token: string, id: number, name: string, email: string, uuid: string, role: string, active: number, role_relation_id: number, permissions: Array<Permission> }) {}
+  constructor(public payload: { token: string, id: number, name: string, email: string, uuid: string, role: string, active: number, role_relation_id: number, image_path: string }) {}
 }
 
 export class LoginError implements Action {
@@ -73,20 +72,14 @@ export class Logout implements Action {
   readonly type = AuthActionTypes.LOGOUT;
 }
 
-export class GetUserList implements Action {
-  readonly type = AuthActionTypes.GET_USER_LIST;
+export class GetCurrentUser implements Action {
+  readonly type = AuthActionTypes.GET_CURRENT_USER;
 }
 
-export class GetUserListComplete implements Action {
-  readonly type = AuthActionTypes.GET_USER_LIST_COMPLETE;
-  constructor (public payload: {userList: any}) {}
+export class GetCurrentUserComplete implements Action {
+  readonly type = AuthActionTypes.GET_CURRENT_USER_COMPLETE;
+  constructor (public payload : { user : any }) {}
 }
-
-export class GetUserListError implements Action {
-  readonly type = AuthActionTypes.GET_USER_LSIT_ERROR;
-  constructor (public payload: {errorMessage: string}) {}
-}
-
 
 export class SetActive implements Action {
   readonly type = AuthActionTypes.SET_ACTIVE;
@@ -104,7 +97,6 @@ export type AuthActions
  | ResetPasswordComplete
  | ResetPasswordError
  | Logout
- | GetUserList
- | GetUserListComplete
- | GetUserListError
+ | GetCurrentUser
+ | GetCurrentUserComplete
  | SetActive;

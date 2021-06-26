@@ -1,0 +1,76 @@
+<mat-table #table [dataSource]="dataSource"
+           [@animateStagger]="{value:'50'}">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="checkbox">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <mat-checkbox [(ngModel)]="checkboxes[user.id]" (ngModelChange)="onSelectedChange(user.id)"
+                          (click)="$event.stopPropagation()">
+            </mat-checkbox>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="avatar">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <img class="avatar" [alt]="user.name"
+                 [src]="user.image_path != '' ? (backendUrl + user.image_path) : 'assets/images/avatars/profile.jpg'"/>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>name</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <p class="text-truncate font-weight-600">{{user.name}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>email</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <p class="text-truncate font-weight-600">{{user.email}}</p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let user">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <button mat-icon-button (click)="$event.stopPropagation();toggleStar(user.id)" aria-label="Toggle star">
+                    <!--<mat-icon class="amber-fg" *ngIf="user.starred.includes(user.id)">star</mat-icon>-->
+                    <mat-icon class="secondary-text">star_border</mat-icon>
+                </button>
+
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="More"
+                        (click)="$event.stopPropagation();">
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+
+                <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="remove" (click)="deleteUser(user)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Remove</span>
+                    </button>
+
+                </mat-menu>
+            </div>
+
+        </mat-cell>
+    </ng-container>
+
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let user; columns: displayedColumns;"
+             class="contact"
+             [ngClass]="{'accent-50':checkboxes[user.id]}"
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+

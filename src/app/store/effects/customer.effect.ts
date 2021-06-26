@@ -5,8 +5,14 @@ import { CustomerActionTypes, GetCustomerList,
         GetCustomerListError,GetCustomerListComplete, 
         GetOrderListForCustomer, GetOrderListForCustomerComplete, GetOrderListForCustomerError, 
         UpdateCustomerError, UpdateCustomerComplete, UpdateCustomer, 
-        AddCustomer, AddCustomerComplete, AddCustomerError } from '../actions/customer.action';
-        
+        AddCustomer, AddCustomerComplete, AddCustomerError, GetUserListComplete, GetUserListError, 
+        CreateUserError, CreateUser, CreateUserComplete, 
+        DeleteUser, DeleteUserComplete, DeleteUserError, UpdateUser, UpdateUserComplete, UpdateUserError } from '../actions/customer.action';
+  
+import { GetCurrentUser } from 'app/store/actions';
+import { Store } from '@ngrx/store';
+import { State as AppState } from 'app/store/reducers';
+
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -14,6 +20,7 @@ import { CustomerService } from '../../core/services/customer.service';
 import { Customer } from '../../models/customer';
 import { Order } from '../../models/order/order';
 import Swal from 'sweetalert2/dist/sweetalert2.js';  
+import { User } from 'app/models/user';
 
 @Injectable()
 export class CustomerEffects
@@ -26,7 +33,9 @@ export class CustomerEffects
     constructor(
         private actions$: Actions,
         private router: Router,
-        private customerService: CustomerService 
+        private customerService: CustomerService ,
+        private _store: Store<AppState>,
+
     )
     {
     }
@@ -100,6 +109,7 @@ export class CustomerEffects
         return this.customerService.updateCustomer(payload.customer)
             .pipe(
             map((state) => {
+              
                 Swal.fire('Yes!', 'The customer profile has successfully updated', 'success');
                 return new UpdateCustomerComplete()
             }),
@@ -110,4 +120,85 @@ export class CustomerEffects
             );
       })
     );
+
+    @Effect()
+    getUserList$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.GET_USER_LIST),
+      switchMap(() => {  
+        return this.customerService.getUserList().pipe(
+          map((userList) => {
+            let userArray: any[] = [];
+              userList.forEach(element => {
+              userArray.push(element);
+            });
+            
+            return new GetUserListComplete({ userList : userArray });
+          }),
+
+          catchError((error : Error) => {
+            Swal.fire('Sorry!', "user list error", 'error');
+            return of(new GetUserListError({ errorMessage : error.message }));
+          })
+        );
+      })
+    );
+
+    @Effect()
+    createUser$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.CREATE_USER),
+      map((action: CreateUser) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.createUser(payload.user)
+            .pipe(
+            map((msg) => {
+                Swal.fire('Yes!', 'User was created successfully', 'success');
+                return new CreateUserComplete()
+            }),
+            catchError((error: Error) => {
+              Swal.fire('Ooops!', 'The user creation was faild', 'error');
+              return of(new CreateUserError({ errorMessage: error.message }));
+            })
+          );
+      })
+    );
+
+    @Effect()
+    updateUser$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.UPDATE_USER),
+      map((action: UpdateUser) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.updateUser(payload.user)
+            .pipe(
+            map((msg) => {
+                this._store.dispatch(new GetCurrentUser());
+                Swal.fire('Yes!', 'User was updated successfully', 'success');
+                return new UpdateUserComplete()
+            }),
+            catchError((error: Error) => {
+              Swal.fire('Ooops!', 'The user update was faild', 'error');
+              return of(new UpdateUserError({ errorMessage: error.message }));
+            })
+          );
+      })
+    );
+
+    deleteUser$ = this.actions$.pipe(
+      ofType(CustomerActionTypes.DELETE_USER),
+      map((action: DeleteUser) => action.payload),
+      switchMap((payload) => {
+        return this.customerService.deleteUser(payload.userId)
+            .pipe(
+            map((msg) => {
+                Swal.fire('Yes!', 'User was deleted successfully', 'success');
+                return new DeleteUserComplete()
+            }),
+            catchError((error: Error) => {
+              Swal.fire('Ooops!', 'The user delete was faild', 'error');
+              return of(new DeleteUserError({ errorMessage: error.message }));
+            })
+          );
+      })
+    );
+   
+    
 }

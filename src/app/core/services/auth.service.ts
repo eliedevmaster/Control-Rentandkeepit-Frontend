@@ -51,8 +51,9 @@ export class AuthService {
     return this.http.post(url, {}, {headers: this.authHeaders()});
   }
 
-  getUserList() : Observable<any> {
-    const url = `${env.backendBaseUrl}/api/users`;
+  getCurrentUser(): Observable<any>
+  {
+    const url = `${env.backendBaseUrl}/api/auth/me`;
     return this.http.get(url, {headers: this.authHeaders()});
-  }
+  } 
 }

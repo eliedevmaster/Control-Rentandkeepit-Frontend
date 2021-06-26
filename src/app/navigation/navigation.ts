@@ -111,6 +111,14 @@ export const navigation: FuseNavigation[] = [
         url  : '/ui/time-shift',
     },
 
+    {
+        id   : 'user-list',
+        title: 'User List',
+        type : 'item',
+        icon : 'account_circle',
+        url  : '/ui/users/user-list',
+    },
+
    
    /* //
     {

@@ -1,4 +1,6 @@
 import { Action } from '@ngrx/store';
+import { Customer } from 'app/models/customer';
+import { DEFAULT_ECDH_CURVE } from 'tls';
 
 export enum CustomerActionTypes {
 
@@ -18,10 +20,23 @@ export enum CustomerActionTypes {
     UPDATE_CUSTOMER_COMLETE = '[Customer] UPDATE_CUSTOMER_COMLETE',
     UPDATE_CUSTOMER_ERROR = '[Customer] UPDATE_CUSTOMER_ERROR',
 
-   
-    DOWN_LOAD_DOCX = '[Cusotmer] DOWN_LOAD_DOCX',
-    DOWN_LOAD_DOCX_COMPLETE = '[Cusotmer] DOWN_LOAD_DOCX_COMPLETE',
 
+    GET_USER_LIST = '[Cusotmer] GET_USER_LIST',
+    GET_USER_LIST_COMPLETE = '[Cusotmer] GET_USER_LIST_COMPLETE',
+    GET_USER_LSIT_ERROR = '[Cusotmer] GET_USER_LSIT_ERROR',
+
+    CREATE_USER = '[Customer] CREATE_USER',
+    CREATE_USER_COMPLETE = '[Customer] CREATE_USER_COMPLETE',
+    CREATE_USER_ERROR = '[Customer] CREATE_USER_ERROR',
+    
+    UPDATE_USER = '[Customer] UPDATE_USER',
+    UPDATE_USER_COMPLETE = '[Customer] UPDATE_USER_COMPLETE',
+    UPDATE_USER_ERROR = '[Customer] UPDATE_USER_ERROR',
+    
+
+    DELETE_USER = '[Customer] DELETE_USER',
+    DELETE_USER_COMPLETE = '[Customer] DELETE_USER_COMPLETE',
+    DELETE_USER_ERROR = '[Customer] DELETE_USER_ERROR',
 }
 
 export class GetCustomerList implements Action {
@@ -82,17 +97,61 @@ export class UpdateCustomerError implements Action {
     constructor (public payload: {errorMessage: any}) {}
 }
 
-
-
-export class DownLoadDocx implements Action {
-    readonly type = CustomerActionTypes.DOWN_LOAD_DOCX;
-    constructor (public payload: {data: any}) {}
+export class GetUserList implements Action {
+    readonly type = CustomerActionTypes.GET_USER_LIST;
+}
+  
+export class GetUserListComplete implements Action {
+    readonly type = CustomerActionTypes.GET_USER_LIST_COMPLETE;
+    constructor (public payload: {userList: any}) {}
+}
+  
+export class GetUserListError implements Action {
+    readonly type = CustomerActionTypes.GET_USER_LSIT_ERROR;
+    constructor (public payload: {errorMessage: string}) {}
+}
+  
+export class CreateUser implements Action {
+    readonly type = CustomerActionTypes.CREATE_USER;
+    constructor (public payload: {user : any}) {}
 }
 
-export class DownLoadDocxComplete implements Action {
-    readonly type = CustomerActionTypes.DOWN_LOAD_DOCX_COMPLETE;
+export class CreateUserComplete implements Action {
+    readonly type = CustomerActionTypes.CREATE_USER_COMPLETE;
 }
 
+export class CreateUserError implements Action {
+    readonly type = CustomerActionTypes.CREATE_USER_ERROR;
+    constructor (public payload: {errorMessage: string}) {}
+}
+
+export class UpdateUser implements Action {
+    readonly type = CustomerActionTypes.UPDATE_USER;
+    constructor (public payload: {user : any}) {}
+}
+
+export class UpdateUserComplete implements Action {
+    readonly type = CustomerActionTypes.UPDATE_USER_COMPLETE;
+}
+
+export class UpdateUserError implements Action {
+    readonly type = CustomerActionTypes.UPDATE_CUSTOMER_ERROR;
+    constructor (public payload: {errorMessage: string}) {}
+}
+
+export class DeleteUser implements Action {
+    readonly type = CustomerActionTypes.DELETE_USER;
+    constructor (public payload: {userId : number}) {}
+}
+
+export class DeleteUserComplete implements Action {
+    readonly type = CustomerActionTypes.DELETE_USER_COMPLETE;
+}
+
+export class DeleteUserError implements Action {
+    readonly type = CustomerActionTypes.DELETE_USER_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
 
 export type CustomerActions
  =  GetCustomerList
@@ -107,5 +166,15 @@ export type CustomerActions
  | UpdateCustomer
  | UpdateCustomerComplete
  | UpdateCustomerError
- | DownLoadDocx
- | DownLoadDocxComplete;
+ | GetUserList
+ | GetUserListComplete
+ | GetUserListError
+ | CreateUser
+ | CreateUserComplete
+ | CreateUserError
+ | UpdateUser
+ | UpdateUserComplete
+ | UpdateUserError
+ | DeleteUser
+ | DeleteUserComplete
+ | DeleteUserError;

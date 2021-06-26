@@ -33,6 +33,8 @@ import { ApplicationFormModule } from 'app/main/ui/customers/application-form/ap
 import { SendEmailModule } from 'app/main/ui/customers/customer-list/send-email/send-email.module';
 import { TimeShiftModule } from 'app/main/ui/time-shift/time-shift.module';
 import { StatementFormModule } from 'app/main/ui/customers/statement-form/statement-form.module';
+import { UserListModule } from 'app/main/ui/users/user-list/user-list.module';
+import { UserFormModule } from 'app/main/ui/users/user-form/user-form.module';
 
 /////////////////////////////////////////////////////////////////////////////////
 
@@ -93,6 +95,8 @@ import { UIColorsModule } from 'app/main/ui/colors/colors.module';
         SendEmailModule,
         TimeShiftModule,
         StatementFormModule,
+        UserListModule,
+        UserFormModule,
         
         /************************* */
 

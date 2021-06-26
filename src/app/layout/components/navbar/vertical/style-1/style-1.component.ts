@@ -11,6 +11,7 @@ import { FuseSidebarService } from '@fuse/components/sidebar/sidebar.service';
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
 import { User } from 'app/models/user';
+import { environment as env } from '../../../../../../environments/environment';
 
 @Component({
     selector     : 'navbar-vertical-style-1',
@@ -23,6 +24,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     fuseConfig: any;
     navigation: any;
     user: User;
+    avatar: string;
 
     // Private
     private _fusePerfectScrollbar: FusePerfectScrollbarDirective;
@@ -149,6 +151,12 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         this.getAuthState().subscribe(state => {
             if(state.user != null) {
                 this.user = new User(state.user);
+                if(this.user.image_path == '') {
+                    this.avatar = 'assets/images/avatars/profile.jpg';                   
+                }
+                else {
+                    this.avatar = `${env.backendBaseUrl}/uploads/pictures/` + this.user.image_path;
+                }
             }
         });
     }

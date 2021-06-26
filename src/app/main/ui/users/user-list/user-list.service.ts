@@ -6,25 +6,24 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { FuseUtils } from '@fuse/utils';
 
 import { Store } from '@ngrx/store';
-import { State as AppState, getCompanyState, getAuthState } from 'app/store/reducers';
+import { State as AppState, getAuthState, getCustomerState } from 'app/store/reducers';
 
 import { User } from 'app/models/user';
-import { Course } from 'app/models/companymanagement/course';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CourseListService {
+export class UserListService {
 
-    onCoursesChanged: BehaviorSubject<any>;
-    onSelectedCourseListChanged: BehaviorSubject<any>;
+  onUsersChanged: BehaviorSubject<any>;
+    onSelectedUserListChanged: BehaviorSubject<any>;
     onUserDataChanged: BehaviorSubject<any>;
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
     isUpdate: Boolean = false;
-    courseList: Course[] = [];
+    userList: User[] = [];
     user: User;
-    selectedCourseList: number[] = [];
+    selectedUserList: number[] = [];
 
     searchText: string;
     filterBy: string;
@@ -40,8 +39,8 @@ export class CourseListService {
     )
     {
         // Set the defaults
-        this.onCoursesChanged = new BehaviorSubject([]);
-        this.onSelectedCourseListChanged = new BehaviorSubject([]);
+        this.onUsersChanged = new BehaviorSubject([]);
+        this.onSelectedUserListChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
         this.onSearchTextChanged = new Subject();
         this.onFilterChanged = new Subject();
@@ -62,18 +61,18 @@ export class CourseListService {
     {
         return new Promise<void>((resolve, reject) => {
             Promise.all([
-                this.getCourseList(),
+                this.getUserList(),
                 this.getUserData()
             ]).then(
                 ([files]) => {
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getCourseList();
+                        this.getUserList();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
-                        this.getCourseList();
+                        this.getUserList();
                     });
                     resolve();
                 },
@@ -87,24 +86,26 @@ export class CourseListService {
      *
      * @returns {Promise<any>}
      */
-    getCourseList(): Promise<any>
+    getUserList(): Promise<any>
     {
         return new Promise((resolve, reject) => {
-                this._store.select(getCompanyState).subscribe((state) => {
-                    if (state.courseListForMe == null) {
+                this._store.select(getCustomerState).subscribe((state) => {
+                    if (state.userList == null) {
                         resolve('the state has problem');
                     }
                     else {
-                        this.courseList = [];
-                        state.courseListForMe.forEach(element => {
-                            this.courseList.push(new Course(element));
+                        this.userList = [];
+                        state.userList.forEach(element => {
+                            if(element.id != this.user.id)
+                                this.userList.push(new User(element));
                         });
 
+                        console.log(this.userList);
                         if ( this.searchText && this.searchText !== '' ) {
-                            this.courseList = FuseUtils.filterArrayByString(this.courseList, this.searchText);
+                            this.userList = FuseUtils.filterArrayByString(this.userList, this.searchText);
                         }
-                        this.onCoursesChanged.next(this.courseList);
-                        resolve(this.courseList);
+                        this.onUsersChanged.next(this.userList);
+                        resolve(this.userList);
                     }
 
                 }, reject);
@@ -139,19 +140,19 @@ export class CourseListService {
      *
      * @param id
      */
-    toggleSelectedCourse(id): void
+    toggleSelectedUser(id): void
     {
         // First, check if we already have that contact as selected...
-        if ( this.selectedCourseList.length > 0 )
+        if ( this.selectedUserList.length > 0 )
         {
-            const index = this.selectedCourseList.indexOf(id);
+            const index = this.selectedUserList.indexOf(id);
 
             if ( index !== -1 )
             {
-                this.selectedCourseList.splice(index, 1);
+                this.selectedUserList.splice(index, 1);
 
                 // Trigger the next event
-                this.onSelectedCourseListChanged.next(this.selectedCourseList);
+                this.onSelectedUserListChanged.next(this.selectedUserList);
 
                 // Return
                 return;
@@ -159,10 +160,10 @@ export class CourseListService {
         }
 
         // If we don't have it, push as selected
-        this.selectedCourseList.push(id);
+        this.selectedUserList.push(id);
 
         // Trigger the next event
-        this.onSelectedCourseListChanged.next(this.selectedCourseList);
+        this.onSelectedUserListChanged.next(this.selectedUserList);
     }
 
     /**
@@ -170,9 +171,9 @@ export class CourseListService {
      */
     toggleSelectAll(): void
     {
-        if ( this.selectedCourseList.length > 0 )
+        if ( this.selectedUserList.length > 0 )
         {
-            this.deselectCourseList();
+            this.deselectUserList();
         }
         else
         {
@@ -188,19 +189,19 @@ export class CourseListService {
      */
     selectContacts(filterParameter?, filterValue?): void
     {
-        this.selectedCourseList = [];
+        this.selectedUserList = [];
 
         // If there is no filter, select all contacts
         if ( filterParameter === undefined || filterValue === undefined )
         {
-            this.selectedCourseList = [];
-            this.courseList.map(course => {
-                this.selectedCourseList.push(course.id);
+            this.selectedUserList = [];
+            this.userList.map(user => {
+                this.selectedUserList.push(user.id);
             });
         }
 
         // Trigger the next event
-        this.onSelectedCourseListChanged.next(this.selectedCourseList);
+        this.onSelectedUserListChanged.next(this.selectedUserList);
     }
 
     /**
@@ -209,27 +210,27 @@ export class CourseListService {
      * @param contact
      * @returns {Promise<any>}
      */
-    updateCourse(): Promise<any>
+    updateUser(): Promise<any>
     {   
-        this.courseList = [];
+        this.userList = [];
         return new Promise((resolve, reject) => {
 
-            this._store.select(getCompanyState).subscribe((state) => {
-                if (state.courseListForMe == null) {
+            this._store.select(getCustomerState).subscribe((state) => {
+                if (state.userList == null) {
                     resolve('the state has problem');
                 }
                 else {
-                    this.courseList = [];
-                    state.courseListForMe.forEach(element => {
-                        this.courseList.push(new Course(element));
+                    this.userList = [];
+                    state.userList.forEach(element => {
+                        this.userList.push(new User(element));
                     });
 
                     if ( this.searchText && this.searchText !== '' )
                     {
-                        this.courseList = FuseUtils.filterArrayByString(this.courseList, this.searchText);
+                        this.userList = FuseUtils.filterArrayByString(this.userList, this.searchText);
                     }
-                    this.onCoursesChanged.next(this.courseList);
-                    resolve(this.courseList);
+                    this.onUsersChanged.next(this.userList);
+                    resolve(this.userList);
                 }
 
             }, reject);
@@ -249,7 +250,7 @@ export class CourseListService {
             this._httpClient.post('api/contacts-user/' + this.user.id, {...userData})
                 .subscribe(response => {
                     this.getUserData();
-                    this.getCourseList();
+                    this.getUserList();
                     resolve(response);
                 });
         });
@@ -258,12 +259,12 @@ export class CourseListService {
     /**
      * Deselect contacts
      */
-    deselectCourseList(): void
+    deselectUserList(): void
     {
-        this.selectedCourseList = [];
+        this.selectedUserList = [];
 
         // Trigger the next event
-        this.onSelectedCourseListChanged.next(this.selectedCourseList);
+        this.onSelectedUserListChanged.next(this.selectedUserList);
     }
 
     setUpdateForView(): void 
@@ -275,27 +276,27 @@ export class CourseListService {
      *
      * @param contact
      */
-    deleteCourse(course): void
+    deleteUser(user): void
     {
-        const courseIndex = this.courseList.indexOf(course);
-        this.courseList.splice(courseIndex, 1);
-        this.onCoursesChanged.next(this.courseList);
+        const userIndex = this.userList.indexOf(user);
+        this.userList.splice(userIndex, 1);
+        this.onUsersChanged.next(this.userList);
     }
 
     /**
      * Delete selected contacts
      */
-    deleteselectedCourseList(): void
+    deleteselectedUserList(): void
     {
-        for ( const courseId of this.selectedCourseList )
+        for ( const userId of this.selectedUserList )
         {
-            const course = this.courseList.find(_course => {
-                return _course.id === courseId;
+            const user = this.userList.find(_user => {
+                return _user.id === userId;
             });
-            const courseIndex = this.courseList.indexOf(course);
-            this.courseList.splice(courseIndex, 1);
+            const userIndex = this.userList.indexOf(user);
+            this.userList.splice(userIndex, 1);
         }
-        this.onCoursesChanged.next(this.courseList);
-        this.deselectCourseList();
+        this.onUsersChanged.next(this.userList);
+        this.deselectUserList();
     }
 }

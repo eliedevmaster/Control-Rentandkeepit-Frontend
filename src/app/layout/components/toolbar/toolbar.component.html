@@ -28,7 +28,7 @@
             <button mat-button [matMenuTriggerFor]="userMenu"
                     class="user-button">
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
+                    <img class="avatar mr-0 mr-sm-16" [src]="this.avatar">
                     <span class="username mr-12" *ngIf="this.user != null" fxHide fxShow.gt-sm>{{ this.user.name }}</span>
                     <span class="username mr-12" *ngIf="this.user == null" fxHide fxShow.gt-sm></span>
                     <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
@@ -37,10 +37,10 @@
 
             <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
-                <!--<button mat-menu-item>
+                <button mat-menu-item (click)="onGoProfile()">
                     <mat-icon>account_circle</mat-icon>
                     <span>My Profile</span>
-                </button>-->
+                </button>
 
                 <button mat-menu-item (click)="onGoSetting()">
                     <mat-icon>settings</mat-icon>
@@ -56,7 +56,7 @@
                     <mat-icon>exit_to_app</mat-icon>
                     <span [translate]="'TOOLBAR.Logout'">Logout</span>
                 </button>
-
+                
             </mat-menu>
 
             <div class="toolbar-separator"></div>

@@ -13,9 +13,10 @@ import { navigation } from 'app/navigation/navigation';
 
 import { Store } from '@ngrx/store';
 import { State as AppState, getAuthState } from 'app/store/reducers';
-import { Logout, Go } from 'app/store/actions';
+import { Logout, Go, Reload } from 'app/store/actions';
 
 import { User } from 'app/models/user';
+import { environment as env } from '../../../../environments/environment';
 
 
 
@@ -36,6 +37,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
     selectedLanguage: any;
     userStatusOptions: any[];
     user: User;
+    avatar: string;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -181,6 +183,12 @@ export class ToolbarComponent implements OnInit, OnDestroy
         this._translateService.use(lang.id);
     }
 
+    onGoProfile(): void
+    {
+        //this._store.dispatch(new Go({path : ['/ui/users/user-form/1']}));
+        this._store.dispatch(new Reload({path: ['/ui/users/user-form/1'], query: null, extras: null}));
+    }
+
     onGoSetting(): void
     {
         this._store.dispatch(new Go({path : ['/ui/reset-password']}));
@@ -197,6 +205,13 @@ export class ToolbarComponent implements OnInit, OnDestroy
         this.getAuthState().subscribe(state => {
             if(state.user != null) {
                 this.user = new User(state.user);
+                console.log("user", this.user);
+                if(this.user.image_path == "") {
+                    this.avatar = 'assets/images/avatars/profile.jpg';                   
+                }
+                else {
+                    this.avatar = `${env.backendBaseUrl}/uploads/pictures/` + this.user.image_path;
+                }
             }
         });
     }

@@ -8,7 +8,7 @@ export interface State {
   // if authenticated, token should not be empty
   user: User | null;
   token: string | null;
-  userList: any | null;
+ 
   //permissions: Array<Permission> | null; 
   errorMessage: string | null; 
 }
@@ -17,7 +17,6 @@ export const initialState: State = {
   isAuthenticated: false,
   user: JSON.parse(localStorage.getItem('user')),
   token: localStorage.getItem('token'),
-  userList: null,
   errorMessage: '',
 };
 
@@ -34,9 +33,9 @@ export function reducer(state = initialState, action: AuthActions): State {
           uuid: action.payload.uuid,
           email: action.payload.email,
           role: action.payload.role,
-          active: action.payload.active,
-          role_relation_id : action.payload.role_relation_id,
-          permissions: action.payload.permissions,
+          image_path: action.payload.image_path,
+          active: 0,
+          role_relation_id: 0,
         },
       };
     }
@@ -60,10 +59,8 @@ export function reducer(state = initialState, action: AuthActions): State {
           uuid: action.payload.uuid,
           role: action.payload.role,
           active: 0,
-          role_relation_id: action.payload.role_relation_id,
-          permissions: action.payload.permissions,
+          role_relation_id: 0,
         },
-        
       };
     }
 
@@ -74,6 +71,13 @@ export function reducer(state = initialState, action: AuthActions): State {
       }
     }
 
+    case AuthActionTypes.GET_CURRENT_USER_COMPLETE : {
+      return {
+        ...state,
+        user : action.payload.user,
+      }
+    }
+   
     case AuthActionTypes.RESET_PASSWORD_COMPLETE: {
       return {
         ...state,
@@ -85,25 +89,6 @@ export function reducer(state = initialState, action: AuthActions): State {
       return {
         ...state,
         errorMessage : action.payload.errorMessage
-      }
-    }
-
-    case AuthActionTypes.GET_USER_LIST_COMPLETE: {
-      return {
-        ...state,
-        userList : action.payload.userList,
-      }
-    }
-
-    case AuthActionTypes.SET_ACTIVE: {
-      console.log("dddddd");
-      return {
-        ...state,
-        user: {
-          ...state.user,
-          role_relation_id: action.payload.role_relation_id,
-          active : 1
-        }
       }
     }
 

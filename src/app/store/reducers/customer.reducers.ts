@@ -4,11 +4,13 @@ export interface State {
   customerList: any | null;
   orderListForCustomer: any | null;
   errorMessage: string | null; 
+  userList: any | null;
 }
 
 export const initialState: State = {
     customerList: null,
     orderListForCustomer : null,
+    userList : null,
     errorMessage: '',
   };
   
@@ -29,7 +31,20 @@ export const initialState: State = {
           };
         }
        
+        case CustomerActionTypes.GET_USER_LIST_COMPLETE: {
+          return {
+            ...state,
+            userList : action.payload.userList,
+          }
+        }
         
+        case CustomerActionTypes.GET_USER_LSIT_ERROR: {
+          return {
+            ...state,
+            errorMessage : action.payload.errorMessage
+          }
+        }
+    
         default: {
             return state;
             }

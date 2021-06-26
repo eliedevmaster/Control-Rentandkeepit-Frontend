@@ -3,7 +3,7 @@ import { Effect, Actions, ofType } from '@ngrx/effects';
 import { map, tap, switchMap, catchError } from 'rxjs/operators';
 import { AuthActionTypes, Login, LoginComplete, LoginError, 
          Signup, SignupComplete, SignupError, 
-         ResetPassword, ResetPasswordComplete, ResetPasswordError, SetActive, GetUserListComplete } from '../actions/auth.action';
+         ResetPassword, ResetPasswordComplete, ResetPasswordError, SetActive, GetCurrentUser, GetCurrentUserComplete } from '../actions/auth.action';
 
 import { Router } from '@angular/router';
 
@@ -36,6 +36,7 @@ export class AuthEffects
         return this.authService.logIn(payload.email, payload.password)
             .pipe(
               map((authData) => {
+                
                 localStorage.setItem('user', JSON.stringify(new User(authData)));
                 localStorage.setItem('token', authData.access_token);
                 return new LoginComplete({ 
@@ -47,7 +48,7 @@ export class AuthEffects
                                            role: authData.role, 
                                            active: authData.active,
                                            role_relation_id: authData.role_relation_id,
-                                           permissions: authData.permissions,
+                                           image_path: authData.image_path,
                                         });
               }),
               catchError((error: Error) => {
@@ -128,23 +129,17 @@ export class AuthEffects
     );
     
     @Effect()
-    getUserList$ = this.actions$.pipe(
-      ofType(AuthActionTypes.GET_USER_LIST),
-      switchMap(() => {  
-        return this.authService.getUserList().pipe(
-          map((userList) => {
-            let userArray: Array<User> = [];
-            userList.forEach(element => {
-              userArray.push(element);
-            });
-            return new GetUserListComplete({ userList : userArray });
-          }),
-
-          catchError((error : Error) => {
-            Swal.fire('Sorry!', error.message, 'error');
-            return of(new ResetPasswordError({ errorMessage : error.message }));
-          })
-        );
+    getCurrentUser$ = this.actions$.pipe(
+      ofType(AuthActionTypes.GET_CURRENT_USER),
+      switchMap(() => {
+        return this.authService.getCurrentUser()
+            .pipe(
+              map((userData) => {
+                localStorage.removeItem('user');
+                localStorage.setItem('user', JSON.stringify(new User(userData)));
+                return new GetCurrentUserComplete({ user: userData });
+              })
+            );
       })
     );
 

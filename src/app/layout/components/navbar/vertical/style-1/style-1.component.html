@@ -34,7 +34,7 @@
         <div class="h5 email hint-text mt-8" *ngIf="this.user == null"></div>
 
         <div class="avatar-container" [ngClass]="fuseConfig.layout.navbar.primaryBackground">
-            <img class="avatar" src="assets/images/avatars/Velazquez.jpg">
+            <img class="avatar" [src]="this.avatar">
         </div>
 
     </div>

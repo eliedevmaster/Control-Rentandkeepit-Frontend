@@ -67,7 +67,6 @@ export class RegisterCollaboratorComponent implements OnInit {
             phoneNumber             : ['', Validators.required],
             fax                     : [''],
 
-
         });
         
         this.mapUserStateToModel();

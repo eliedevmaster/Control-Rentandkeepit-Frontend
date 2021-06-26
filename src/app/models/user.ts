@@ -5,10 +5,9 @@ export class User {
     uuid : string;
     name? : string;
     email? : string;
-
+    image_path? : string;
     role? : string;
-    permissions?: Array<Permission>;
-    active?: number;
+    active? : number;
     role_relation_id?: number;
 
     constructor (data : any){
@@ -17,13 +16,7 @@ export class User {
       this.name = data.name ? data.name : '';
       this.email = data.email;
       this.role = data.role;
-      
-      if(data.permissions != null) {
-        this.permissions = [];
-        data.permissions.forEach(element => {
-          this.permissions.push(new Permission(element));
-        });
-      }
+      this.image_path = data.image_path ? data.image_path : '';
       this.active = 0;
       this.role_relation_id = 0;
     }
