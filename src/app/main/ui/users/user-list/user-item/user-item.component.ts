@@ -43,7 +43,7 @@ export class UserItemComponent implements OnInit {
   dialogRef: any;
   confirmDialogRef: MatDialogRef<FuseConfirmDialogComponent>;
   backendUrl: string = `${env.backendBaseUrl}/uploads/pictures/`;
-   
+
   // Private
   private _unsubscribeAll: Subject<any>;
 
@@ -163,14 +163,15 @@ export class UserItemComponent implements OnInit {
       this.confirmDialogRef.componentInstance.confirmMessage = 'Are you sure you want to delete?';
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
-          if ( result )
-          {
-              this._userListService.deleteUser(user);
-              this.willLoad = true;
-              this._store.dispatch(new DeleteUser({userId : user.id}));
-              console.log("delete...");
-          }
-          this.confirmDialogRef = null;
+            if ( result )
+            {   
+                console.log(user.id);
+                this._store.dispatch(new DeleteUser({userId : user.id}));
+                this._userListService.deleteUser(user);
+                this.willLoad = true;
+                console.log("delete...");
+            }
+            this.confirmDialogRef = null;
       });
   }
 

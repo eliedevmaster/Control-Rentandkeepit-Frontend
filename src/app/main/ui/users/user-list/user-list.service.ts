@@ -100,7 +100,7 @@ export class UserListService {
                                 this.userList.push(new User(element));
                         });
 
-                        console.log(this.userList);
+                        //console.log(this.userList);
                         if ( this.searchText && this.searchText !== '' ) {
                             this.userList = FuseUtils.filterArrayByString(this.userList, this.searchText);
                         }

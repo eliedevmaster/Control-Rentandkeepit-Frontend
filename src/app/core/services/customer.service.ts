@@ -60,11 +60,6 @@ export class CustomerService {
     return this.http.get(url, {headers: this.authService.authHeaders()});
   }
 
-  downLoadDocx()
-  {
-    const url = `${env.backendBaseUrl}/api/customers/download`;
-    return this.http.get(url, {headers: this.authService.authHeaders()});  
-  }
 
   getUserList() : Observable<any> 
   {
@@ -98,7 +93,8 @@ export class CustomerService {
 
   deleteUser(param: number) : Observable<any> 
   {
+    //console.log("ddddddddddd");
     const url = `${env.backendBaseUrl}/api/users/` + param;
-    return this.http.get(url, {headers: this.authService.authHeaders()});     
+    return this.http.delete(url, {headers: this.authService.authHeaders()});     
   }
 }

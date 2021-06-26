@@ -205,7 +205,7 @@ export class ToolbarComponent implements OnInit, OnDestroy
         this.getAuthState().subscribe(state => {
             if(state.user != null) {
                 this.user = new User(state.user);
-                console.log("user", this.user);
+                //console.log("user", this.user);
                 if(this.user.image_path == "") {
                     this.avatar = 'assets/images/avatars/profile.jpg';                   
                 }
