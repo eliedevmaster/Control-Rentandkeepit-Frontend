@@ -155,7 +155,10 @@ export class CustomerEffects
                 return new CreateUserComplete()
             }),
             catchError((error: Error) => {
-              Swal.fire('Ooops!', 'The user creation was faild', 'error');
+              if(error['error']['errors']['email'])
+                Swal.fire('Ooops!',  error['error']['errors']['email'][0], 'error');
+              else
+                Swal.fire('Ooops!',  'User creat was faild, please try again.', 'error');
               return of(new CreateUserError({ errorMessage: error.message }));
             })
           );

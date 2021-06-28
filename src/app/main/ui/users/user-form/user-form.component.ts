@@ -5,7 +5,7 @@ import { Subject, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';  
 import { HttpEventType, HttpErrorResponse } from '@angular/common/http';
 
-import { Back, CreateUser, GetCurrentUser, UpdateUser } from 'app/store/actions';
+import { Back, CreateUser, GetCurrentUser, Go, UpdateUser } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { fuseAnimations } from '@fuse/animations';
 import { FileUploadService } from  'app/core/services/file-upload.service';
@@ -108,6 +108,7 @@ export class UserFormComponent implements OnInit {
       }
   
       this._store.dispatch(new CreateUser({ user : payload }));
+      this._store.dispatch(new Go({path: ['/ui/users/user-list'], query: null, extras: null}));
     }
     else 
     {
@@ -118,7 +119,7 @@ export class UserFormComponent implements OnInit {
       }
       this._store.dispatch(new UpdateUser({ user : payload }));
     }
-   
+    
   } 
 
   setInitValue(user:any) : void 
