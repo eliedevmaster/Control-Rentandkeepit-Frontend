@@ -183,7 +183,7 @@ export class ApplicationFormComponent implements OnInit {
             this.horizontalStepperStep3.controls['employerName'].setValue(this.getDataFromMeta('employer_name'));
             this.horizontalStepperStep3.controls['employerPhone'].setValue(this.getDataFromMeta('employer_phone'));
             this.horizontalStepperStep3.controls['employerTime'].setValue(this.getDataFromMeta('employer_time'));
-            this.horizontalStepperStep3.controls['totalWeeklyIncome'].setValue(this.getDataFromMeta('_order_total'));
+            this.horizontalStepperStep3.controls['totalWeeklyIncome'].setValue(this.getDataFromMeta('income_amount'));
             this.horizontalStepperStep3.controls['residentalStatus'].setValue(this.getDataFromMeta('residential_status'));
             this.horizontalStepperStep3.controls['timeAtAdress'].setValue(this.getDataFromMeta('residential_time'));
             this.horizontalStepperStep3.controls['mortgageAmount'].setValue(this.getDataFromMeta('owner_mortgage'));
@@ -341,6 +341,7 @@ export class ApplicationFormComponent implements OnInit {
         if(this.orderMeta == null)
             return emptyStr;
         
+        console.log("test", this.orderMeta);
         let data: any = this.orderMeta.filter(x => x.meta_key == metaKey);
 
         if(data.length == 0)
