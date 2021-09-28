@@ -13,7 +13,7 @@ import { FuseConfirmDialogComponent } from '@fuse/components/confirm-dialog/conf
 
 import { Store } from '@ngrx/store';
 import { State as AppState } from 'app/store/reducers';
-import { Go, SetOrderStatus, GetOrderList } from 'app/store/actions';
+import { Go, SetOrderStatus, GetOrderList, DeleteOrder } from 'app/store/actions';
 
 import { CustomerOrderListService } from 'app/main/ui/customers/customer-order-list/customer-order-list.service';
 import { User } from 'app/models/user';
@@ -86,10 +86,7 @@ export class CustomerOrderItemComponent implements OnInit {
     } 
     ngAfterViewChecked(): void 
     {   
-        
-        //if(!this.willLoad  && this.orderListLength == this._customerOrderListService.orderList.length)
-        //    return;
-        
+                
         this.dataSource = new MatTableDataSource(this._customerOrderListService.orderList);
         this._customerOrderListService.onSelectedOrderListChanged
             .pipe(takeUntil(this._unsubscribeAll))
@@ -136,9 +133,6 @@ export class CustomerOrderItemComponent implements OnInit {
         }); 
         this._cdref.detectChanges();
         this.orderListLength = this._customerOrderListService.orderList.length;
-
-        if(this.orderListLength != 0)
-            this.willLoad = false;
     }
 
     /**
@@ -176,6 +170,7 @@ export class CustomerOrderItemComponent implements OnInit {
                 if (result.value) {
                     this._store.dispatch(new SetOrderStatus({orderStatus : payload}));
                     this._store.dispatch(new GetOrderList());
+                    this._customerOrderListService.deleteOrder(order);
                     Swal.fire('Yes!', 'This application is diclined', 'success');
                 } 
                 else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -263,8 +258,10 @@ export class CustomerOrderItemComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
             {
-                //this._store.dispatch(new DeleteOrder({OrderId : Order.id}));
                 this._customerOrderListService.deleteOrder(order);
+                this._store.dispatch(new DeleteOrder({orderId : order.order_id}));
+                this._store.dispatch(new GetOrderList());
+
             }
             this.confirmDialogRef = null;
         });

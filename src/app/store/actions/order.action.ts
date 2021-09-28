@@ -49,6 +49,12 @@ export enum OrderActionTypes {
     SAVE_ORDER_META_FORTH = '[Order] SAVE_ORDER_META_FORTH',
     SAVE_ORDER_META_FORTH_COMPLETE = '[Order] SAVE_ORDER_META_FORTH_COMPLETE',
     SAVE_ORDER_META_FORTH_ERROR = '[Order] SAVE_ORDER_META_FORTH_ERROR',
+
+    DELETE_ORDER = '[Order] DELETE_ORDER',
+    DELETE_ORDER_COMPLETE = '[Order] DELETE_ORDER_COMPLETE',
+    DELETE_ORDER_ERROR = '[Order] DELETE_ORDER_ERROR',
+    
+    
 }
 
 export class AddOrder implements Action {
@@ -224,6 +230,20 @@ export class SaveOrderMetaForthError implements Action {
     constructor (public payload: {errorMessage : string}) {}
 }
 
+export class DeleteOrder implements Action {
+    readonly type = OrderActionTypes.DELETE_ORDER;
+    constructor (public payload: {orderId : number}) {}
+}
+
+export class DeleteOrderComplete implements Action {
+    readonly type = OrderActionTypes.DELETE_ORDER_COMPLETE;
+    constructor (public payload: {message : string}) {}
+}
+
+export class DeleteOrderError implements Action {
+    readonly type = OrderActionTypes.DELETE_ORDER_ERROR;
+    constructor (public payload: {errorMessage : string}) {}
+}
 
 export type OrderActions
  =  AddOrder
@@ -261,4 +281,7 @@ export type OrderActions
  | SaveOrderMetaThirdError
  | SaveOrderMetaForth
  | SaveOrderMetaForthComplete
- | SaveOrderMetaForthError;
+ | SaveOrderMetaForthError
+ | DeleteOrder
+ | DeleteOrderComplete
+ | DeleteOrderError;

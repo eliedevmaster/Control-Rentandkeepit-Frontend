@@ -118,6 +118,11 @@
                         <mat-icon>edit</mat-icon>
                         <span>Edit Order</span>
                     </button>
+
+                    <button mat-menu-item aria-label="remove" (click)="deleteOrder(order)">
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete Order</span>
+                    </button>
                 </mat-menu>
             </div>
         </mat-cell>

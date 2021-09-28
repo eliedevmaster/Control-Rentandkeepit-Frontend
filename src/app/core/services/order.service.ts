@@ -175,5 +175,11 @@ export class OrderService {
     const url = `${env.backendBaseUrl}/api/orders/report/revenue`;
     return this.http.get(url, {headers: this.authService.authHeaders()});
   }
+
+  deleteOrder(param : number) : Observable<any>
+  {
+      const url =  `${env.backendBaseUrl}/api/orders/delete/` + param;
+      return this.http.delete(url, {headers: this.authService.authHeaders()});
+  }
   
 }

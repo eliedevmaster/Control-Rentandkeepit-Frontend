@@ -7,7 +7,12 @@ import { AddOrder, AddOrderComplete, AddOrderError, OrderActionTypes,
         SetOrderStatus, SetOrderStatusComplete, SetOrderStatusError, SaveOrderMetaFirst, 
         SaveOrderMetaForthComplete, SaveOrderMetaFirstError, SaveOrderMetaSecond, SaveOrderMetaSecondError, 
         SaveOrderMetaFirstComplete, SaveOrderMetaSecondComplete, SaveOrderMetaThird, SaveOrderMetaThirdComplete, 
-        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, SaveProfit, SaveProfitComplete, SaveProfitError, GetYearsForReportComplete, GetYearsForReportError, GetReveneForReportComplete, GetRevenueForReportError, SavePaymentManualError, SavePaymentManual, SavePaymentManualComplete,} from '../actions/order.action';
+        SaveOrderMetaThirdError, SaveOrderMetaForth, SaveOrderMetaForthError, 
+        SaveProfit, SaveProfitComplete, SaveProfitError, 
+        GetYearsForReportComplete, GetYearsForReportError, 
+        GetReveneForReportComplete, GetRevenueForReportError, 
+        SavePaymentManualError, SavePaymentManual, SavePaymentManualComplete,
+        DeleteOrder, DeleteOrderComplete, DeleteOrderError} from '../actions/order.action';
 import { Go } from 'app/store/actions';
 import { Store } from '@ngrx/store';
 import { State as AppState} from 'app/store/reducers';
@@ -248,6 +253,25 @@ export class OrderEffects
                 }),
                 catchError((error: Error) => {
                     return of(new SaveOrderMetaForthError({ errorMessage: error.message }));
+                })
+            );
+        })
+    );
+
+    @Effect()
+    deleteOrder$ = this.actions$.pipe(
+        ofType(OrderActionTypes.DELETE_ORDER),
+        map((action: DeleteOrder) => action.payload),
+        switchMap(payload => {
+            return this.orderService.deleteOrder( payload.orderId )
+                .pipe(
+                map((msg) => {
+                    Swal.fire('Yes!', 'The order was successfully deleted!', 'success');
+                    return new DeleteOrderComplete({ message: msg });
+                }),
+                catchError((error: Error) => {
+                    Swal.fire('Ooops!', 'Sorry, deleting was failed!', 'error');
+                    return of(new DeleteOrderError({ errorMessage: error.message }));
                 })
             );
         })

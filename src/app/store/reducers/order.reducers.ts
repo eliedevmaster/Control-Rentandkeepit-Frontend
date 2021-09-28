@@ -66,6 +66,20 @@ export function reducer(state = initialState, action: OrderActions): State {
                 ...state,
             };
         }
+
+        case OrderActionTypes.DELETE_ORDER_COMPLETE: {
+            return {
+                ...state,
+            };
+        }
+
+        case OrderActionTypes.DELETE_ORDER_ERROR: {
+            return {
+                ...state,
+                errorMessage :  action.payload.errorMessage,
+            };
+        }
+
         default: {
             return state;
         }
