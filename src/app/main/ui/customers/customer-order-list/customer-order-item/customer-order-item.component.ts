@@ -258,9 +258,9 @@ export class CustomerOrderItemComponent implements OnInit {
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if ( result )
             {
-                this._customerOrderListService.deleteOrder(order);
                 this._store.dispatch(new DeleteOrder({orderId : order.order_id}));
                 this._store.dispatch(new GetOrderList());
+                this._customerOrderListService.deleteOrder(order);
 
             }
             this.confirmDialogRef = null;
